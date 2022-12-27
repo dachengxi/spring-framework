@@ -47,6 +47,8 @@ import org.springframework.util.Assert;
  * @author Sebastien Deleuze
  * @since 3.0
  * @param <T> the converted object type
+ *
+ * Http消息转换器的抽象实现
  */
 public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConverter<T> {
 

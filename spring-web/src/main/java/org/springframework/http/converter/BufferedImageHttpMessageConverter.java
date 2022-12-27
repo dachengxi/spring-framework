@@ -66,6 +66,8 @@ import org.springframework.util.StringUtils;
  *
  * @author Arjen Poutsma
  * @since 3.0
+ *
+ * 支持BufferedImage类型的Http消息转换器
  */
 public class BufferedImageHttpMessageConverter implements HttpMessageConverter<BufferedImage> {
 

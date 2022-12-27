@@ -40,6 +40,8 @@ import org.springframework.util.StreamUtils;
  * @author Arjen Poutsma
  * @author Juergen Hoeller
  * @since 3.0
+ *
+ * 支持String类型的Http消息转换器。支持的类型：text/plain
  */
 public class StringHttpMessageConverter extends AbstractHttpMessageConverter<String> {
 

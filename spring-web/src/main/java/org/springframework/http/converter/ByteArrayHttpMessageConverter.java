@@ -35,6 +35,7 @@ import org.springframework.util.StreamUtils;
  * @author Arjen Poutsma
  * @author Juergen Hoeller
  * @since 3.0
+ * 支持字节数组的Http消息转换器。支持的类型：application/octet-stream
  */
 public class ByteArrayHttpMessageConverter extends AbstractHttpMessageConverter<byte[]> {
 

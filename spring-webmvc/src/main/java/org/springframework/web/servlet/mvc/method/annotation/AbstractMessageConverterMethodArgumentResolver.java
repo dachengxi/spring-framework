@@ -138,6 +138,8 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 	 * @return the created method argument value
 	 * @throws IOException if the reading from the request fails
 	 * @throws HttpMediaTypeNotSupportedException if no suitable message converter is found
+	 *
+	 * 使用HttpMessageConverter来读取请求中的数据，并转换为具体的方法参数的类型
 	 */
 	@SuppressWarnings("unchecked")
 	@Nullable
@@ -147,6 +149,7 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 		MediaType contentType;
 		boolean noContentType = false;
 		try {
+			// 从Header中获取content type
 			contentType = inputMessage.getHeaders().getContentType();
 		}
 		catch (InvalidMediaTypeException ex) {
@@ -171,6 +174,7 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 		try {
 			message = new EmptyBodyCheckingHttpInputMessage(inputMessage);
 
+			// 遍历所有的HttpMessageConverter，找到第一个能处理请求的参数的，并使用其进行处理
 			for (HttpMessageConverter<?> converter : this.messageConverters) {
 				Class<HttpMessageConverter<?>> converterType = (Class<HttpMessageConverter<?>>) converter.getClass();
 				GenericHttpMessageConverter<?> genericConverter =
@@ -178,10 +182,13 @@ public abstract class AbstractMessageConverterMethodArgumentResolver implements 
 				if (genericConverter != null ? genericConverter.canRead(targetType, contextClass, contentType) :
 						(targetClass != null && converter.canRead(targetClass, contentType))) {
 					if (message.hasBody()) {
+						// 在对请求体进行处理之前，可以先使用RequestBodyAdvice.beforeBodyRead来进行处理，这里可以进行日志的打印等
 						HttpInputMessage msgToUse =
 								getAdvice().beforeBodyRead(message, parameter, targetType, converterType);
+						// 使用具体的HttpMessageConverter对请求中的数据进行转换，转换成需要的对象
 						body = (genericConverter != null ? genericConverter.read(targetType, contextClass, msgToUse) :
 								((HttpMessageConverter<T>) converter).read(targetClass, msgToUse));
+						// 在对请求体进行处理之后，可以使用RequestBodyAdvice.afterBodyRead来进行处理，这里可以进行日志的打印等
 						body = getAdvice().afterBodyRead(body, msgToUse, parameter, targetType, converterType);
 					}
 					else {

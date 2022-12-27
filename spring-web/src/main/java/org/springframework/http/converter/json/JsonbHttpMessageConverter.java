@@ -42,6 +42,8 @@ import org.springframework.util.Assert;
  * @see jakarta.json.bind.Jsonb
  * @see jakarta.json.bind.JsonbBuilder
  * @see #setJsonb
+ *
+ * 使用JSON-B进行转换的Http消息转换器
  */
 public class JsonbHttpMessageConverter extends AbstractJsonHttpMessageConverter {
 

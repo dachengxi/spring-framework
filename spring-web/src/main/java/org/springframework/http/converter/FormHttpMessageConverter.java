@@ -152,6 +152,8 @@ import org.springframework.util.StringUtils;
  * @since 3.0
  * @see org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter
  * @see org.springframework.util.MultiValueMap
+ *
+ * 用来读写一般的HTML表单数据，对于myltipart数据只可以写，不能读。支持的类型：application/x-www-form-urlencoded和multipart/form-data
  */
 public class FormHttpMessageConverter implements HttpMessageConverter<MultiValueMap<String, ?>> {
 

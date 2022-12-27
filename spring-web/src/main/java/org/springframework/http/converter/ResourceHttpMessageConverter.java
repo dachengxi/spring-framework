@@ -41,6 +41,8 @@ import org.springframework.util.StreamUtils;
  * @author Juergen Hoeller
  * @author Kazuki Shimizu
  * @since 3.0.2
+ *
+ * Resource类型的Http消息转换器。支持所有的MediaType
  */
 public class ResourceHttpMessageConverter extends AbstractHttpMessageConverter<Resource> {
 

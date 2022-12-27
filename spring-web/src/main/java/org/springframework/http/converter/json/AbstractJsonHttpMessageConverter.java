@@ -47,6 +47,8 @@ import org.springframework.lang.Nullable;
  * @see JsonbHttpMessageConverter
  * @see #readInternal(Type, Reader)
  * @see #writeInternal(Object, Type, Writer)
+ *
+ * 基于普通Json转换器的Http消息转换启动抽象实现
  */
 public abstract class AbstractJsonHttpMessageConverter extends AbstractGenericHttpMessageConverter<Object> {
 

@@ -33,6 +33,8 @@ import org.springframework.lang.Nullable;
  * @author Juergen Hoeller
  * @since 4.2
  * @param <T> the converted object type
+ *
+ * 支持泛型的Http消息转换器的抽象实现
  */
 public abstract class AbstractGenericHttpMessageConverter<T> extends AbstractHttpMessageConverter<T>
 		implements GenericHttpMessageConverter<T> {

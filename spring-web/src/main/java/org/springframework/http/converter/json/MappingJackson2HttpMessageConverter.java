@@ -44,6 +44,8 @@ import org.springframework.lang.Nullable;
  * @author Juergen Hoeller
  * @author Sebastien Deleuze
  * @since 3.1.2
+ *
+ * 使用Jackson进行转换的Http消息转换器
  */
 public class MappingJackson2HttpMessageConverter extends AbstractJackson2HttpMessageConverter {
 

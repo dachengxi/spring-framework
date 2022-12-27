@@ -44,6 +44,8 @@ import org.springframework.util.StreamUtils;
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @since 4.3
+ *
+ * 支持ResourceRegion类型的Http消息转换器。只会所有的MediaType
  */
 public class ResourceRegionHttpMessageConverter extends AbstractGenericHttpMessageConverter<Object> {
 

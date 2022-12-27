@@ -43,6 +43,8 @@ import org.springframework.util.Assert;
  * @see com.google.gson.Gson
  * @see com.google.gson.GsonBuilder
  * @see #setGson
+ *
+ * 使用Gson进行转换的Http消息转换器
  */
 public class GsonHttpMessageConverter extends AbstractJsonHttpMessageConverter {
 

@@ -107,17 +107,21 @@ public class HandlerMethodArgumentResolverComposite implements HandlerMethodArgu
 	 * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}
 	 * and invoke the one that supports it.
 	 * @throws IllegalArgumentException if no suitable argument resolver is found
+	 *
+	 * 使用方法参数解析器解析参数
 	 */
 	@Override
 	@Nullable
 	public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) throws Exception {
 
+		// 获取方法参数解析器
 		HandlerMethodArgumentResolver resolver = getArgumentResolver(parameter);
 		if (resolver == null) {
 			throw new IllegalArgumentException("Unsupported parameter type [" +
 					parameter.getParameterType().getName() + "]. supportsParameter should be called first.");
 		}
+		// 使用方法参数解析器解析参数，不同类型的方法参数有不同的解析器
 		return resolver.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
 	}
 

@@ -138,15 +138,19 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	 * or if the method raised an exception
 	 * @see #getMethodArgumentValues
 	 * @see #doInvoke
+	 *
+	 * 调用具体的Controller的方法并获得返回值
 	 */
 	@Nullable
 	public Object invokeForRequest(NativeWebRequest request, @Nullable ModelAndViewContainer mavContainer,
 			Object... providedArgs) throws Exception {
 
+		// 获取方法的参数的值，根据请求中的信息，比如参数或者请求体中的数据，来转换为参数
 		Object[] args = getMethodArgumentValues(request, mavContainer, providedArgs);
 		if (logger.isTraceEnabled()) {
 			logger.trace("Arguments: " + Arrays.toString(args));
 		}
+		// 调用具体的Controller的方法并获得返回值
 		return doInvoke(args);
 	}
 
@@ -155,6 +159,8 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	 * argument values and falling back to the configured argument resolvers.
 	 * <p>The resulting array will be passed into {@link #doInvoke}.
 	 * @since 5.1.2
+	 *
+	 * 获取方法的参数的值，根据请求中的信息，比如参数或者请求体中的数据，来转换为参数
 	 */
 	protected Object[] getMethodArgumentValues(NativeWebRequest request, @Nullable ModelAndViewContainer mavContainer,
 			Object... providedArgs) throws Exception {
@@ -176,6 +182,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 				throw new IllegalStateException(formatArgumentError(parameter, "No suitable resolver"));
 			}
 			try {
+				// 使用方法参数解析器解析参数
 				args[i] = this.resolvers.resolveArgument(parameter, mavContainer, request, this.dataBinderFactory);
 			}
 			catch (Exception ex) {
@@ -194,6 +201,8 @@ public class InvocableHandlerMethod extends HandlerMethod {
 
 	/**
 	 * Invoke the handler method with the given argument values.
+	 *
+	 * 调用具体的Controller的方法并获得返回值
 	 */
 	@Nullable
 	protected Object doInvoke(Object... args) throws Exception {

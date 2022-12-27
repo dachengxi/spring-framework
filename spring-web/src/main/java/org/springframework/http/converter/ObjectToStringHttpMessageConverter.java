@@ -48,6 +48,8 @@ import org.springframework.util.Assert;
  * @author <a href="mailto:dmitry.katsubo@gmail.com">Dmitry Katsubo</a>
  * @author Rossen Stoyanchev
  * @since 3.2
+ *
+ * 支持对象和String进行转换的Http消息转换器，使用StringHttpMessageConverter实现。支持的类型：text/plain
  */
 public class ObjectToStringHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
 

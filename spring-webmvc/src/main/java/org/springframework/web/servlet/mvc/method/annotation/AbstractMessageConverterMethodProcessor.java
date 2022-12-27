@@ -163,6 +163,8 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 	 * @throws HttpMessageNotWritableException thrown if a given message cannot
 	 * be written by a converter, or if the content-type chosen by the server
 	 * has no compatible converter.
+	 *
+	 * 将返回值使用HttpMessageConverter进行转换，并将转换后的返回值写到响应中
 	 */
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	protected <T> void writeWithMessageConverters(@Nullable T value, MethodParameter returnType,
@@ -273,6 +275,7 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 
 		if (selectedMediaType != null) {
 			selectedMediaType = selectedMediaType.removeQualityValue();
+			// 遍历所有的HttpMessageConverter，找到合适的HttpMessageConverter后使用其进行转换，并写到响应体中
 			for (HttpMessageConverter<?> converter : this.messageConverters) {
 				GenericHttpMessageConverter genericConverter = (converter instanceof GenericHttpMessageConverter ?
 						(GenericHttpMessageConverter<?>) converter : null);
@@ -288,9 +291,11 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 								"Writing [" + LogFormatUtils.formatValue(theBody, !traceOn) + "]");
 						addContentDispositionHeader(inputMessage, outputMessage);
 						if (genericConverter != null) {
+							// 转换，并写到响应体中
 							genericConverter.write(body, targetType, selectedMediaType, outputMessage);
 						}
 						else {
+							// 转换，并写到响应体中
 							((HttpMessageConverter) converter).write(body, selectedMediaType, outputMessage);
 						}
 					}

@@ -35,6 +35,8 @@ import org.springframework.lang.Nullable;
  * @since 3.2
  * @param <T> the converted object type
  * @see org.springframework.core.ParameterizedTypeReference
+ *
+ * 支持泛型的Http消息转换器
  */
 public interface GenericHttpMessageConverter<T> extends HttpMessageConverter<T> {
 
@@ -49,6 +51,8 @@ public interface GenericHttpMessageConverter<T> extends HttpMessageConverter<T> 
 	 * @param mediaType the media type to read, can be {@code null} if not specified.
 	 * Typically the value of a {@code Content-Type} header.
 	 * @return {@code true} if readable; {@code false} otherwise
+	 *
+	 * 是否可以被当前转换器读取
 	 */
 	boolean canRead(Type type, @Nullable Class<?> contextClass, @Nullable MediaType mediaType);
 
@@ -63,6 +67,8 @@ public interface GenericHttpMessageConverter<T> extends HttpMessageConverter<T> 
 	 * @return the converted object
 	 * @throws IOException in case of I/O errors
 	 * @throws HttpMessageNotReadableException in case of conversion errors
+	 *
+	 * 从Http请求中读取数据，并转换成给定的Java类型对象
 	 */
 	T read(Type type, @Nullable Class<?> contextClass, HttpInputMessage inputMessage)
 			throws IOException, HttpMessageNotReadableException;
@@ -79,6 +85,8 @@ public interface GenericHttpMessageConverter<T> extends HttpMessageConverter<T> 
 	 * typically the value of an {@code Accept} header.
 	 * @return {@code true} if writable; {@code false} otherwise
 	 * @since 4.2
+	 *
+	 * 是否可以被当前转换器写
 	 */
 	boolean canWrite(@Nullable Type type, Class<?> clazz, @Nullable MediaType mediaType);
 
@@ -99,6 +107,8 @@ public interface GenericHttpMessageConverter<T> extends HttpMessageConverter<T> 
 	 * @throws IOException in case of I/O errors
 	 * @throws HttpMessageNotWritableException in case of conversion errors
 	 * @since 4.2
+	 *
+	 * 将给定的Java类型对象按照给定的MediaType写到Http响应中
 	 */
 	void write(T t, @Nullable Type type, @Nullable MediaType contentType, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException;

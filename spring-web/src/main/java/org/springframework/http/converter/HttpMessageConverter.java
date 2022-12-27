@@ -33,6 +33,9 @@ import org.springframework.lang.Nullable;
  * @author Rossen Stoyanchev
  * @since 3.0
  * @param <T> the converted object type
+ *
+ * Http消息转换器，将Http请求转换为需要的对象类型或者将返回的对象类型转换为Http响应，比如我们需要使用HttpMessageConverter在调用
+ * 具体的Controller方法之前将请求体中的数据转换成具体的Java对象；在Controller方法处理完之后将返回的Java对象转换为响应体中的数据
  */
 public interface HttpMessageConverter<T> {
 
@@ -42,6 +45,8 @@ public interface HttpMessageConverter<T> {
 	 * @param mediaType the media type to read (can be {@code null} if not specified);
 	 * typically the value of a {@code Content-Type} header.
 	 * @return {@code true} if readable; {@code false} otherwise
+	 *
+	 * 是否可以被当前转换器读取
 	 */
 	boolean canRead(Class<?> clazz, @Nullable MediaType mediaType);
 
@@ -51,6 +56,8 @@ public interface HttpMessageConverter<T> {
 	 * @param mediaType the media type to write (can be {@code null} if not specified);
 	 * typically the value of an {@code Accept} header.
 	 * @return {@code true} if writable; {@code false} otherwise
+	 *
+	 * 是否可以被当前转换器写
 	 */
 	boolean canWrite(Class<?> clazz, @Nullable MediaType mediaType);
 
@@ -62,6 +69,8 @@ public interface HttpMessageConverter<T> {
 	 * only for a specific class. Alternatively, use
 	 * {@link #getSupportedMediaTypes(Class)} for a more precise list.
 	 * @return the list of supported media types
+	 *
+	 * 当前转换器支持的MediaType
 	 */
 	List<MediaType> getSupportedMediaTypes();
 
@@ -73,6 +82,8 @@ public interface HttpMessageConverter<T> {
 	 * @param clazz the type of class to check
 	 * @return the list of media types supported for the given class
 	 * @since 5.3.4
+	 *
+	 * 当前转换器支持的MediaType
 	 */
 	default List<MediaType> getSupportedMediaTypes(Class<?> clazz) {
 		return (canRead(clazz, null) || canWrite(clazz, null) ?
@@ -87,6 +98,8 @@ public interface HttpMessageConverter<T> {
 	 * @return the converted object
 	 * @throws IOException in case of I/O errors
 	 * @throws HttpMessageNotReadableException in case of conversion errors
+	 *
+	 * 从Http请求中读取数据，并转换成给定的Java类型对象
 	 */
 	T read(Class<? extends T> clazz, HttpInputMessage inputMessage)
 			throws IOException, HttpMessageNotReadableException;
@@ -102,6 +115,8 @@ public interface HttpMessageConverter<T> {
 	 * @param outputMessage the message to write to
 	 * @throws IOException in case of I/O errors
 	 * @throws HttpMessageNotWritableException in case of conversion errors
+	 *
+	 * 将给定的Java类型对象按照给定的MediaType写到Http响应中
 	 */
 	void write(T t, @Nullable MediaType contentType, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException;

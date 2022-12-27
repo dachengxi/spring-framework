@@ -77,6 +77,8 @@ import org.springframework.util.TypeUtils;
  * @author Sam Brannen
  * @since 4.1
  * @see MappingJackson2HttpMessageConverter
+ *
+ * 基于Jackson的Http消息转换器的抽象实现
  */
 public abstract class AbstractJackson2HttpMessageConverter extends AbstractGenericHttpMessageConverter<Object> {
 
