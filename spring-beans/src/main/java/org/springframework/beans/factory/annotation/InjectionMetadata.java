@@ -112,9 +112,11 @@ public class InjectionMetadata {
 
 	public void inject(Object target, @Nullable String beanName, @Nullable PropertyValues pvs) throws Throwable {
 		Collection<InjectedElement> checkedElements = this.checkedElements;
+		// 需要进行自动注入的属性和方法的元数据信息
 		Collection<InjectedElement> elementsToIterate =
 				(checkedElements != null ? checkedElements : this.injectedElements);
 		if (!elementsToIterate.isEmpty()) {
+			// 遍历收集到的属性和方法的元数据信息进行自动注入
 			for (InjectedElement element : elementsToIterate) {
 				element.inject(target, beanName, pvs);
 			}
