@@ -158,6 +158,7 @@ public abstract class AbstractRefreshableWebApplicationContext extends AbstractR
 	 */
 	@Override
 	protected ConfigurableEnvironment createEnvironment() {
+		// servlet容器的标准环境
 		return new StandardServletEnvironment();
 	}
 

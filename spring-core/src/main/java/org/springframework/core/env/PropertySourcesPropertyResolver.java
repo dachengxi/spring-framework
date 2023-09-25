@@ -22,6 +22,7 @@ import org.springframework.lang.Nullable;
  * {@link PropertyResolver} implementation that resolves property values against
  * an underlying set of {@link PropertySources}.
  *
+ * 使用属性源作为数据源的属性解析器
  * @author Chris Beams
  * @author Juergen Hoeller
  * @since 3.1
@@ -31,6 +32,9 @@ import org.springframework.lang.Nullable;
  */
 public class PropertySourcesPropertyResolver extends AbstractPropertyResolver {
 
+	/**
+	 * 属性源
+	 */
 	@Nullable
 	private final PropertySources propertySources;
 

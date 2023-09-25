@@ -38,6 +38,7 @@ import org.springframework.web.context.ConfigurableWebEnvironment;
  * <p>Contributes {@code ServletConfig}, {@code ServletContext}, and JNDI-based
  * {@link PropertySource} instances. See {@link #customizePropertySources} method
  * documentation for details.
+ * servlet容器的标准环境
  *
  * @author Chris Beams
  * @author Juergen Hoeller
@@ -97,6 +98,7 @@ public class StandardServletEnvironment extends StandardEnvironment implements C
 	 * once the actual {@link ServletContext} object becomes available.
 	 * <p>Addition of {@value #JNDI_PROPERTY_SOURCE_NAME} can be disabled with
 	 * {@link JndiLocatorDelegate#IGNORE_JNDI_PROPERTY_NAME}.
+	 * web环境比非web环境多三个属性源
 	 * @see StandardEnvironment#customizePropertySources
 	 * @see org.springframework.core.env.AbstractEnvironment#customizePropertySources
 	 * @see ServletConfigPropertySource
@@ -107,11 +109,15 @@ public class StandardServletEnvironment extends StandardEnvironment implements C
 	 */
 	@Override
 	protected void customizePropertySources(MutablePropertySources propertySources) {
+		// 注册servletConfigInitParams属性源
 		propertySources.addLast(new StubPropertySource(SERVLET_CONFIG_PROPERTY_SOURCE_NAME));
+		// 注册servletContextInitParams属性源
 		propertySources.addLast(new StubPropertySource(SERVLET_CONTEXT_PROPERTY_SOURCE_NAME));
 		if (jndiPresent && JndiLocatorDelegate.isDefaultJndiEnvironmentAvailable()) {
+			// 注册jndiProperties属性源
 			propertySources.addLast(new JndiPropertySource(JNDI_PROPERTY_SOURCE_NAME));
 		}
+		// StandardEnvironment中注册属性源
 		super.customizePropertySources(propertySources);
 	}
 

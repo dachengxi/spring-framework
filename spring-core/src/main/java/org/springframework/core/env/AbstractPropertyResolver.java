@@ -43,24 +43,48 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
+	/**
+	 * ConfigurableConversionService
+	 */
 	@Nullable
 	private volatile ConfigurableConversionService conversionService;
 
+	/**
+	 * 属性占位符解析器
+	 */
 	@Nullable
 	private PropertyPlaceholderHelper nonStrictHelper;
 
+	/**
+	 * 属性占位符解析器
+	 */
 	@Nullable
 	private PropertyPlaceholderHelper strictHelper;
 
+	/**
+	 * 设置是否忽略解析不了的占位符，默认是false，如果解析不了就抛异常
+	 */
 	private boolean ignoreUnresolvableNestedPlaceholders = false;
 
+	/**
+	 * 占位符前缀 "${}"
+	 */
 	private String placeholderPrefix = SystemPropertyUtils.PLACEHOLDER_PREFIX;
 
+	/**
+	 * 占位符后缀 "}
+	 */
 	private String placeholderSuffix = SystemPropertyUtils.PLACEHOLDER_SUFFIX;
 
+	/**
+	 * 分隔符 ":"
+	 */
 	@Nullable
 	private String valueSeparator = SystemPropertyUtils.VALUE_SEPARATOR;
 
+	/**
+	 * 必须的属性
+	 */
 	private final Set<String> requiredProperties = new LinkedHashSet<>();
 
 

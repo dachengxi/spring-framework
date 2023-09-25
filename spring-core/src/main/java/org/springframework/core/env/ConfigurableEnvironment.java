@@ -64,6 +64,8 @@ import java.util.Map;
  * org.springframework.context.support.PropertySourcesPlaceholderConfigurer property
  * placeholder configurers}.
  *
+ * 可配置的环境
+ *
  * @author Chris Beams
  * @since 3.1
  * @see StandardEnvironment
@@ -78,6 +80,7 @@ public interface ConfigurableEnvironment extends Environment, ConfigurableProper
 	 * <p>Any existing active profiles will be replaced with the given arguments; call
 	 * with zero arguments to clear the current set of active profiles. Use
 	 * {@link #addActiveProfile} to add a profile while preserving the existing set.
+	 * 设置当前环境的激活的profile
 	 * @throws IllegalArgumentException if any profile is null, empty or whitespace-only
 	 * @see #addActiveProfile
 	 * @see #setDefaultProfiles
@@ -88,6 +91,7 @@ public interface ConfigurableEnvironment extends Environment, ConfigurableProper
 
 	/**
 	 * Add a profile to the current set of active profiles.
+	 * 添加一个profile到当前的激活的profile中
 	 * @throws IllegalArgumentException if the profile is null, empty or whitespace-only
 	 * @see #setActiveProfiles
 	 */
@@ -96,6 +100,7 @@ public interface ConfigurableEnvironment extends Environment, ConfigurableProper
 	/**
 	 * Specify the set of profiles to be made active by default if no other profiles
 	 * are explicitly made active through {@link #setActiveProfiles}.
+	 * 设置默认的profile
 	 * @throws IllegalArgumentException if any profile is null, empty or whitespace-only
 	 * @see AbstractEnvironment#DEFAULT_PROFILES_PROPERTY_NAME
 	 */
@@ -114,6 +119,7 @@ public interface ConfigurableEnvironment extends Environment, ConfigurableProper
 	 * certain user-defined property sources have search precedence over default property
 	 * sources such as the set of system properties or the set of system environment
 	 * variables.
+	 * 获取属性源
 	 * @see AbstractEnvironment#customizePropertySources
 	 */
 	MutablePropertySources getPropertySources();
@@ -130,6 +136,7 @@ public interface ConfigurableEnvironment extends Environment, ConfigurableProper
 	 * {@link IllegalAccessException}; in cases where the SecurityManager forbids access
 	 * to a property, {@code null} will be returned and an INFO-level log message will be
 	 * issued noting the exception.
+	 * 获取系统属性
 	 */
 	Map<String, Object> getSystemProperties();
 
@@ -145,6 +152,7 @@ public interface ConfigurableEnvironment extends Environment, ConfigurableProper
 	 * {@link IllegalAccessException}; in cases where the SecurityManager forbids access
 	 * to a property, {@code null} will be returned and an INFO-level log message will be
 	 * issued noting the exception.
+	 * 获取系统环境
 	 */
 	Map<String, Object> getSystemEnvironment();
 
@@ -162,6 +170,7 @@ public interface ConfigurableEnvironment extends Environment, ConfigurableProper
 	 * the parent environment occurring after the call to {@code merge} will not be
 	 * reflected in the child. Therefore, care should be taken to configure parent
 	 * property sources and profile information prior to calling {@code merge}.
+	 * 合并两个环境配置
 	 * @param parent the environment to merge with
 	 * @since 3.1.2
 	 * @see org.springframework.context.support.AbstractApplicationContext#setParent
