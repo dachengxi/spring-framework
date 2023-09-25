@@ -1000,8 +1000,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 		}
 
+		// 保存BeanDefinition的map
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
+		// 已经存在一个同名的BeanDefinition
 		if (existingDefinition != null) {
+			// 不允许覆盖，抛异常
 			if (!isAllowBeanDefinitionOverriding()) {
 				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
 			}
@@ -1027,6 +1030,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 							"] with [" + beanDefinition + "]");
 				}
 			}
+			// 添加到BeanDefinition这个map中
 			this.beanDefinitionMap.put(beanName, beanDefinition);
 		}
 		else {

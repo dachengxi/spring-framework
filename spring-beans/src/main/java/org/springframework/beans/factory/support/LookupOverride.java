@@ -41,9 +41,15 @@ import org.springframework.util.ObjectUtils;
  */
 public class LookupOverride extends MethodOverride {
 
+	/**
+	 * bean名字
+	 */
 	@Nullable
 	private final String beanName;
 
+	/**
+	 * 方法
+	 */
 	@Nullable
 	private Method method;
 

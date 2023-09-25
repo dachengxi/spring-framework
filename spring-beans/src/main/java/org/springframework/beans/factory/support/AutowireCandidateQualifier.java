@@ -23,6 +23,7 @@ import org.springframework.util.Assert;
  * Qualifier for resolving autowire candidates. A bean definition that
  * includes one or more such qualifiers enables fine-grained matching
  * against annotations on a field or parameter to be autowired.
+ * 使用Autowire自动装配时，可以使用@Qualifier注解指定具体的要装配的bean名字
  *
  * @author Mark Fisher
  * @author Juergen Hoeller
@@ -37,6 +38,9 @@ public class AutowireCandidateQualifier extends BeanMetadataAttributeAccessor {
 	 */
 	public static final String VALUE_KEY = "value";
 
+	/**
+	 * bean类型名称
+	 */
 	private final String typeName;
 
 

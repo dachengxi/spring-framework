@@ -37,10 +37,16 @@ import org.springframework.util.ObjectUtils;
  */
 public abstract class MethodOverride implements BeanMetadataElement {
 
+	/**
+	 * 方法名
+	 */
 	private final String methodName;
 
 	private boolean overloaded = true;
 
+	/**
+	 * 来源
+	 */
 	@Nullable
 	private Object source;
 

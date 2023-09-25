@@ -24,11 +24,16 @@ import org.springframework.lang.Nullable;
  * level in a standard Spring XML bean definition document:
  * {@code default-lazy-init}, {@code default-autowire}, etc.
  *
+ * bean的默认配置
+ *
  * @author Juergen Hoeller
  * @since 2.0.2
  */
 public class DocumentDefaultsDefinition implements DefaultsDefinition {
 
+	/**
+	 * lazy-init属性
+	 */
 	@Nullable
 	private String lazyInit;
 

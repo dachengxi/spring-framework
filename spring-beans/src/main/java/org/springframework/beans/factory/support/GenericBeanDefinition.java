@@ -40,6 +40,9 @@ import org.springframework.util.ObjectUtils;
 @SuppressWarnings("serial")
 public class GenericBeanDefinition extends AbstractBeanDefinition {
 
+	/**
+	 * bean的parent名称
+	 */
 	@Nullable
 	private String parentName;
 

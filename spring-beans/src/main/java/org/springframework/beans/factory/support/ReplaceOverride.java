@@ -37,8 +37,14 @@ import org.springframework.util.ObjectUtils;
  */
 public class ReplaceOverride extends MethodOverride {
 
+	/**
+	 * 目标Bean名字
+	 */
 	private final String methodReplacerBeanName;
 
+	/**
+	 * 目标方法的参数类型，arg-type标签内容
+	 */
 	private final List<String> typeIdentifiers = new ArrayList<>();
 
 

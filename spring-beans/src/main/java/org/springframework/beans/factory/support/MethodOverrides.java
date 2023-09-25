@@ -36,6 +36,9 @@ import org.springframework.lang.Nullable;
  */
 public class MethodOverrides {
 
+	/**
+	 * 使用一个Set保存Bean对应的MethodOverrides，MethodOverrides用来存放lookup-method和replaced-method对应的值
+	 */
 	private final Set<MethodOverride> overrides = new CopyOnWriteArraySet<>();
 
 

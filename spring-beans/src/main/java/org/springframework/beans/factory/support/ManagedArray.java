@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
 /**
  * Tag collection class used to hold managed array elements, which may
  * include runtime bean references (to be resolved into bean objects).
- *
+ * 保存数据元素
  * @author Juergen Hoeller
  * @since 3.0
  */

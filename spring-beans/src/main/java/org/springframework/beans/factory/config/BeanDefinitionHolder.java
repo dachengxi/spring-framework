@@ -31,6 +31,8 @@ import org.springframework.util.StringUtils;
  * definitions. If you don't care about BeanNameAware and the like,
  * registering RootBeanDefinition or ChildBeanDefinition is good enough.
  *
+ * 用来保存一个BeanDefinition以及对应的bean名称和别名
+ *
  * @author Juergen Hoeller
  * @since 1.0.2
  * @see org.springframework.beans.factory.BeanNameAware
@@ -39,10 +41,19 @@ import org.springframework.util.StringUtils;
  */
 public class BeanDefinitionHolder implements BeanMetadataElement {
 
+	/**
+	 * 持有的BeanDefinition
+	 */
 	private final BeanDefinition beanDefinition;
 
+	/**
+	 * bean名称
+	 */
 	private final String beanName;
 
+	/**
+	 * bean的别名
+	 */
 	@Nullable
 	private final String[] aliases;
 
