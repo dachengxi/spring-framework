@@ -33,6 +33,7 @@ import org.springframework.lang.Nullable;
  * {@link #addDefaultConverters(ConverterRegistry)} utility method for ad-hoc
  * use against any {@code ConverterRegistry} instance.
  *
+ * 默认的转换服务实现
  * @author Chris Beams
  * @author Juergen Hoeller
  * @author Stephane Nicoll
@@ -80,27 +81,39 @@ public class DefaultConversionService extends GenericConversionService {
 
 	/**
 	 * Add converters appropriate for most environments.
+	 * 添加一些默认的转换器
 	 * @param converterRegistry the registry of converters to add to
 	 * (must also be castable to ConversionService, e.g. being a {@link ConfigurableConversionService})
 	 * @throws ClassCastException if the given ConverterRegistry could not be cast to a ConversionService
 	 */
 	public static void addDefaultConverters(ConverterRegistry converterRegistry) {
+		// 添加一些标量的转换器
 		addScalarConverters(converterRegistry);
+		// 添加一些集合相关的转换器
 		addCollectionConverters(converterRegistry);
 
+		// ByteBuffer转换器
 		converterRegistry.addConverter(new ByteBufferConverter((ConversionService) converterRegistry));
+		// 字符串到时区的转换器
 		converterRegistry.addConverter(new StringToTimeZoneConverter());
+		// ZoneId到时区的转换器
 		converterRegistry.addConverter(new ZoneIdToTimeZoneConverter());
+		// ZonedDateTime到Calendar的转换器
 		converterRegistry.addConverter(new ZonedDateTimeToCalendarConverter());
 
+		// 对象到对象的转换器
 		converterRegistry.addConverter(new ObjectToObjectConverter());
+		// 实体的ID到实体的引用的转换器
 		converterRegistry.addConverter(new IdToEntityConverter((ConversionService) converterRegistry));
+		// 对象到字符串的转换器
 		converterRegistry.addConverter(new FallbackObjectToStringConverter());
+		// 对象到Optional的转换器
 		converterRegistry.addConverter(new ObjectToOptionalConverter((ConversionService) converterRegistry));
 	}
 
 	/**
 	 * Add common collection converters.
+	 * 添加一些集合相关的转换器
 	 * @param converterRegistry the registry of converters to add to
 	 * (must also be castable to ConversionService, e.g. being a {@link ConfigurableConversionService})
 	 * @throws ClassCastException if the given ConverterRegistry could not be cast to a ConversionService
@@ -109,62 +122,103 @@ public class DefaultConversionService extends GenericConversionService {
 	public static void addCollectionConverters(ConverterRegistry converterRegistry) {
 		ConversionService conversionService = (ConversionService) converterRegistry;
 
+		// 数组到集合的转换器
 		converterRegistry.addConverter(new ArrayToCollectionConverter(conversionService));
+		// 集合到数组的转换器
 		converterRegistry.addConverter(new CollectionToArrayConverter(conversionService));
 
+		// 数组到数组的转换器
 		converterRegistry.addConverter(new ArrayToArrayConverter(conversionService));
+		// 集合到集合的转换器
 		converterRegistry.addConverter(new CollectionToCollectionConverter(conversionService));
+		// Map到Map的转换器
 		converterRegistry.addConverter(new MapToMapConverter(conversionService));
 
+		// 数组到字符串的转换器
 		converterRegistry.addConverter(new ArrayToStringConverter(conversionService));
+		// 字符串到数组的转换器
 		converterRegistry.addConverter(new StringToArrayConverter(conversionService));
 
+		// 数组到对象的转换器
 		converterRegistry.addConverter(new ArrayToObjectConverter(conversionService));
+		// 对象到数组的转换器
 		converterRegistry.addConverter(new ObjectToArrayConverter(conversionService));
 
+		// 集合到字符串的转换器
 		converterRegistry.addConverter(new CollectionToStringConverter(conversionService));
+		// 字符串到集合的转换器
 		converterRegistry.addConverter(new StringToCollectionConverter(conversionService));
 
+		// 集合到对象的转换器
 		converterRegistry.addConverter(new CollectionToObjectConverter(conversionService));
+		// 对象到集合的转换器
 		converterRegistry.addConverter(new ObjectToCollectionConverter(conversionService));
 
+		// 流转换器
 		converterRegistry.addConverter(new StreamConverter(conversionService));
 	}
 
+	/**
+	 * 添加一些标量的转换器
+	 * @param converterRegistry
+	 */
 	private static void addScalarConverters(ConverterRegistry converterRegistry) {
+		// Number到Number的转换器
 		converterRegistry.addConverterFactory(new NumberToNumberConverterFactory());
 
+		// 字符串到Number的转换器
 		converterRegistry.addConverterFactory(new StringToNumberConverterFactory());
+		// Number到String的转换器
 		converterRegistry.addConverter(Number.class, String.class, new ObjectToStringConverter());
 
+		// 字符串到字符的转换器
 		converterRegistry.addConverter(new StringToCharacterConverter());
+		// 字符到字符串的转换器
 		converterRegistry.addConverter(Character.class, String.class, new ObjectToStringConverter());
 
+		// Number到字符的转换器
 		converterRegistry.addConverter(new NumberToCharacterConverter());
+		// 字符到Number的转换器
 		converterRegistry.addConverterFactory(new CharacterToNumberFactory());
 
+		// 字符串到布尔类型的转换器
 		converterRegistry.addConverter(new StringToBooleanConverter());
+		// 布尔类型到字符串的转换器
 		converterRegistry.addConverter(Boolean.class, String.class, new ObjectToStringConverter());
 
+		// 字符串到枚举的转换器
 		converterRegistry.addConverterFactory(new StringToEnumConverterFactory());
+		// 枚举到字符串的转换器
 		converterRegistry.addConverter(new EnumToStringConverter((ConversionService) converterRegistry));
 
+		// 整形到枚举的转换器
 		converterRegistry.addConverterFactory(new IntegerToEnumConverterFactory());
+		// 枚举到整形的转换器
 		converterRegistry.addConverter(new EnumToIntegerConverter((ConversionService) converterRegistry));
 
+		// 字符串到Locale的转换器
 		converterRegistry.addConverter(new StringToLocaleConverter());
+		// Local到字符串的转换器
 		converterRegistry.addConverter(Locale.class, String.class, new ObjectToStringConverter());
 
+		// 字符串到Charset的转换器
 		converterRegistry.addConverter(new StringToCharsetConverter());
+		// Charset到字符串的转换器
 		converterRegistry.addConverter(Charset.class, String.class, new ObjectToStringConverter());
 
+		// 字符串到货币的转换器
 		converterRegistry.addConverter(new StringToCurrencyConverter());
+		// 货币到字符串的转换器
 		converterRegistry.addConverter(Currency.class, String.class, new ObjectToStringConverter());
 
+		// 字符串到Properties的转换器
 		converterRegistry.addConverter(new StringToPropertiesConverter());
+		// Properties到字符串的转换器
 		converterRegistry.addConverter(new PropertiesToStringConverter());
 
+		// 字符串到UUID的转换器
 		converterRegistry.addConverter(new StringToUUIDConverter());
+		// UUID到字符串的转换器
 		converterRegistry.addConverter(UUID.class, String.class, new ObjectToStringConverter());
 	}
 

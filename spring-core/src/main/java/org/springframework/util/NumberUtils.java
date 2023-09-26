@@ -64,6 +64,7 @@ public abstract class NumberUtils {
 
 	/**
 	 * Convert the given number into an instance of the given target class.
+	 * 转换Number类型的值到给定的类型
 	 * @param number the number to convert
 	 * @param targetClass the target class to convert to
 	 * @return the converted number
@@ -85,9 +86,11 @@ public abstract class NumberUtils {
 		Assert.notNull(number, "Number must not be null");
 		Assert.notNull(targetClass, "Target class must not be null");
 
+		// 同类型，直接强制类型转换
 		if (targetClass.isInstance(number)) {
 			return (T) number;
 		}
+		// 目标类型是Byte类型
 		else if (Byte.class == targetClass) {
 			long value = checkedLongValue(number, targetClass);
 			if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
@@ -95,6 +98,7 @@ public abstract class NumberUtils {
 			}
 			return (T) Byte.valueOf(number.byteValue());
 		}
+		// 目标类型是short类型
 		else if (Short.class == targetClass) {
 			long value = checkedLongValue(number, targetClass);
 			if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
@@ -102,6 +106,7 @@ public abstract class NumberUtils {
 			}
 			return (T) Short.valueOf(number.shortValue());
 		}
+		// 目标类型是Integer类型
 		else if (Integer.class == targetClass) {
 			long value = checkedLongValue(number, targetClass);
 			if (value < Integer.MIN_VALUE || value > Integer.MAX_VALUE) {
@@ -109,13 +114,16 @@ public abstract class NumberUtils {
 			}
 			return (T) Integer.valueOf(number.intValue());
 		}
+		// 目标类型是Long类型
 		else if (Long.class == targetClass) {
 			long value = checkedLongValue(number, targetClass);
 			return (T) Long.valueOf(value);
 		}
+		// 目标类型是BigInteger类型
 		else if (BigInteger.class == targetClass) {
 			if (number instanceof BigDecimal) {
 				// do not lose precision - use BigDecimal's own conversion
+				// 使用BigDecimal自己的转换
 				return (T) ((BigDecimal) number).toBigInteger();
 			}
 			else {
@@ -123,12 +131,15 @@ public abstract class NumberUtils {
 				return (T) BigInteger.valueOf(number.longValue());
 			}
 		}
+		// 目标类型是Float类型
 		else if (Float.class == targetClass) {
 			return (T) Float.valueOf(number.floatValue());
 		}
+		// 目标类型是Double类型
 		else if (Double.class == targetClass) {
 			return (T) Double.valueOf(number.doubleValue());
 		}
+		// 目标类型是BigDecimal类型
 		else if (BigDecimal.class == targetClass) {
 			// always use BigDecimal(String) here to avoid unpredictability of BigDecimal(double)
 			// (see BigDecimal javadoc for details)
@@ -181,6 +192,7 @@ public abstract class NumberUtils {
 	 * <p>Trims all whitespace (leading, trailing, and in between characters) from
 	 * the input {@code String} before attempting to parse the number.
 	 * <p>Supports numbers in hex format (with leading "0x", "0X", or "#") as well.
+	 * String到Number类型转换
 	 * @param text the text to convert
 	 * @param targetClass the target class to parse into
 	 * @return the parsed number
@@ -283,6 +295,7 @@ public abstract class NumberUtils {
 	 * Determine whether the given {@code value} String indicates a hex number,
 	 * i.e. needs to be passed into {@code Integer.decode} instead of
 	 * {@code Integer.valueOf}, etc.
+	 * 是否是十六进制数字
 	 */
 	private static boolean isHexNumber(String value) {
 		int index = (value.startsWith("-") ? 1 : 0);

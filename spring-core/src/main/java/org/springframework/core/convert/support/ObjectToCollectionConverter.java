@@ -30,6 +30,8 @@ import org.springframework.lang.Nullable;
  * Converts an Object to a single-element Collection containing the Object.
  * Will convert the Object to the target Collection's parameterized type if necessary.
  *
+ * 对象到集合的转换器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0

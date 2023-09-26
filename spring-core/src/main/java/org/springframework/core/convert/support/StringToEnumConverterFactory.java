@@ -23,6 +23,7 @@ import org.springframework.lang.Nullable;
 /**
  * Converts from a String to a {@link java.lang.Enum} by calling {@link Enum#valueOf(Class, String)}.
  *
+ * 字符串到枚举的转换器
  * @author Keith Donald
  * @author Stephane Nicoll
  * @since 3.0
@@ -32,12 +33,20 @@ final class StringToEnumConverterFactory implements ConverterFactory<String, Enu
 
 	@Override
 	public <T extends Enum> Converter<String, T> getConverter(Class<T> targetType) {
+		// 返回一个字符串到枚举的转换器
 		return new StringToEnum(ConversionUtils.getEnumType(targetType));
 	}
 
 
+	/**
+	 * 字符串到枚举的转换器
+	 * @param <T>
+	 */
 	private static class StringToEnum<T extends Enum> implements Converter<String, T> {
 
+		/**
+		 * 目标枚举类型
+		 */
 		private final Class<T> enumType;
 
 		StringToEnum(Class<T> enumType) {

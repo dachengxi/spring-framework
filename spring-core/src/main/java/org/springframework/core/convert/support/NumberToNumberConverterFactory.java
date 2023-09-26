@@ -28,6 +28,8 @@ import org.springframework.util.NumberUtils;
  * <p>Support Number classes including Byte, Short, Integer, Float, Double, Long, BigInteger, BigDecimal. This class
  * delegates to {@link NumberUtils#convertNumberToTargetClass(Number, Class)} to perform the conversion.
  *
+ * Number类型转换为Number类型的转换器
+ *
  * @author Keith Donald
  * @since 3.0
  * @see java.lang.Byte
@@ -44,17 +46,26 @@ final class NumberToNumberConverterFactory implements ConverterFactory<Number, N
 
 	@Override
 	public <T extends Number> Converter<Number, T> getConverter(Class<T> targetType) {
+		// 返回Number到Number的转换器
 		return new NumberToNumber<>(targetType);
 	}
 
 	@Override
 	public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
+		// 类型是否相同
 		return !sourceType.equals(targetType);
 	}
 
 
+	/**
+	 * Number类型到Number类型转换器
+	 * @param <T>
+	 */
 	private static final class NumberToNumber<T extends Number> implements Converter<Number, T> {
 
+		/**
+		 * 目标类型
+		 */
 		private final Class<T> targetType;
 
 		NumberToNumber(Class<T> targetType) {
@@ -63,6 +74,7 @@ final class NumberToNumberConverterFactory implements ConverterFactory<Number, N
 
 		@Override
 		public T convert(Number source) {
+			// 转换
 			return NumberUtils.convertNumberToTargetClass(source, this.targetType);
 		}
 	}

@@ -24,6 +24,8 @@ import org.springframework.util.StringUtils;
 /**
  * Convert a String to a {@link Currency}.
  *
+ * 字符串到货币的转换器
+ *
  * @author Stephane Nicoll
  * @author Sam Brannen
  * @since 4.2

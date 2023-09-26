@@ -31,11 +31,16 @@ import org.springframework.util.ObjectUtils;
  * to a List, then delegates to {@link CollectionToStringConverter} to perform
  * the target String conversion.
  *
+ * 数组到字符串的转换器
+ *
  * @author Keith Donald
  * @since 3.0
  */
 final class ArrayToStringConverter implements ConditionalGenericConverter {
 
+	/**
+	 * 借助集合到字符串的转换器进行转换
+	 */
 	private final CollectionToStringConverter helperConverter;
 
 

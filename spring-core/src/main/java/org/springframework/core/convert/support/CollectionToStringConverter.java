@@ -29,11 +29,16 @@ import org.springframework.lang.Nullable;
 /**
  * Converts a Collection to a comma-delimited String.
  *
+ * 集合到字符串的转换器
+ *
  * @author Keith Donald
  * @since 3.0
  */
 final class CollectionToStringConverter implements ConditionalGenericConverter {
 
+	/**
+	 * 字符串分隔符：逗号
+	 */
 	private static final String DELIMITER = ",";
 
 	private final ConversionService conversionService;
@@ -65,6 +70,7 @@ final class CollectionToStringConverter implements ConditionalGenericConverter {
 		if (sourceCollection.isEmpty()) {
 			return "";
 		}
+		// 逗号分割的字符串
 		StringJoiner sj = new StringJoiner(DELIMITER);
 		for (Object sourceElement : sourceCollection) {
 			Object targetElement = this.conversionService.convert(

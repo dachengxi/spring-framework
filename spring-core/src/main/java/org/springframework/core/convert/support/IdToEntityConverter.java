@@ -36,6 +36,8 @@ import org.springframework.util.ReflectionUtils;
  * <p>For this converter to match, the finder method must be static, have the signature
  * {@code find[EntityName]([IdType])}, and return an instance of the desired entity type.
  *
+ * 实体的ID到实体的引用的转换器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0

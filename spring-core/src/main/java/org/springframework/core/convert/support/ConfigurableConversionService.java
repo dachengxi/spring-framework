@@ -28,6 +28,7 @@ import org.springframework.core.convert.converter.ConverterRegistry;
  * {@link org.springframework.core.env.ConfigurableEnvironment ConfigurableEnvironment}
  * instance in application context bootstrapping code.
  *
+ * 可配置的类型转换服务
  * @author Chris Beams
  * @since 3.1
  * @see org.springframework.core.env.ConfigurablePropertyResolver#getConversionService()

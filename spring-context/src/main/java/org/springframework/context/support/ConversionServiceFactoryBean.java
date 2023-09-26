@@ -43,6 +43,8 @@ import org.springframework.lang.Nullable;
  * {@code ConversionService} object from a {@link
  * org.springframework.context.annotation.Bean @Bean} method.
  *
+ * 类型转换服务的FactoryBean
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @author Chris Beams

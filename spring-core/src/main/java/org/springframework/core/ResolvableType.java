@@ -67,6 +67,7 @@ import org.springframework.util.StringUtils;
  * }
  * </pre>
  *
+ * 封装Java的类型
  * @author Phillip Webb
  * @author Juergen Hoeller
  * @author Stephane Nicoll

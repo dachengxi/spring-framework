@@ -63,6 +63,8 @@ import org.springframework.util.ReflectionUtils;
  * from a {@code sourceType} to {@code java.lang.String}. For {@code toString()}
  * support, use {@link FallbackObjectToStringConverter} instead.
  *
+ * 对象到对象的转换器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @author Sam Brannen

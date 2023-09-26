@@ -28,6 +28,7 @@ import org.springframework.util.StringUtils;
  * <p>Accepts the classic {@link Locale} String format ({@link Locale#toString()})
  * as well as BCP 47 language tags ({@link Locale#forLanguageTag}.
  *
+ * 字符串到Local的转换器
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0
@@ -38,6 +39,7 @@ final class StringToLocaleConverter implements Converter<String, Locale> {
 	@Override
 	@Nullable
 	public Locale convert(String source) {
+		// 字符串转换成Locale
 		return StringUtils.parseLocale(source);
 	}
 

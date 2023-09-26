@@ -33,6 +33,8 @@ import org.springframework.lang.Nullable;
  * Converts a {@link Stream} to and from a collection or array, converting the
  * element type if necessary.
  *
+ * 流转换器
+ *
  * @author Stephane Nicoll
  * @since 4.2
  */

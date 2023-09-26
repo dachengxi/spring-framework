@@ -35,6 +35,8 @@ import org.springframework.lang.Nullable;
  * <p>Used by the {@link DefaultConversionService} as a fallback if there
  * are no other explicit to-String converters registered.
  *
+ * 对象到字符串的转换器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @author Sam Brannen

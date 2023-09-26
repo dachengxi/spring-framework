@@ -31,6 +31,8 @@ import org.springframework.lang.Nullable;
  * Converts a {@link ByteBuffer} directly to and from {@code byte[] ByteBuffer} directly to and from {@code byte[]s} and indirectly
  * to any type that the {@link ConversionService} support via {@code byte[]}.
  *
+ * ByteBuffer转换器
+ *
  * @author Phillip Webb
  * @author Juergen Hoeller
  * @since 4.0

@@ -27,6 +27,8 @@ import org.springframework.util.NumberUtils;
  * <p>Support Number classes including Byte, Short, Integer, Float, Double, Long, BigInteger, BigDecimal. This class
  * delegates to {@link NumberUtils#parseNumber(String, Class)} to perform the conversion.
  *
+ * 字符串到Number的转换器
+ *
  * @author Keith Donald
  * @since 3.0
  * @see java.lang.Byte
@@ -43,12 +45,20 @@ final class StringToNumberConverterFactory implements ConverterFactory<String, N
 
 	@Override
 	public <T extends Number> Converter<String, T> getConverter(Class<T> targetType) {
+		// 字符串到Number的转换器
 		return new StringToNumber<>(targetType);
 	}
 
 
+	/**
+	 * 字符串到Number的转换器
+	 * @param <T>
+	 */
 	private static final class StringToNumber<T extends Number> implements Converter<String, T> {
 
+		/**
+		 * 目标类型
+		 */
 		private final Class<T> targetType;
 
 		public StringToNumber(Class<T> targetType) {
@@ -61,6 +71,7 @@ final class StringToNumberConverterFactory implements ConverterFactory<String, N
 			if (source.isEmpty()) {
 				return null;
 			}
+			// String到Number类型转换
 			return NumberUtils.parseNumber(source, this.targetType);
 		}
 	}

@@ -24,6 +24,7 @@ import org.springframework.core.convert.TypeDescriptor;
  *
  * <p>See {@link ConditionalConverter} for details.
  *
+ * 有条件的通用转换器
  * @author Keith Donald
  * @author Phillip Webb
  * @since 3.0

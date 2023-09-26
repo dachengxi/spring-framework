@@ -35,6 +35,8 @@ import org.springframework.util.Assert;
  * Will perform an element conversion from the collection's parameterized type to the
  * array's component type if necessary.
  *
+ * 集合到数组的转换器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0

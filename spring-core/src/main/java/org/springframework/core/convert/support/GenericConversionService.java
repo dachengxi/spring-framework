@@ -54,6 +54,7 @@ import org.springframework.util.StringUtils;
  * Indirectly implements {@link ConverterRegistry} as registration API through the
  * {@link ConfigurableConversionService} interface.
  *
+ * 通用的转换服务实现
  * @author Keith Donald
  * @author Juergen Hoeller
  * @author Chris Beams
@@ -75,8 +76,14 @@ public class GenericConversionService implements ConfigurableConversionService {
 	private static final GenericConverter NO_MATCH = new NoOpConverter("NO_MATCH");
 
 
+	/**
+	 * 当前转换服务中所注册的所有的转换器
+	 */
 	private final Converters converters = new Converters();
 
+	/**
+	 * 转换器缓存
+	 */
 	private final Map<ConverterCacheKey, GenericConverter> converterCache = new ConcurrentReferenceHashMap<>(64);
 
 
@@ -497,14 +504,26 @@ public class GenericConversionService implements ConfigurableConversionService {
 
 	/**
 	 * Manages all converters registered with the service.
+	 * 当前转换服务中所注册的所有的转换器
 	 */
 	private static class Converters {
 
+		/**
+		 * 全局的通用转换器
+		 */
 		private final Set<GenericConverter> globalConverters = new CopyOnWriteArraySet<>();
 
+		/**
+		 * 可转换关系对和对应的转换器映射关系
+		 */
 		private final Map<ConvertiblePair, ConvertersForPair> converters = new ConcurrentHashMap<>(256);
 
+		/**
+		 * 添加转换器
+		 * @param converter
+		 */
 		public void add(GenericConverter converter) {
+			// 获取转换关系对
 			Set<ConvertiblePair> convertibleTypes = converter.getConvertibleTypes();
 			if (convertibleTypes == null) {
 				Assert.state(converter instanceof ConditionalConverter,
@@ -513,6 +532,7 @@ public class GenericConversionService implements ConfigurableConversionService {
 			}
 			else {
 				for (ConvertiblePair convertiblePair : convertibleTypes) {
+					// 添加转换器
 					getMatchableConverters(convertiblePair).add(converter);
 				}
 			}
@@ -530,6 +550,7 @@ public class GenericConversionService implements ConfigurableConversionService {
 		 * Find a {@link GenericConverter} given a source and target type.
 		 * <p>This method will attempt to match all possible converters by working
 		 * through the class and interface hierarchy of the types.
+		 * 查找转换器
 		 * @param sourceType the source type
 		 * @param targetType the target type
 		 * @return a matching {@link GenericConverter}, or {@code null} if none found
@@ -648,9 +669,13 @@ public class GenericConversionService implements ConfigurableConversionService {
 
 	/**
 	 * Manages converters registered with a specific {@link ConvertiblePair}.
+	 * 可转换对对应的所有转换器
 	 */
 	private static class ConvertersForPair {
 
+		/**
+		 * 转换器队列
+		 */
 		private final Deque<GenericConverter> converters = new ConcurrentLinkedDeque<>();
 
 		public void add(GenericConverter converter) {

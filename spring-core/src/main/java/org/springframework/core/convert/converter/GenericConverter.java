@@ -37,6 +37,7 @@ import org.springframework.util.Assert;
  *
  * <p>Implementations may additionally implement {@link ConditionalConverter}.
  *
+ * 通用的转换器接口，N对N转换
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0
@@ -52,12 +53,14 @@ public interface GenericConverter {
 	 * <p>Each entry is a convertible source-to-target type pair.
 	 * <p>For {@link ConditionalConverter conditional converters} this method may return
 	 * {@code null} to indicate all source-to-target pairs should be considered.
+	 * 返回一个可以相互转换的关系对象
 	 */
 	@Nullable
 	Set<ConvertiblePair> getConvertibleTypes();
 
 	/**
 	 * Convert the source object to the targetType described by the {@code TypeDescriptor}.
+	 * 转换
 	 * @param source the source object to convert (may be {@code null})
 	 * @param sourceType the type descriptor of the field we are converting from
 	 * @param targetType the type descriptor of the field we are converting to
@@ -69,11 +72,18 @@ public interface GenericConverter {
 
 	/**
 	 * Holder for a source-to-target class pair.
+	 * 可转换关系对，持有一个可以从source到target转换的映射对信息
 	 */
 	final class ConvertiblePair {
 
+		/**
+		 * 源类型
+		 */
 		private final Class<?> sourceType;
 
+		/**
+		 * 目标类型
+		 */
 		private final Class<?> targetType;
 
 		/**

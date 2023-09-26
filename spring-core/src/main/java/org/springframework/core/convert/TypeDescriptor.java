@@ -39,6 +39,7 @@ import org.springframework.util.ObjectUtils;
  * Contextual descriptor about a type to convert from or to.
  * <p>Capable of representing arrays and generic collection types.
  *
+ * 类型描述符
  * @author Keith Donald
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -54,8 +55,14 @@ public class TypeDescriptor implements Serializable {
 
 	private static final Annotation[] EMPTY_ANNOTATION_ARRAY = new Annotation[0];
 
+	/**
+	 * 类型和类型描述符对应关系缓存
+	 */
 	private static final Map<Class<?>, TypeDescriptor> commonTypesCache = new HashMap<>(32);
 
+	/**
+	 * 通用类型
+	 */
 	private static final Class<?>[] CACHED_COMMON_TYPES = {
 			boolean.class, Boolean.class, byte.class, Byte.class, char.class, Character.class,
 			double.class, Double.class, float.class, Float.class, int.class, Integer.class,
@@ -68,10 +75,19 @@ public class TypeDescriptor implements Serializable {
 	}
 
 
+	/**
+	 * 类型
+	 */
 	private final Class<?> type;
 
+	/**
+	 * 对应的封装的Java类型
+	 */
 	private final ResolvableType resolvableType;
 
+	/**
+	 * 注解
+	 */
 	private final AnnotatedElementAdapter annotatedElement;
 
 

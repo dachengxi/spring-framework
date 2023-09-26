@@ -22,6 +22,8 @@ import org.springframework.lang.Nullable;
 /**
  * Converts a String to a Character.
  *
+ * 字符串到字符的转换器
+ *
  * @author Keith Donald
  * @since 3.0
  */

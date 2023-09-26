@@ -28,6 +28,8 @@ import org.springframework.lang.Nullable;
 /**
  * Converts a Collection to an Object by returning the first collection element after converting it to the desired targetType.
  *
+ * 集合到对象的转换器
+ *
  * @author Keith Donald
  * @since 3.0
  */

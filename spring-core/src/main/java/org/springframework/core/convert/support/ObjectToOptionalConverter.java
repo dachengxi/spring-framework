@@ -32,6 +32,8 @@ import org.springframework.lang.Nullable;
  * {@code ConversionService} to convert the source Object to the generic type
  * of Optional when known.
  *
+ * 对象到Optional的转换器
+ *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
  * @since 4.1

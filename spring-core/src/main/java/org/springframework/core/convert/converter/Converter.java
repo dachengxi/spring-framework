@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
  *
  * <p>Implementations may additionally implement {@link ConditionalConverter}.
  *
+ * 转换器接口，1对1转换
  * @author Keith Donald
  * @author Josh Cummings
  * @since 3.0
@@ -37,6 +38,7 @@ public interface Converter<S, T> {
 
 	/**
 	 * Convert the source object of type {@code S} to target type {@code T}.
+	 * 给定的S类型转换为目标T类型
 	 * @param source the source object to convert, which must be an instance of {@code S} (never {@code null})
 	 * @return the converted object, which must be an instance of {@code T} (potentially {@code null})
 	 * @throws IllegalArgumentException if the source cannot be converted to the desired target type

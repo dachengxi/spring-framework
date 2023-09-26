@@ -31,6 +31,8 @@ import org.springframework.util.StringUtils;
  * Converts a comma-delimited String to an Array.
  * Only matches if String.class can be converted to the target array element type.
  *
+ * 字符串到数组的转换器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0
@@ -63,6 +65,7 @@ final class StringToArrayConverter implements ConditionalGenericConverter {
 			return null;
 		}
 		String string = (String) source;
+		// 字符串需要是逗号分割
 		String[] fields = StringUtils.commaDelimitedListToStringArray(string);
 		TypeDescriptor targetElementType = targetType.getElementTypeDescriptor();
 		Assert.state(targetElementType != null, "No target element type");

@@ -25,14 +25,22 @@ import org.springframework.lang.Nullable;
 /**
  * Converts String to a Boolean.
  *
+ * 字符串到布尔类型的转换器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0
  */
 final class StringToBooleanConverter implements Converter<String, Boolean> {
 
+	/**
+	 * 代表true的值
+	 */
 	private static final Set<String> trueValues = new HashSet<>(8);
 
+	/**
+	 * 代表false的值
+	 */
 	private static final Set<String> falseValues = new HashSet<>(8);
 
 	static {

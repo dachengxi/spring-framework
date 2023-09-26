@@ -25,6 +25,8 @@ import org.springframework.util.StringUtils;
 /**
  * Converts from a String to a {@link java.util.UUID}.
  *
+ * 字符串到UUID的转换器
+ *
  * @author Phillip Webb
  * @since 3.2
  * @see UUID#fromString

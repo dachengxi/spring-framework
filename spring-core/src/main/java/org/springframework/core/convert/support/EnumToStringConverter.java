@@ -23,6 +23,7 @@ import org.springframework.core.convert.converter.Converter;
  * Calls {@link Enum#name()} to convert a source Enum to a String.
  * This converter will not match enums with interfaces that can be converted.
  *
+ * 枚举到字符串的转换器
  * @author Keith Donald
  * @author Phillip Webb
  * @since 3.0

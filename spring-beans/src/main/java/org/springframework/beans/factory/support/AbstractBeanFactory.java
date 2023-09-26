@@ -1294,6 +1294,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @param bw the BeanWrapper to initialize
 	 */
 	protected void initBeanWrapper(BeanWrapper bw) {
+		// 设置类型转换服务
 		bw.setConversionService(getConversionService());
 		// 注册自定义的属性编辑器，在prepareBeanFactory的时候往容器中注册了一个ResourceEditorRegistrar，这里会调用注册属性编辑的方法注册属性编辑器
 		// BeanWrapper本身也是一个属性编辑器注册中心：PropertyEditorRegistry，这里是将自定义属性编辑器注册到BeanWrapper中

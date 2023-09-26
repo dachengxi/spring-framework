@@ -823,6 +823,7 @@ public abstract class StringUtils {
 	 * Parse the given {@code String} value into a {@link Locale}, accepting
 	 * the {@link Locale#toString} format as well as BCP 47 language tags as
 	 * specified by {@link Locale#forLanguageTag}.
+	 * 字符串转换成Locale
 	 * @param localeValue the locale value: following either {@code Locale's}
 	 * {@code toString()} format ("en", "en_UK", etc), also accepting spaces as
 	 * separators (as an alternative to underscores), or BCP 47 (e.g. "en-UK")

@@ -32,6 +32,7 @@ import org.springframework.core.convert.TypeDescriptor;
  * an implementation might return {@code true} if the target Account class defines a
  * {@code public static findAccount(String)} method.
  *
+ * 有条件的转换器
  * @author Phillip Webb
  * @author Keith Donald
  * @since 3.2
@@ -45,6 +46,7 @@ public interface ConditionalConverter {
 	/**
 	 * Should the conversion from {@code sourceType} to {@code targetType} currently under
 	 * consideration be selected?
+	 * 判断source类型是否可以转换成target类型
 	 * @param sourceType the type descriptor of the field we are converting from
 	 * @param targetType the type descriptor of the field we are converting to
 	 * @return true if conversion should be performed, false otherwise

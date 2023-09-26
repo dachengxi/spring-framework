@@ -21,6 +21,7 @@ package org.springframework.core.convert.converter;
  *
  * <p>Implementations may additionally implement {@link ConditionalConverter}.
  *
+ * 转换器工厂接口，1对N转换
  * @author Keith Donald
  * @since 3.0
  * @param <S> the source type converters created by this factory can convert from
@@ -32,6 +33,7 @@ public interface ConverterFactory<S, R> {
 
 	/**
 	 * Get the converter to convert from S to target type T, where T is also an instance of R.
+	 * 获取一个从S到R的子类型T的转换器
 	 * @param <T> the target type
 	 * @param targetType the target type to convert to
 	 * @return a converter from S to T

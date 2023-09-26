@@ -36,6 +36,8 @@ import org.springframework.lang.Nullable;
  * Will perform a conversion from the source maps's parameterized K,V types to the target
  * map's parameterized types K,V if necessary.
  *
+ * Map到Map的转换器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0

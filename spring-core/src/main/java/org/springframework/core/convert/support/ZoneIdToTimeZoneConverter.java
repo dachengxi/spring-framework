@@ -30,6 +30,8 @@ import org.springframework.core.convert.converter.Converter;
  * It covers {@link java.util.TimeZone#toZoneId()} as well, and also
  * {@link java.util.Date#from(java.time.Instant)} and {@link java.util.Date#toInstant()}.
  *
+ * ZoneId到时区的转换器
+ *
  * @author Juergen Hoeller
  * @since 4.0
  * @see TimeZone#getTimeZone(java.time.ZoneId)

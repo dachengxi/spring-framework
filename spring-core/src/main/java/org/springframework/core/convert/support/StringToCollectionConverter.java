@@ -32,6 +32,8 @@ import org.springframework.util.StringUtils;
  * If the target collection element type is declared, only matches if
  * {@code String.class} can be converted to it.
  *
+ * 字符串到集合的转换器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0
@@ -65,6 +67,7 @@ final class StringToCollectionConverter implements ConditionalGenericConverter {
 		}
 		String string = (String) source;
 
+		// 字符串需要逗号分割
 		String[] fields = StringUtils.commaDelimitedListToStringArray(string);
 		TypeDescriptor elementDesc = targetType.getElementTypeDescriptor();
 		Collection<Object> target = CollectionFactory.createCollection(targetType.getType(),

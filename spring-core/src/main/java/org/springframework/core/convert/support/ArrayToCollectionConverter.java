@@ -35,6 +35,8 @@ import org.springframework.lang.Nullable;
  * Will perform an element conversion from the source component type
  * to the collection's parameterized type if necessary.
  *
+ * 数组到集合的转换器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0

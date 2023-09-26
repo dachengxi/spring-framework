@@ -32,12 +32,17 @@ import org.springframework.util.ObjectUtils;
  * then delegates to {@link CollectionToArrayConverter} to perform the target
  * array conversion.
  *
+ * 数组到数组的转换器
+ *
  * @author Keith Donald
  * @author Phillip Webb
  * @since 3.0
  */
 final class ArrayToArrayConverter implements ConditionalGenericConverter {
 
+	/**
+	 * 借助集合到数组的转换器进行转换
+	 */
 	private final CollectionToArrayConverter helperConverter;
 
 	private final ConversionService conversionService;

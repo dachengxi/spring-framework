@@ -22,6 +22,7 @@ import org.springframework.lang.Nullable;
  * A service interface for type conversion. This is the entry point into the convert system.
  * Call {@link #convert(Object, Class)} to perform a thread-safe type conversion using this system.
  *
+ * 类型转换服务接口
  * @author Keith Donald
  * @author Phillip Webb
  * @since 3.0
@@ -37,6 +38,7 @@ public interface ConversionService {
 	 * even though a convert invocation may still generate a {@link ConversionException} if the
 	 * underlying elements are not convertible. Callers are expected to handle this exceptional case
 	 * when working with collections and maps.
+	 * 给定的source类型是否可以转换成给定的target类型
 	 * @param sourceType the source type to convert from (may be {@code null} if source is {@code null})
 	 * @param targetType the target type to convert to (required)
 	 * @return {@code true} if a conversion can be performed, {@code false} if not
@@ -55,6 +57,7 @@ public interface ConversionService {
 	 * even though a convert invocation may still generate a {@link ConversionException} if the
 	 * underlying elements are not convertible. Callers are expected to handle this exceptional case
 	 * when working with collections and maps.
+	 * 给定的source类型是否可以转换成给定的target类型
 	 * @param sourceType context about the source type to convert from
 	 * (may be {@code null} if source is {@code null})
 	 * @param targetType context about the target type to convert to (required)
@@ -66,6 +69,7 @@ public interface ConversionService {
 
 	/**
 	 * Convert the given {@code source} to the specified {@code targetType}.
+	 * 给定的source类型转换成给定的target类型
 	 * @param source the source object to convert (may be {@code null})
 	 * @param targetType the target type to convert to (required)
 	 * @return the converted object, an instance of targetType
@@ -79,6 +83,7 @@ public interface ConversionService {
 	 * Convert the given {@code source} to the specified {@code targetType}.
 	 * The TypeDescriptors provide additional context about the source and target locations
 	 * where conversion will occur, often object fields or property locations.
+	 * 给定的source类型转换成给定的target类型
 	 * @param source the source object to convert (may be {@code null})
 	 * @param sourceType context about the source type to convert from
 	 * (may be {@code null} if source is {@code null})

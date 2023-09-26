@@ -22,6 +22,8 @@ import org.springframework.core.convert.converter.ConverterFactory;
 /**
  * Converts from an Integer to a {@link java.lang.Enum} by calling {@link Class#getEnumConstants()}.
  *
+ * 整形到枚举的转换器
+ *
  * @author Yanming Zhou
  * @author Stephane Nicoll
  * @since 4.3
@@ -31,12 +33,20 @@ final class IntegerToEnumConverterFactory implements ConverterFactory<Integer, E
 
 	@Override
 	public <T extends Enum> Converter<Integer, T> getConverter(Class<T> targetType) {
+		// 返回一个整形到枚举的转换器
 		return new IntegerToEnum(ConversionUtils.getEnumType(targetType));
 	}
 
 
+	/**
+	 * 整形到枚举的转换器
+	 * @param <T>
+	 */
 	private static class IntegerToEnum<T extends Enum> implements Converter<Integer, T> {
 
+		/**
+		 * 枚举类型
+		 */
 		private final Class<T> enumType;
 
 		public IntegerToEnum(Class<T> enumType) {

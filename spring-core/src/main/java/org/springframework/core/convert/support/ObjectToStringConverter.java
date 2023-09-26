@@ -21,6 +21,7 @@ import org.springframework.core.convert.converter.Converter;
 /**
  * Simply calls {@link Object#toString()} to convert a source Object to a String.
  *
+ * 对象到String的转换器
  * @author Keith Donald
  * @since 3.0
  */
@@ -28,6 +29,7 @@ final class ObjectToStringConverter implements Converter<Object, String> {
 
 	@Override
 	public String convert(Object source) {
+		// 直接调用toString方法
 		return source.toString();
 	}
 
