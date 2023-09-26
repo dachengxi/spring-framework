@@ -33,6 +33,7 @@ import org.springframework.util.StringUtils;
  * <p>Also supports conversion from a Unicode character sequence; e.g.
  * {@code u0041} ('A').
  *
+ * 字符属性编辑器
  * @author Juergen Hoeller
  * @author Rob Harrop
  * @author Rick Evans

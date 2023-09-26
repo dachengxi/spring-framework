@@ -44,6 +44,7 @@ import org.springframework.util.StringUtils;
  * If the file was not found, then a File instance is created assuming the file
  * name refers to a relative file location.
  *
+ * 文件属性编辑器
  * @author Juergen Hoeller
  * @author Thomas Risberg
  * @since 09.12.2003

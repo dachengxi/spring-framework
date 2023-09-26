@@ -30,6 +30,7 @@ import org.springframework.util.StringUtils;
  * <p>Also supports "java.lang.String[]"-style array class names, in contrast to the
  * standard {@link Class#forName(String)} method.
  *
+ * 类属性编辑器
  * @author Juergen Hoeller
  * @author Rick Evans
  * @since 13.05.2003

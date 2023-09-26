@@ -36,6 +36,7 @@ import org.springframework.util.Assert;
  * upfront. However, the target resource does not necessarily have to exist
  * at the time of URL creation; this depends on the specific resource type.
  *
+ * URL属性编辑器
  * @author Juergen Hoeller
  * @since 15.12.2003
  * @see java.net.URL

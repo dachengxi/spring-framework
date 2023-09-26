@@ -83,6 +83,7 @@ import org.springframework.util.ClassUtils;
  * Provides management of default editors and custom editors.
  * Mainly serves as base class for {@link BeanWrapperImpl}.
  *
+ * 属性编辑器注册中心接口基础实现
  * @author Juergen Hoeller
  * @author Rob Harrop
  * @author Sebastien Deleuze
@@ -101,25 +102,46 @@ public class PropertyEditorRegistrySupport implements PropertyEditorRegistry {
 	private static final boolean shouldIgnoreXml = SpringProperties.getFlag("spring.xml.ignore");
 
 
+	/**
+	 * 转换服务
+	 */
 	@Nullable
 	private ConversionService conversionService;
 
+	/**
+	 * 默认属性编辑器激活标记
+	 */
 	private boolean defaultEditorsActive = false;
 
 	private boolean configValueEditorsActive = false;
 
+	/**
+	 * 默认属性编辑器
+	 */
 	@Nullable
 	private Map<Class<?>, PropertyEditor> defaultEditors;
 
+	/**
+	 * 覆盖掉默认的属性编辑器
+	 */
 	@Nullable
 	private Map<Class<?>, PropertyEditor> overriddenDefaultEditors;
 
+	/**
+	 * 自定义的属性编辑器
+	 */
 	@Nullable
 	private Map<Class<?>, PropertyEditor> customEditors;
 
+	/**
+	 * 自定义的属性编辑器，指定了propertyPath
+	 */
 	@Nullable
 	private Map<String, CustomEditorHolder> customEditorsForPath;
 
+	/**
+	 * 自定义属性编辑器缓存
+	 */
 	@Nullable
 	private Map<Class<?>, PropertyEditor> customEditorCache;
 
@@ -148,6 +170,8 @@ public class PropertyEditorRegistrySupport implements PropertyEditorRegistry {
 	/**
 	 * Activate the default editors for this registry instance,
 	 * allowing for lazily registering default editors when needed.
+	 *
+	 * 激活默认属性编辑器
 	 */
 	protected void registerDefaultEditors() {
 		this.defaultEditorsActive = true;
@@ -169,6 +193,7 @@ public class PropertyEditorRegistrySupport implements PropertyEditorRegistry {
 	 * <p>Note that this is different from registering a custom editor in that the editor
 	 * semantically still is a default editor. A ConversionService will override such a
 	 * default editor, whereas custom editors usually override the ConversionService.
+	 * 覆盖默认属性编辑器
 	 * @param requiredType the type of the property
 	 * @param propertyEditor the editor to register
 	 * @see #registerCustomEditor(Class, PropertyEditor)
@@ -183,6 +208,7 @@ public class PropertyEditorRegistrySupport implements PropertyEditorRegistry {
 	/**
 	 * Retrieve the default editor for the given property type, if any.
 	 * <p>Lazily registers the default editors, if they are active.
+	 * 获取默认属性编辑器
 	 * @param requiredType type of the property
 	 * @return the default editor, or {@code null} if none found
 	 * @see #registerDefaultEditors
@@ -199,6 +225,7 @@ public class PropertyEditorRegistrySupport implements PropertyEditorRegistry {
 			}
 		}
 		if (this.defaultEditors == null) {
+			// 创建默认属性编辑器
 			createDefaultEditors();
 		}
 		return this.defaultEditors.get(requiredType);
@@ -206,55 +233,81 @@ public class PropertyEditorRegistrySupport implements PropertyEditorRegistry {
 
 	/**
 	 * Actually register the default editors for this registry instance.
+	 * 创建默认属性编辑器
 	 */
 	private void createDefaultEditors() {
 		this.defaultEditors = new HashMap<>(64);
 
 		// Simple editors, without parameterization capabilities.
 		// The JDK does not contain a default editor for any of these target types.
+		// Charset属性编辑器
 		this.defaultEditors.put(Charset.class, new CharsetEditor());
+		// 类属性编辑器
 		this.defaultEditors.put(Class.class, new ClassEditor());
+		// 类数组属性编辑器
 		this.defaultEditors.put(Class[].class, new ClassArrayEditor());
+		// 货币属性编辑器
 		this.defaultEditors.put(Currency.class, new CurrencyEditor());
+		// 文件属性编辑器
 		this.defaultEditors.put(File.class, new FileEditor());
+		// 输入流属性编辑器
 		this.defaultEditors.put(InputStream.class, new InputStreamEditor());
 		if (!shouldIgnoreXml) {
+			// sax输入源属性编辑器
 			this.defaultEditors.put(InputSource.class, new InputSourceEditor());
 		}
+		// Locale属性编辑器
 		this.defaultEditors.put(Locale.class, new LocaleEditor());
+		// Path属性编辑器
 		this.defaultEditors.put(Path.class, new PathEditor());
+		// 正则属性编辑器
 		this.defaultEditors.put(Pattern.class, new PatternEditor());
+		// Properties属性编辑器
 		this.defaultEditors.put(Properties.class, new PropertiesEditor());
+		// Reader属性编辑器
 		this.defaultEditors.put(Reader.class, new ReaderEditor());
+		// Resource数组属性编辑器
 		this.defaultEditors.put(Resource[].class, new ResourceArrayPropertyEditor());
+		// 时区属性编辑器
 		this.defaultEditors.put(TimeZone.class, new TimeZoneEditor());
+		// URI属性编辑器
 		this.defaultEditors.put(URI.class, new URIEditor());
+		// URL属性编辑器
 		this.defaultEditors.put(URL.class, new URLEditor());
+		// UUID属性编辑器
 		this.defaultEditors.put(UUID.class, new UUIDEditor());
+		// ZoneId属性编辑器
 		this.defaultEditors.put(ZoneId.class, new ZoneIdEditor());
 
 		// Default instances of collection editors.
 		// Can be overridden by registering custom instances of those as custom editors.
+		// Collection属性编辑器
 		this.defaultEditors.put(Collection.class, new CustomCollectionEditor(Collection.class));
 		this.defaultEditors.put(Set.class, new CustomCollectionEditor(Set.class));
 		this.defaultEditors.put(SortedSet.class, new CustomCollectionEditor(SortedSet.class));
 		this.defaultEditors.put(List.class, new CustomCollectionEditor(List.class));
+		// Map属性编辑器
 		this.defaultEditors.put(SortedMap.class, new CustomMapEditor(SortedMap.class));
 
 		// Default editors for primitive arrays.
+		// ByteArray属性编辑器
 		this.defaultEditors.put(byte[].class, new ByteArrayPropertyEditor());
+		// CharArray属性编辑器
 		this.defaultEditors.put(char[].class, new CharArrayPropertyEditor());
 
 		// The JDK does not contain a default editor for char!
+		// 字符属性编辑器
 		this.defaultEditors.put(char.class, new CharacterEditor(false));
 		this.defaultEditors.put(Character.class, new CharacterEditor(true));
 
 		// Spring's CustomBooleanEditor accepts more flag values than the JDK's default editor.
+		// 布尔属性编辑器
 		this.defaultEditors.put(boolean.class, new CustomBooleanEditor(false));
 		this.defaultEditors.put(Boolean.class, new CustomBooleanEditor(true));
 
 		// The JDK does not contain default editors for number wrapper types!
 		// Override JDK primitive number editors with our own CustomNumberEditor.
+		// 数字属性编辑器
 		this.defaultEditors.put(byte.class, new CustomNumberEditor(Byte.class, false));
 		this.defaultEditors.put(Byte.class, new CustomNumberEditor(Byte.class, true));
 		this.defaultEditors.put(short.class, new CustomNumberEditor(Short.class, false));
@@ -272,6 +325,7 @@ public class PropertyEditorRegistrySupport implements PropertyEditorRegistry {
 
 		// Only register config value editors if explicitly requested.
 		if (this.configValueEditorsActive) {
+			// 字符串数组属性编辑器
 			StringArrayPropertyEditor sae = new StringArrayPropertyEditor();
 			this.defaultEditors.put(String[].class, sae);
 			this.defaultEditors.put(short[].class, sae);
@@ -282,6 +336,7 @@ public class PropertyEditorRegistrySupport implements PropertyEditorRegistry {
 
 	/**
 	 * Copy the default editors registered in this instance to the given target registry.
+	 * 复制属性编辑器
 	 * @param target the target registry to copy to
 	 */
 	protected void copyDefaultEditorsTo(PropertyEditorRegistrySupport target) {

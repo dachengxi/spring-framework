@@ -25,6 +25,7 @@ package org.springframework.beans;
  * property editors in several situations: write a corresponding
  * registrar and reuse that in each case.
  *
+ * 属性编辑器注册器
  * @author Juergen Hoeller
  * @since 1.2.6
  * @see PropertyEditorRegistry
@@ -40,6 +41,7 @@ public interface PropertyEditorRegistrar {
 	 * <p>It is expected that implementations will create brand new
 	 * {@code PropertyEditors} instances for each invocation of this
 	 * method (since {@code PropertyEditors} are not threadsafe).
+	 * 向指定的属性编辑器注册中心中注册自定义属性编辑器
 	 * @param registry the {@code PropertyEditorRegistry} to register the
 	 * custom {@code PropertyEditors} with
 	 */

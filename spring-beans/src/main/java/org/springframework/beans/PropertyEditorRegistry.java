@@ -27,6 +27,8 @@ import org.springframework.lang.Nullable;
  * <p>Extended by {@link BeanWrapper}; implemented by {@link BeanWrapperImpl}
  * and {@link org.springframework.validation.DataBinder}.
  *
+ * 属性编辑器注册中心接口
+ *
  * @author Juergen Hoeller
  * @since 1.2.6
  * @see java.beans.PropertyEditor
@@ -38,6 +40,7 @@ public interface PropertyEditorRegistry {
 
 	/**
 	 * Register the given custom property editor for all properties of the given type.
+	 * 注册自定义的属性编辑器
 	 * @param requiredType the type of the property
 	 * @param propertyEditor the editor to register
 	 */
@@ -57,6 +60,7 @@ public interface PropertyEditorRegistry {
 	 * <p>For example, if you wanted to register an editor for "items[n].quantity"
 	 * (for all values n), you would use "items.quantity" as the value of the
 	 * 'propertyPath' argument to this method.
+	 * 注册自定义属性编辑器
 	 * @param requiredType the type of the property. This may be {@code null}
 	 * if a property is given but should be specified in any case, in particular in
 	 * case of a Collection - making clear whether the editor is supposed to apply
@@ -70,6 +74,7 @@ public interface PropertyEditorRegistry {
 
 	/**
 	 * Find a custom property editor for the given type and property.
+	 * 查找自定义属性编辑器
 	 * @param requiredType the type of the property (can be {@code null} if a property
 	 * is given but should be specified in any case for consistency checking)
 	 * @param propertyPath the path of the property (name or nested path), or

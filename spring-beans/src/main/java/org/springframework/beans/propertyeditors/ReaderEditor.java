@@ -35,6 +35,7 @@ import org.springframework.util.Assert;
  *
  * <p>Note that such readers usually do not get closed by Spring itself!
  *
+ * Reader属性编辑器
  * @author Juergen Hoeller
  * @since 4.2
  * @see java.io.Reader

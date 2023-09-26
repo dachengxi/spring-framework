@@ -27,6 +27,7 @@ import org.springframework.util.StringUtils;
  * optionally country + optionally variant, separated by "_" (e.g. "en", "en_US").
  * Also accepts spaces as separators, as an alternative to underscores.
  *
+ * Locale属性编辑器
  * @author Juergen Hoeller
  * @since 26.05.2003
  * @see java.util.Locale

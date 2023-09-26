@@ -28,6 +28,7 @@ import org.springframework.util.StringUtils;
  * <p>Strings must be in CSV format, with a customizable separator.
  * By default, values in the result are trimmed of whitespace.
  *
+ * 字符串数组属性编辑器
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Dave Syer

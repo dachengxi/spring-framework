@@ -35,6 +35,7 @@ import org.springframework.lang.Nullable;
  * <p>The required format is defined in the standard {@code Properties}
  * documentation. Each property must be on a new line.
  *
+ * Properties属性编辑器
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see java.util.Properties#load

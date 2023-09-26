@@ -48,6 +48,7 @@ import org.springframework.util.Assert;
  * <p>Delegates to a {@link ResourcePatternResolver},
  * by default using a {@link PathMatchingResourcePatternResolver}.
  *
+ * Resource数组属性编辑器
  * @author Juergen Hoeller
  * @author Chris Beams
  * @since 1.1.2

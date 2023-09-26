@@ -36,6 +36,7 @@ import org.springframework.util.StringUtils;
  * <p>In web MVC code, this editor will typically be registered with
  * {@code binder.registerCustomEditor}.
  *
+ * 日期属性编辑器
  * @author Juergen Hoeller
  * @since 28.04.2003
  * @see java.util.Date

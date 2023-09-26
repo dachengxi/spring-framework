@@ -30,6 +30,7 @@ import org.springframework.util.ReflectionUtils;
  * Property editor for Maps, converting any source Map
  * to a given target Map type.
  *
+ * Map属性编辑器
  * @author Juergen Hoeller
  * @since 2.0.1
  * @see java.util.Map

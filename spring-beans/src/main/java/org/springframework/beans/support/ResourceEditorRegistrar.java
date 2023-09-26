@@ -55,6 +55,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * with resource editors. Used by
  * {@link org.springframework.context.support.AbstractApplicationContext}.
  *
+ * 资源属性编辑器注册器
  * @author Juergen Hoeller
  * @author Chris Beams
  * @since 2.0
@@ -100,6 +101,8 @@ public class ResourceEditorRegistrar implements PropertyEditorRegistrar {
 	 */
 	@Override
 	public void registerCustomEditors(PropertyEditorRegistry registry) {
+		// 注册资源相关的属性编辑器
+
 		ResourceEditor baseEditor = new ResourceEditor(this.resourceLoader, this.propertyResolver);
 		doRegisterEditor(registry, Resource.class, baseEditor);
 		doRegisterEditor(registry, ContextResource.class, baseEditor);

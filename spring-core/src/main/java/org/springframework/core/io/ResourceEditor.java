@@ -38,6 +38,7 @@ import org.springframework.util.StringUtils;
  * <p>Delegates to a {@link ResourceLoader} to do the heavy lifting,
  * by default using a {@link DefaultResourceLoader}.
  *
+ * 资源属性编辑器
  * @author Juergen Hoeller
  * @author Dave Syer
  * @author Chris Beams

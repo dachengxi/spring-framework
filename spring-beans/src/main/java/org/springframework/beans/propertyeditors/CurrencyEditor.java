@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
  * Editor for {@code java.util.Currency}, translating currency codes into Currency
  * objects. Exposes the currency code as text representation of a Currency object.
  *
+ * 货币属性编辑器
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @since 3.0

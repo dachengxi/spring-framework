@@ -41,6 +41,7 @@ import org.springframework.util.ResourceUtils;
  * path will be resolved in the file system via {@code Paths#get(String)}
  * if no existing context-relative resource could be found.
  *
+ * Path属性编辑器
  * @author Juergen Hoeller
  * @since 4.3.2
  * @see java.nio.file.Path

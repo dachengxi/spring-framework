@@ -37,6 +37,7 @@ import org.springframework.util.StringUtils;
  * <p>In web MVC code, this editor will typically be registered with
  * {@code binder.registerCustomEditor} calls.
  *
+ * 数字属性编辑器
  * @author Juergen Hoeller
  * @since 06.06.2003
  * @see Number

@@ -34,6 +34,7 @@ import org.springframework.util.Assert;
  *
  * <p>Note that such streams usually do not get closed by Spring itself!
  *
+ * 输入流属性编辑器
  * @author Juergen Hoeller
  * @since 1.0.1
  * @see java.io.InputStream

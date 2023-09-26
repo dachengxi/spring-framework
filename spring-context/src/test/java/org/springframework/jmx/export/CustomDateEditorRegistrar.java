@@ -24,6 +24,7 @@ import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
 /**
+ * 自定义日期属性编辑器注册器
  * @author Juergen Hoeller
  */
 public class CustomDateEditorRegistrar implements PropertyEditorRegistrar {

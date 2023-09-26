@@ -26,6 +26,7 @@ import org.springframework.util.StringUtils;
  * {@code TimeZone} objects. Exposes the {@code TimeZone} ID as a text
  * representation.
  *
+ * 时区属性编辑器
  * @author Juergen Hoeller
  * @author Nicholas Williams
  * @author Sam Brannen

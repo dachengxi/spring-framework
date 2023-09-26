@@ -24,6 +24,7 @@ import org.springframework.lang.Nullable;
  * Editor for byte arrays. Strings will simply be converted to
  * their corresponding byte representations.
  *
+ * ByteArray属性编辑器
  * @author Juergen Hoeller
  * @since 1.0.1
  * @see java.lang.String#getBytes
