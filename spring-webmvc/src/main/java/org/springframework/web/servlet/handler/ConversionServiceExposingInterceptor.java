@@ -34,11 +34,16 @@ import org.springframework.web.servlet.HandlerInterceptor;
  *
  * <p>Mainly for use within JSP tags such as the spring:eval tag.
  *
+ * 转换服务暴露拦截器，会向每个请求添加一个转换服务属性，将转换服务添加到每个请求中
+ *
  * @author Keith Donald
  * @since 3.0.1
  */
 public class ConversionServiceExposingInterceptor implements HandlerInterceptor {
 
+	/**
+	 * 转换服务
+	 */
 	private final ConversionService conversionService;
 
 
@@ -56,6 +61,7 @@ public class ConversionServiceExposingInterceptor implements HandlerInterceptor 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws ServletException, IOException {
 
+		// 添加到请求中
 		request.setAttribute(ConversionService.class.getName(), this.conversionService);
 		return true;
 	}

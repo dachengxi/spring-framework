@@ -55,6 +55,8 @@ import org.springframework.util.StringValueResolver;
  * {@code FormattingConversionService} object from a
  * {@link org.springframework.context.annotation.Bean @Bean} method.
  *
+ * 格式化相关类型转换服务的工厂Bean
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @author Rossen Stoyanchev
@@ -138,8 +140,11 @@ public class FormattingConversionServiceFactoryBean
 
 	@Override
 	public void afterPropertiesSet() {
+		// 使用默认转换服务实现DefaultFormattingConversionService，在构造方法中会注册默认的转换器和默认的格式化器
 		this.conversionService = new DefaultFormattingConversionService(this.embeddedValueResolver, this.registerDefaultFormatters);
+		// 如果有转换器，将转换器注册到转换服务中
 		ConversionServiceFactory.registerConverters(this.converters, this.conversionService);
+		// 如果有格式化器，将格式化器注册到转换服务中
 		registerFormatters(this.conversionService);
 	}
 

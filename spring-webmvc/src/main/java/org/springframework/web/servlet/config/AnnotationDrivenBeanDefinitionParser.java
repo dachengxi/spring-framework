@@ -218,6 +218,7 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		RuntimeBeanReference corsRef = MvcNamespaceUtils.registerCorsConfigurations(null, context, source);
 		handlerMappingDef.getPropertyValues().add("corsConfigurations", corsRef);
 
+		// 注册类型转换服务的BeanDefinition，在afterPropertiesSet的时候会注册默认的转换器和格式化器到该转换服务中
 		RuntimeBeanReference conversionService = getConversionService(element, source, context);
 		RuntimeBeanReference validator = getValidator(element, source, context);
 		RuntimeBeanReference messageCodesResolver = getMessageCodesResolver(element);
@@ -275,6 +276,7 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		String uriContributorName = MvcUriComponentsBuilder.MVC_URI_COMPONENTS_CONTRIBUTOR_BEAN_NAME;
 		readerContext.getRegistry().registerBeanDefinition(uriContributorName, uriContributorDef);
 
+		// 注册转换服务暴露拦截器，会向每个请求添加一个转换服务属性，将转换服务添加到每个请求中
 		RootBeanDefinition csInterceptorDef = new RootBeanDefinition(ConversionServiceExposingInterceptor.class);
 		csInterceptorDef.setSource(source);
 		csInterceptorDef.getConstructorArgumentValues().addIndexedArgumentValue(0, conversionService);
@@ -342,16 +344,27 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		}
 	}
 
+	/**
+	 * 注册类型转换服务的BeanDefinition
+	 * @param element
+	 * @param source
+	 * @param context
+	 * @return
+	 */
 	private RuntimeBeanReference getConversionService(Element element, @Nullable Object source, ParserContext context) {
 		RuntimeBeanReference conversionServiceRef;
+		// 配置文件中配置的转换服务
 		if (element.hasAttribute("conversion-service")) {
 			conversionServiceRef = new RuntimeBeanReference(element.getAttribute("conversion-service"));
 		}
 		else {
+			// 类型转换服务的BeanDefinition，是FormattingConversionServiceFactoryBean类型的
 			RootBeanDefinition conversionDef = new RootBeanDefinition(FormattingConversionServiceFactoryBean.class);
 			conversionDef.setSource(source);
+			// 角色是框架内部使用
 			conversionDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 			String conversionName = context.getReaderContext().registerWithGeneratedName(conversionDef);
+			// 注册到容器中
 			context.registerComponent(new BeanComponentDefinition(conversionDef, conversionName));
 			conversionServiceRef = new RuntimeBeanReference(conversionName);
 		}

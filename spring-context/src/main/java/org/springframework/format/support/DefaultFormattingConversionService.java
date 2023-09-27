@@ -91,8 +91,10 @@ public class DefaultFormattingConversionService extends FormattingConversionServ
 		if (embeddedValueResolver != null) {
 			setEmbeddedValueResolver(embeddedValueResolver);
 		}
+		// 添加默认的转换器
 		DefaultConversionService.addDefaultConverters(this);
 		if (registerDefaultFormatters) {
+			// 添加默认的格式化器
 			addDefaultFormatters(this);
 		}
 	}
@@ -102,6 +104,7 @@ public class DefaultFormattingConversionService extends FormattingConversionServ
 	 * Add formatters appropriate for most environments: including number formatters,
 	 * JSR-354 Money &amp; Currency formatters, JSR-310 Date-Time and/or Joda-Time formatters,
 	 * depending on the presence of the corresponding API on the classpath.
+	 * 添加默认的格式化器
 	 * @param formatterRegistry the service to register default formatters with
 	 */
 	@SuppressWarnings("deprecation")

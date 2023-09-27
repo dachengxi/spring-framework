@@ -46,6 +46,8 @@ import org.springframework.util.StringValueResolver;
  * A {@link org.springframework.core.convert.ConversionService} implementation
  * designed to be configured as a {@link FormatterRegistry}.
  *
+ * 格式化的转换服务
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0
@@ -53,6 +55,9 @@ import org.springframework.util.StringValueResolver;
 public class FormattingConversionService extends GenericConversionService
 		implements FormatterRegistry, EmbeddedValueResolverAware {
 
+	/**
+	 * 字符串值解析器
+	 */
 	@Nullable
 	private StringValueResolver embeddedValueResolver;
 
