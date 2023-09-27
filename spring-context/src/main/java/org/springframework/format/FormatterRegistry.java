@@ -23,6 +23,8 @@ import org.springframework.core.convert.converter.ConverterRegistry;
 /**
  * A registry of field formatting logic.
  *
+ * 字段格式化器注册中心
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0
@@ -32,6 +34,7 @@ public interface FormatterRegistry extends ConverterRegistry {
 	/**
 	 * Adds a Printer to print fields of a specific type.
 	 * The field type is implied by the parameterized Printer instance.
+	 * 添加一个打印器
 	 * @param printer the printer to add
 	 * @since 5.2
 	 * @see #addFormatter(Formatter)
@@ -41,6 +44,7 @@ public interface FormatterRegistry extends ConverterRegistry {
 	/**
 	 * Adds a Parser to parse fields of a specific type.
 	 * The field type is implied by the parameterized Parser instance.
+	 * 添加一个解析器
 	 * @param parser the parser to add
 	 * @since 5.2
 	 * @see #addFormatter(Formatter)
@@ -50,6 +54,7 @@ public interface FormatterRegistry extends ConverterRegistry {
 	/**
 	 * Adds a Formatter to format fields of a specific type.
 	 * The field type is implied by the parameterized Formatter instance.
+	 * 添加一个格式化器
 	 * @param formatter the formatter to add
 	 * @since 3.1
 	 * @see #addFormatterForFieldType(Class, Formatter)
@@ -62,6 +67,7 @@ public interface FormatterRegistry extends ConverterRegistry {
 	 * a coercion to T will be attempted before delegating to {@code formatter} to print a field value.
 	 * On parse, if the parsed object returned by {@code formatter} is not assignable to the runtime field type,
 	 * a coercion to the field type will be attempted before returning the parsed field value.
+	 * 给指定的字段类型添加一个格式化器
 	 * @param fieldType the field type to format
 	 * @param formatter the formatter to add
 	 */
@@ -75,6 +81,7 @@ public interface FormatterRegistry extends ConverterRegistry {
 	 * a coercion to T will be attempted before delegating to {@code printer} to print a field value.
 	 * On parse, if the object returned by the Parser is not assignable to the runtime field type,
 	 * a coercion to the field type will be attempted before returning the parsed field value.
+	 * 给指定的字段类型添加一个打印器和一个解析器
 	 * @param fieldType the field type to format
 	 * @param printer the printing part of the formatter
 	 * @param parser the parsing part of the formatter
@@ -83,6 +90,7 @@ public interface FormatterRegistry extends ConverterRegistry {
 
 	/**
 	 * Adds a Formatter to format fields annotated with a specific format annotation.
+	 * 添加一个基于注解的字段格式化器
 	 * @param annotationFormatterFactory the annotation formatter factory to add
 	 */
 	void addFormatterForFieldAnnotation(AnnotationFormatterFactory<? extends Annotation> annotationFormatterFactory);

@@ -66,20 +66,39 @@ import org.springframework.util.StringValueResolver;
 public class FormattingConversionServiceFactoryBean
 		implements FactoryBean<FormattingConversionService>, EmbeddedValueResolverAware, InitializingBean {
 
+
+	/**
+	 * 转换器
+	 */
 	@Nullable
 	private Set<?> converters;
 
+	/**
+	 * 格式化器
+	 */
 	@Nullable
 	private Set<?> formatters;
 
+	/**
+	 * 格式化器注册器
+	 */
 	@Nullable
 	private Set<FormatterRegistrar> formatterRegistrars;
 
+	/**
+	 * 是否注册默认的格式化器，默认为true
+	 */
 	private boolean registerDefaultFormatters = true;
 
+	/**
+	 * 字符串值解析器
+	 */
 	@Nullable
 	private StringValueResolver embeddedValueResolver;
 
+	/**
+	 * 格式化转换服务
+	 */
 	@Nullable
 	private FormattingConversionService conversionService;
 

@@ -38,6 +38,8 @@ import org.springframework.util.StringUtils;
  * <p>Supports the configuration of an explicit date time pattern, timezone,
  * locale, and fallback date time patterns for lenient parsing.
  *
+ * 日期格式化器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @author Phillip Webb

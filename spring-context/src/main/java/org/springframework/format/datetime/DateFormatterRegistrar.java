@@ -35,6 +35,7 @@ import org.springframework.util.Assert;
  * {@link #addDateConverters(ConverterRegistry)} utility method for
  * ad-hoc use against any {@code ConverterRegistry} instance.
  *
+ * 日期格式化器注册器
  * @author Phillip Webb
  * @since 3.2
  * @see org.springframework.format.datetime.standard.DateTimeFormatterRegistrar
@@ -60,6 +61,7 @@ public class DateFormatterRegistrar implements FormatterRegistrar {
 
 	@Override
 	public void registerFormatters(FormatterRegistry registry) {
+		// 添加日期想改的转换器
 		addDateConverters(registry);
 		// In order to retain back compatibility we only register Date/Calendar
 		// types when a user defined formatter is specified (see SPR-10105)
@@ -67,23 +69,34 @@ public class DateFormatterRegistrar implements FormatterRegistrar {
 			registry.addFormatter(this.dateFormatter);
 			registry.addFormatterForFieldType(Calendar.class, this.dateFormatter);
 		}
+		// DateTimeFormat注解格式化器工厂
 		registry.addFormatterForFieldAnnotation(new DateTimeFormatAnnotationFormatterFactory());
 	}
 
 	/**
 	 * Add date converters to the specified registry.
+	 * 添加日期转换器到转换器注册中心
 	 * @param converterRegistry the registry of converters to add to
 	 */
 	public static void addDateConverters(ConverterRegistry converterRegistry) {
+		// 注册日期到Long类型转换器
 		converterRegistry.addConverter(new DateToLongConverter());
+		// 注册日期到日历转换器
 		converterRegistry.addConverter(new DateToCalendarConverter());
+		// 注册日历到日期转换器
 		converterRegistry.addConverter(new CalendarToDateConverter());
+		// 注册日历到Long类型转换器
 		converterRegistry.addConverter(new CalendarToLongConverter());
+		// 注册Long类型到日期转换器
 		converterRegistry.addConverter(new LongToDateConverter());
+		// 注册Long类型到日历转换器
 		converterRegistry.addConverter(new LongToCalendarConverter());
 	}
 
 
+	/**
+	 * 日期转Long类型转换器
+	 */
 	private static class DateToLongConverter implements Converter<Date, Long> {
 
 		@Override
@@ -93,6 +106,9 @@ public class DateFormatterRegistrar implements FormatterRegistrar {
 	}
 
 
+	/**
+	 * 日期到日历转换器
+	 */
 	private static class DateToCalendarConverter implements Converter<Date, Calendar> {
 
 		@Override
@@ -104,6 +120,9 @@ public class DateFormatterRegistrar implements FormatterRegistrar {
 	}
 
 
+	/**
+	 * 日历到日期转换器
+	 */
 	private static class CalendarToDateConverter implements Converter<Calendar, Date> {
 
 		@Override
@@ -113,6 +132,9 @@ public class DateFormatterRegistrar implements FormatterRegistrar {
 	}
 
 
+	/**
+	 * 日历到Long类型转换器
+	 */
 	private static class CalendarToLongConverter implements Converter<Calendar, Long> {
 
 		@Override
@@ -122,6 +144,9 @@ public class DateFormatterRegistrar implements FormatterRegistrar {
 	}
 
 
+	/**
+	 * Long类型到日期转换器
+	 */
 	private static class LongToDateConverter implements Converter<Long, Date> {
 
 		@Override
@@ -131,6 +156,9 @@ public class DateFormatterRegistrar implements FormatterRegistrar {
 	}
 
 
+	/**
+	 * Long类型到日历转换器
+	 */
 	private static class LongToCalendarConverter implements Converter<Long, Calendar> {
 
 		@Override

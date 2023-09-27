@@ -33,6 +33,8 @@ import org.springframework.lang.Nullable;
  * Configures BigDecimal parsing so there is no loss of precision.
  * Can apply a specified {@link java.math.RoundingMode} to parsed values.
  *
+ * 货币类型的格式化器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 4.2

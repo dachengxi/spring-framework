@@ -31,6 +31,8 @@ import org.springframework.util.StringUtils;
  * <p>Formatters will be created using the defined {@link #setPattern pattern},
  * {@link #setIso ISO}, and <code>xxxStyle</code> methods (considered in that order).
  *
+ * 日期时间格式化器工厂
+ *
  * @author Juergen Hoeller
  * @author Phillip Webb
  * @author Sam Brannen
@@ -52,12 +54,21 @@ public class DateTimeFormatterFactory {
 	@Nullable
 	private ISO iso;
 
+	/**
+	 * 日期格式
+	 */
 	@Nullable
 	private FormatStyle dateStyle;
 
+	/**
+	 * 时间格式
+	 */
 	@Nullable
 	private FormatStyle timeStyle;
 
+	/**
+	 * 时区
+	 */
 	@Nullable
 	private TimeZone timeZone;
 

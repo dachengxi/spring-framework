@@ -35,6 +35,8 @@ import org.springframework.util.StringUtils;
 /**
  * Formats fields annotated with the {@link DateTimeFormat} annotation using a {@link DateFormatter}.
  *
+ * DateTimeFormat注解格式化器工厂
+ *
  * @author Phillip Webb
  * @author Sam Brannen
  * @since 3.2

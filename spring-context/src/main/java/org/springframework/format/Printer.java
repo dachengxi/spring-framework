@@ -21,6 +21,8 @@ import java.util.Locale;
 /**
  * Prints objects of type T for display.
  *
+ * 打印功能接口
+ *
  * @author Keith Donald
  * @since 3.0
  * @param <T> the type of object this Printer prints
@@ -30,6 +32,7 @@ public interface Printer<T> {
 
 	/**
 	 * Print the object of type T for display.
+	 * 打印给定的对象
 	 * @param object the instance to print
 	 * @param locale the current user locale
 	 * @return the printed text string

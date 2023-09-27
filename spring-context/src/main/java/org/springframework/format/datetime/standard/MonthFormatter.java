@@ -26,6 +26,8 @@ import org.springframework.format.Formatter;
  * {@link Formatter} implementation for a JSR-310 {@link Month},
  * resolving a given String against the Month enum values (ignoring case).
  *
+ * Month类型格式化器
+ *
  * @author Juergen Hoeller
  * @since 5.0.4
  * @see Month#valueOf

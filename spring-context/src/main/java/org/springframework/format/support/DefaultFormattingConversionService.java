@@ -110,9 +110,11 @@ public class DefaultFormattingConversionService extends FormattingConversionServ
 	@SuppressWarnings("deprecation")
 	public static void addDefaultFormatters(FormatterRegistry formatterRegistry) {
 		// Default handling of number values
+		// 注册NumberFormat注解格式化器
 		formatterRegistry.addFormatterForFieldAnnotation(new NumberFormatAnnotationFormatterFactory());
 
 		// Default handling of monetary values
+		// jsr354金钱与货币相关的格式化器
 		if (jsr354Present) {
 			formatterRegistry.addFormatter(new CurrencyUnitFormatter());
 			formatterRegistry.addFormatter(new MonetaryAmountFormatter());
@@ -122,14 +124,17 @@ public class DefaultFormattingConversionService extends FormattingConversionServ
 		// Default handling of date-time values
 
 		// just handling JSR-310 specific date and time types
+		// 创建日期时间相关的格式化器注册器对象，并注册格式化器
 		new DateTimeFormatterRegistrar().registerFormatters(formatterRegistry);
 
 		if (jodaTimePresent) {
 			// handles Joda-specific types as well as Date, Calendar, Long
+			// joda time相关的格式化器
 			new org.springframework.format.datetime.joda.JodaTimeFormatterRegistrar().registerFormatters(formatterRegistry);
 		}
 		else {
 			// regular DateFormat-based Date, Calendar, Long converters
+			// 日期相关的格式化器
 			new DateFormatterRegistrar().registerFormatters(formatterRegistry);
 		}
 	}

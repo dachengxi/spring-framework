@@ -27,6 +27,8 @@ import java.util.Locale;
  * Configures BigDecimal parsing so there is no loss in precision.
  * The {@link #parse(String, Locale)} routine always returns a BigDecimal.
  *
+ * 百分比类型的格式化器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 4.2

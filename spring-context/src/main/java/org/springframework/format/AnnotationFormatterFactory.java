@@ -26,6 +26,8 @@ import java.util.Set;
  * <p>For example, a {@code DateTimeFormatAnnotationFormatterFactory} might create a formatter
  * that formats {@code Date} values set on fields annotated with {@code @DateTimeFormat}.
  *
+ * 基于注解的格式化器工厂
+ *
  * @author Keith Donald
  * @since 3.0
  * @param <A> the annotation type that should trigger formatting
@@ -34,6 +36,7 @@ public interface AnnotationFormatterFactory<A extends Annotation> {
 
 	/**
 	 * The types of fields that may be annotated with the &lt;A&gt; annotation.
+	 * 字段类型
 	 */
 	Set<Class<?>> getFieldTypes();
 
@@ -42,6 +45,7 @@ public interface AnnotationFormatterFactory<A extends Annotation> {
 	 * {@code annotation}.
 	 * <p>If the type T the printer accepts is not assignable to {@code fieldType}, a
 	 * coercion from {@code fieldType} to T will be attempted before the Printer is invoked.
+	 * 获取打印器
 	 * @param annotation the annotation instance
 	 * @param fieldType the type of field that was annotated
 	 * @return the printer
@@ -53,6 +57,7 @@ public interface AnnotationFormatterFactory<A extends Annotation> {
 	 * annotated with {@code annotation}.
 	 * <p>If the object the parser returns is not assignable to {@code fieldType},
 	 * a coercion to {@code fieldType} will be attempted before the field is set.
+	 * 获取解析器
 	 * @param annotation the annotation instance
 	 * @param fieldType the type of field that was annotated
 	 * @return the parser

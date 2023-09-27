@@ -61,8 +61,14 @@ public class FormattingConversionService extends GenericConversionService
 	@Nullable
 	private StringValueResolver embeddedValueResolver;
 
+	/**
+	 * 打印器缓存
+	 */
 	private final Map<AnnotationConverterKey, GenericConverter> cachedPrinters = new ConcurrentHashMap<>(64);
 
+	/**
+	 * 解析器缓存
+	 */
 	private final Map<AnnotationConverterKey, GenericConverter> cachedParsers = new ConcurrentHashMap<>(64);
 
 
@@ -144,15 +150,30 @@ public class FormattingConversionService extends GenericConversionService
 	}
 
 
+	/**
+	 * 打印器转换器，将打印器适配为转换器
+	 */
 	private static class PrinterConverter implements GenericConverter {
 
+		/**
+		 * 字段类型
+		 */
 		private final Class<?> fieldType;
 
+		/**
+		 * 从Printer<?>泛型中解析出来的类型
+		 */
 		private final TypeDescriptor printerObjectType;
 
+		/**
+		 * 打印器
+		 */
 		@SuppressWarnings("rawtypes")
 		private final Printer printer;
 
+		/**
+		 * 转换服务
+		 */
 		private final ConversionService conversionService;
 
 		public PrinterConverter(Class<?> fieldType, Printer<?> printer, ConversionService conversionService) {
@@ -190,13 +211,24 @@ public class FormattingConversionService extends GenericConversionService
 		}
 	}
 
-
+	/**
+	 * 解析器转换器，将解析器适配成转换器
+	 */
 	private static class ParserConverter implements GenericConverter {
 
+		/**
+		 * 字段类型
+		 */
 		private final Class<?> fieldType;
 
+		/**
+		 * 解析器
+		 */
 		private final Parser<?> parser;
 
+		/**
+		 * 转换服务
+		 */
 		private final ConversionService conversionService;
 
 		public ParserConverter(Class<?> fieldType, Parser<?> parser, ConversionService conversionService) {

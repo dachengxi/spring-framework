@@ -31,6 +31,8 @@ import org.springframework.util.StringUtils;
 /**
  * Formats fields annotated with the {@link NumberFormat} annotation.
  *
+ * NumberFormat注解格式化器工厂
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 3.0
@@ -58,14 +60,17 @@ public class NumberFormatAnnotationFormatterFactory extends EmbeddedValueResolut
 	private Formatter<Number> configureFormatterFrom(NumberFormat annotation) {
 		String pattern = resolveEmbeddedValue(annotation.pattern());
 		if (StringUtils.hasLength(pattern)) {
+			// Number类型的格式化器
 			return new NumberStyleFormatter(pattern);
 		}
 		else {
 			Style style = annotation.style();
 			if (style == Style.CURRENCY) {
+				// 货币类型的格式化器
 				return new CurrencyStyleFormatter();
 			}
 			else if (style == Style.PERCENT) {
+				// 百分比类型的格式化器
 				return new PercentStyleFormatter();
 			}
 			else {

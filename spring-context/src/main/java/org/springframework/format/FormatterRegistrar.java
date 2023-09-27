@@ -22,6 +22,8 @@ import org.springframework.core.convert.converter.Converter;
  * Registers {@link Converter Converters} and {@link Formatter Formatters} with
  * a FormattingConversionService through the {@link FormatterRegistry} SPI.
  *
+ * 格式化器注册器
+ *
  * @author Keith Donald
  * @since 3.1
  */
@@ -30,6 +32,7 @@ public interface FormatterRegistrar {
 	/**
 	 * Register Formatters and Converters with a FormattingConversionService
 	 * through a FormatterRegistry SPI.
+	 * 向格式化器注册中心注册格式化器
 	 * @param registry the FormatterRegistry instance to use.
 	 */
 	void registerFormatters(FormatterRegistry registry);

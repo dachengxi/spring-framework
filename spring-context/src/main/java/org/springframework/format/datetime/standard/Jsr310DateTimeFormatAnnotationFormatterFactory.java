@@ -41,6 +41,7 @@ import org.springframework.util.StringUtils;
  * Formats fields annotated with the {@link DateTimeFormat} annotation using the
  * JSR-310 <code>java.time</code> package in JDK 8.
  *
+ * DateTimeFormat注解格式化器工厂
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @since 4.0
@@ -49,6 +50,9 @@ import org.springframework.util.StringUtils;
 public class Jsr310DateTimeFormatAnnotationFormatterFactory extends EmbeddedValueResolutionSupport
 		implements AnnotationFormatterFactory<DateTimeFormat> {
 
+	/**
+	 * 字段类型
+	 */
 	private static final Set<Class<?>> FIELD_TYPES;
 
 	static {

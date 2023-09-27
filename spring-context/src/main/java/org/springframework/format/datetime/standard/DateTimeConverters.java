@@ -38,6 +38,8 @@ import org.springframework.format.datetime.DateFormatterRegistrar;
  * for custom conversion scenarios between different JSR-310 value types
  * and also between {@link java.util.Calendar} and JSR-310 value types.
  *
+ * 日期时间转换器
+ *
  * @author Juergen Hoeller
  * @since 4.0.1
  */
@@ -49,30 +51,52 @@ final class DateTimeConverters {
 
 	/**
 	 * Install the converters into the converter registry.
+	 * 注册日期时间转换器到转换器注册中心
 	 * @param registry the converter registry
 	 */
 	public static void registerConverters(ConverterRegistry registry) {
+		// 使用日期转换器注册器添加转换器到转换器注册中心，Date相关的
 		DateFormatterRegistrar.addDateConverters(registry);
 
+		// 注册LocalDateTime转LocalDate转换器
 		registry.addConverter(new LocalDateTimeToLocalDateConverter());
+		// 注册LocalDateTime转LocalTime转换器
 		registry.addConverter(new LocalDateTimeToLocalTimeConverter());
+		// 注册ZonedDateTime转LocalDate转换器
 		registry.addConverter(new ZonedDateTimeToLocalDateConverter());
+		// 注册ZonedDateTime转LocalTime转换器
 		registry.addConverter(new ZonedDateTimeToLocalTimeConverter());
+		// 注册ZonedDateTime转LocalDateTime转换器
 		registry.addConverter(new ZonedDateTimeToLocalDateTimeConverter());
+		// 注册ZonedDateTime转OffsetDateTime转换器
 		registry.addConverter(new ZonedDateTimeToOffsetDateTimeConverter());
+		// 注册ZonedDateTime转Instant转换器
 		registry.addConverter(new ZonedDateTimeToInstantConverter());
+		// 注册OffsetDateTime转LocalDate转换器
 		registry.addConverter(new OffsetDateTimeToLocalDateConverter());
+		// 注册OffsetDateTime转LocalTime转换器
 		registry.addConverter(new OffsetDateTimeToLocalTimeConverter());
+		// 注册OffsetDateTime转LocalDateTime转换器
 		registry.addConverter(new OffsetDateTimeToLocalDateTimeConverter());
+		// 注册OffsetDateTime转ZonedDateTime转换器
 		registry.addConverter(new OffsetDateTimeToZonedDateTimeConverter());
+		// 注册OffsetDateTime转Instant转换器
 		registry.addConverter(new OffsetDateTimeToInstantConverter());
+		// 注册Calendar转ZonedDateTime转换器
 		registry.addConverter(new CalendarToZonedDateTimeConverter());
+		// 注册Calendar转OffsetDateTime转换器
 		registry.addConverter(new CalendarToOffsetDateTimeConverter());
+		// 注册Calendar转LocalDate转换器
 		registry.addConverter(new CalendarToLocalDateConverter());
+		// 注册Calendar转LocalTime转换器
 		registry.addConverter(new CalendarToLocalTimeConverter());
+		// 注册Calendar转LocalDateTime转换器
 		registry.addConverter(new CalendarToLocalDateTimeConverter());
+		// 注册Calendar转Instant转换器
 		registry.addConverter(new CalendarToInstantConverter());
+		// 注册Long转Instant转换器
 		registry.addConverter(new LongToInstantConverter());
+		// 注册Instant转Long转换器
 		registry.addConverter(new InstantToLongConverter());
 	}
 
@@ -87,6 +111,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * LocalDateTime转LocalDate转换器
+	 */
 	private static class LocalDateTimeToLocalDateConverter implements Converter<LocalDateTime, LocalDate> {
 
 		@Override
@@ -96,6 +123,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * LocalDateTime转LocalTime转换器
+	 */
 	private static class LocalDateTimeToLocalTimeConverter implements Converter<LocalDateTime, LocalTime> {
 
 		@Override
@@ -105,6 +135,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * ZonedDateTime转LocalDate转换器
+	 */
 	private static class ZonedDateTimeToLocalDateConverter implements Converter<ZonedDateTime, LocalDate> {
 
 		@Override
@@ -114,6 +147,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * ZonedDateTime转LocalTime转换器
+	 */
 	private static class ZonedDateTimeToLocalTimeConverter implements Converter<ZonedDateTime, LocalTime> {
 
 		@Override
@@ -123,6 +159,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * ZonedDateTime转LocalDateTime转换器
+	 */
 	private static class ZonedDateTimeToLocalDateTimeConverter implements Converter<ZonedDateTime, LocalDateTime> {
 
 		@Override
@@ -131,6 +170,9 @@ final class DateTimeConverters {
 		}
 	}
 
+	/**
+	 * ZonedDateTime转OffsetDateTime转换器
+	 */
 	private static class ZonedDateTimeToOffsetDateTimeConverter implements Converter<ZonedDateTime, OffsetDateTime> {
 
 		@Override
@@ -140,6 +182,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * ZonedDateTime转Instant转换器
+	 */
 	private static class ZonedDateTimeToInstantConverter implements Converter<ZonedDateTime, Instant> {
 
 		@Override
@@ -149,6 +194,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * OffsetDateTime转LocalDate转换器
+	 */
 	private static class OffsetDateTimeToLocalDateConverter implements Converter<OffsetDateTime, LocalDate> {
 
 		@Override
@@ -158,6 +206,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * OffsetDateTime转LocalTime转换器
+	 */
 	private static class OffsetDateTimeToLocalTimeConverter implements Converter<OffsetDateTime, LocalTime> {
 
 		@Override
@@ -167,6 +218,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * OffsetDateTime转LocalDateTime转换器
+	 */
 	private static class OffsetDateTimeToLocalDateTimeConverter implements Converter<OffsetDateTime, LocalDateTime> {
 
 		@Override
@@ -176,6 +230,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * OffsetDateTime转ZonedDateTime转换器
+	 */
 	private static class OffsetDateTimeToZonedDateTimeConverter implements Converter<OffsetDateTime, ZonedDateTime> {
 
 		@Override
@@ -185,6 +242,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * OffsetDateTime转Instant转换器
+	 */
 	private static class OffsetDateTimeToInstantConverter implements Converter<OffsetDateTime, Instant> {
 
 		@Override
@@ -194,6 +254,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * Calendar转ZonedDateTime转换器
+	 */
 	private static class CalendarToZonedDateTimeConverter implements Converter<Calendar, ZonedDateTime> {
 
 		@Override
@@ -203,6 +266,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * Calendar转OffsetDateTime转换器
+	 */
 	private static class CalendarToOffsetDateTimeConverter implements Converter<Calendar, OffsetDateTime> {
 
 		@Override
@@ -212,6 +278,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * Calendar转LocalDate转换器
+	 */
 	private static class CalendarToLocalDateConverter implements Converter<Calendar, LocalDate> {
 
 		@Override
@@ -221,6 +290,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * Calendar转LocalTime转换器
+	 */
 	private static class CalendarToLocalTimeConverter implements Converter<Calendar, LocalTime> {
 
 		@Override
@@ -229,6 +301,9 @@ final class DateTimeConverters {
 		}
 	}
 
+	/**
+	 * Calendar转LocalDateTime转换器
+	 */
 
 	private static class CalendarToLocalDateTimeConverter implements Converter<Calendar, LocalDateTime> {
 
@@ -239,6 +314,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * Calendar转Instant转换器
+	 */
 	private static class CalendarToInstantConverter implements Converter<Calendar, Instant> {
 
 		@Override
@@ -248,6 +326,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * Long转Instant转换器
+	 */
 	private static class LongToInstantConverter implements Converter<Long, Instant> {
 
 		@Override
@@ -257,6 +338,9 @@ final class DateTimeConverters {
 	}
 
 
+	/**
+	 * Instant转Long转换器
+	 */
 	private static class InstantToLongConverter implements Converter<Instant, Long> {
 
 		@Override

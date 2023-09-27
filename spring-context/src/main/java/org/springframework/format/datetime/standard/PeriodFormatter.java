@@ -26,6 +26,8 @@ import org.springframework.format.Formatter;
  * {@link Formatter} implementation for a JSR-310 {@link Period},
  * following JSR-310's parsing rules for a Period.
  *
+ * Period类型格式化器
+ *
  * @author Juergen Hoeller
  * @since 4.2.4
  * @see Period#parse

@@ -41,6 +41,8 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 /**
  * Configures the JSR-310 <code>java.time</code> formatting system for use with Spring.
  *
+ * 日期时间相关的格式化器注册器
+ *
  * @author Juergen Hoeller
  * @author Phillip Webb
  * @since 4.0
@@ -59,11 +61,13 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 
 	/**
 	 * User-defined formatters.
+	 * 格式化器
 	 */
 	private final Map<Type, DateTimeFormatter> formatters = new EnumMap<>(Type.class);
 
 	/**
 	 * Factories used when specific formatters have not been specified.
+	 * 日期时间格式化器工厂
 	 */
 	private final Map<Type, DateTimeFormatterFactory> factories = new EnumMap<>(Type.class);
 
@@ -154,6 +158,7 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 
 	@Override
 	public void registerFormatters(FormatterRegistry registry) {
+		// 注册日期时间相关的转换器
 		DateTimeConverters.registerConverters(registry);
 
 		DateTimeFormatter df = getFormatter(Type.DATE);
@@ -162,41 +167,55 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 
 		// Efficient ISO_LOCAL_* variants for printing since they are twice as fast...
 
+		// 注册LocalDate类型字段的打印器和解析器
 		registry.addFormatterForFieldType(LocalDate.class,
 				new TemporalAccessorPrinter(
 						df == DateTimeFormatter.ISO_DATE ? DateTimeFormatter.ISO_LOCAL_DATE : df),
 				new TemporalAccessorParser(LocalDate.class, df));
 
+		// 注册LocalTime类型字段的打印器和解析器
 		registry.addFormatterForFieldType(LocalTime.class,
 				new TemporalAccessorPrinter(
 						tf == DateTimeFormatter.ISO_TIME ? DateTimeFormatter.ISO_LOCAL_TIME : tf),
 				new TemporalAccessorParser(LocalTime.class, tf));
 
+		// 注册LocalDateTime类型字段的打印器和解析器
 		registry.addFormatterForFieldType(LocalDateTime.class,
 				new TemporalAccessorPrinter(
 						dtf == DateTimeFormatter.ISO_DATE_TIME ? DateTimeFormatter.ISO_LOCAL_DATE_TIME : dtf),
 				new TemporalAccessorParser(LocalDateTime.class, dtf));
 
+		// 注册ZonedDateTime类型字段的打印器和解析器
 		registry.addFormatterForFieldType(ZonedDateTime.class,
 				new TemporalAccessorPrinter(dtf),
 				new TemporalAccessorParser(ZonedDateTime.class, dtf));
 
+		// 注册OffsetDateTime类型字段的打印器和解析器
 		registry.addFormatterForFieldType(OffsetDateTime.class,
 				new TemporalAccessorPrinter(dtf),
 				new TemporalAccessorParser(OffsetDateTime.class, dtf));
 
+		// 注册OffsetTime类型字段的打印器和解析器
 		registry.addFormatterForFieldType(OffsetTime.class,
 				new TemporalAccessorPrinter(tf),
 				new TemporalAccessorParser(OffsetTime.class, tf));
 
+		// 注册Instant类型字段的格式化器
 		registry.addFormatterForFieldType(Instant.class, new InstantFormatter());
+		// 注册Period类型字段的格式化器
 		registry.addFormatterForFieldType(Period.class, new PeriodFormatter());
+		// 注册Duration类型字段的格式化器
 		registry.addFormatterForFieldType(Duration.class, new DurationFormatter());
+		// 注册Year类型字段的格式化器
 		registry.addFormatterForFieldType(Year.class, new YearFormatter());
+		// 注册Month类型字段的格式化器
 		registry.addFormatterForFieldType(Month.class, new MonthFormatter());
+		// 注册YearMonth类型字段的格式化器
 		registry.addFormatterForFieldType(YearMonth.class, new YearMonthFormatter());
+		// 注册MonthDay类型字段的格式化器
 		registry.addFormatterForFieldType(MonthDay.class, new MonthDayFormatter());
 
+		// 注册DateTimeFormat注解的格式化器工厂
 		registry.addFormatterForFieldAnnotation(new Jsr310DateTimeFormatAnnotationFormatterFactory());
 	}
 

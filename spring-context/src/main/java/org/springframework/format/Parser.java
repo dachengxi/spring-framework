@@ -22,6 +22,8 @@ import java.util.Locale;
 /**
  * Parses text strings to produce instances of T.
  *
+ * 解析器
+ *
  * @author Keith Donald
  * @since 3.0
  * @param <T> the type of object this Parser produces
@@ -31,6 +33,7 @@ public interface Parser<T> {
 
 	/**
 	 * Parse a text String to produce a T.
+	 * 解析给定的字符串为T类型
 	 * @param text the text string
 	 * @param locale the current user locale
 	 * @return an instance of T
