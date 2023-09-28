@@ -37,6 +37,8 @@ import org.springframework.util.ObjectUtils;
  * <p>Supports values for a specific index in the constructor argument list
  * as well as for generic argument matches by type.
  *
+ * 构造方法参数值
+ *
  * @author Juergen Hoeller
  * @since 09.11.2003
  * @see BeanDefinition#getConstructorArgumentValues

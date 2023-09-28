@@ -47,6 +47,7 @@ import org.springframework.util.Assert;
  * GenericBeanDefinition has the advantage that it allows to dynamically define
  * parent dependencies, not 'hard-coding' the role as a root bean definition.
  *
+ * 父Bean定义
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Sam Brannen
@@ -56,43 +57,79 @@ import org.springframework.util.Assert;
 @SuppressWarnings("serial")
 public class RootBeanDefinition extends AbstractBeanDefinition {
 
+	/**
+	 * Bean定义持有者
+	 */
 	@Nullable
 	private BeanDefinitionHolder decoratedDefinition;
 
+	/**
+	 * 注解
+	 */
 	@Nullable
 	private AnnotatedElement qualifiedElement;
 
-	/** Determines if the definition needs to be re-merged. */
+	/**
+	 * Determines if the definition needs to be re-merged.
+	 * 是否需要重新合并
+	 */
 	volatile boolean stale;
 
+	/**
+	 * 是否允许缓存
+	 */
 	boolean allowCaching = true;
 
+	/**
+	 * 工厂方法是否唯一
+	 */
 	boolean isFactoryMethodUnique;
 
+	/**
+	 * 目标类型
+	 */
 	@Nullable
 	volatile ResolvableType targetType;
 
-	/** Package-visible field for caching the determined Class of a given bean definition. */
+	/**
+	 * Package-visible field for caching the determined Class of a given bean definition.
+	 * 目标类型
+	 */
 	@Nullable
 	volatile Class<?> resolvedTargetType;
 
-	/** Package-visible field for caching if the bean is a factory bean. */
+	/**
+	 * Package-visible field for caching if the bean is a factory bean.
+	 * 是否是工厂Bean
+	 */
 	@Nullable
 	volatile Boolean isFactoryBean;
 
-	/** Package-visible field for caching the return type of a generically typed factory method. */
+	/**
+	 * Package-visible field for caching the return type of a generically typed factory method.
+	 * 工厂方法返回类型
+	 */
 	@Nullable
 	volatile ResolvableType factoryMethodReturnType;
 
-	/** Package-visible field for caching a unique factory method candidate for introspection. */
+	/**
+	 * Package-visible field for caching a unique factory method candidate for introspection.
+	 * 要使用的工厂方法
+	 */
 	@Nullable
 	volatile Method factoryMethodToIntrospect;
 
-	/** Package-visible field for caching a resolved destroy method name (also for inferred). */
+	/**
+	 * Package-visible field for caching a resolved destroy method name (also for inferred).
+	 * 销毁方法的名字
+	 */
 	@Nullable
 	volatile String resolvedDestroyMethodName;
 
-	/** Common lock for the four constructor fields below. */
+	/**
+	 * Common lock for the four constructor fields below.
+	 * 解析构造方法参数时使用的锁
+	 */
 	final Object constructorArgumentLock = new Object();
 
 	/**
@@ -124,13 +161,22 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	@Nullable
 	Object[] preparedConstructorArguments;
 
-	/** Common lock for the two post-processing fields below. */
+	/**
+	 * Common lock for the two post-processing fields below.
+	 * 后置处理使用的锁
+	 */
 	final Object postProcessingLock = new Object();
 
-	/** Package-visible field that indicates MergedBeanDefinitionPostProcessor having been applied. */
+	/**
+	 * Package-visible field that indicates MergedBeanDefinitionPostProcessor having been applied.
+	 * MergedBeanDefinitionPostProcessor是否已经被处理过
+	 */
 	boolean postProcessed = false;
 
-	/** Package-visible field that indicates a before-instantiation post-processor having kicked in. */
+	/**
+	 * Package-visible field that indicates a before-instantiation post-processor having kicked in.
+	 * before-instantiation post-processor 是否已经被解析过
+	 */
 	@Nullable
 	volatile Boolean beforeInstantiationResolved;
 

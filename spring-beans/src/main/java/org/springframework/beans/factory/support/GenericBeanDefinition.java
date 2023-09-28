@@ -31,6 +31,7 @@ import org.springframework.util.ObjectUtils;
  * potentially even reconfiguring the parent name). Use {@code RootBeanDefinition} /
  * {@code ChildBeanDefinition} where parent/child relationships happen to be pre-determined.
  *
+ * 通用Bean定义
  * @author Juergen Hoeller
  * @since 2.5
  * @see #setParentName
@@ -41,7 +42,7 @@ import org.springframework.util.ObjectUtils;
 public class GenericBeanDefinition extends AbstractBeanDefinition {
 
 	/**
-	 * bean的parent名称
+	 * 父Bean定义名称
 	 */
 	@Nullable
 	private String parentName;

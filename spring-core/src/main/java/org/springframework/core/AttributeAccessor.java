@@ -25,6 +25,7 @@ import org.springframework.util.Assert;
  * Interface defining a generic contract for attaching and accessing metadata
  * to/from arbitrary objects.
  *
+ * 属性访问器接口
  * @author Rob Harrop
  * @author Sam Brannen
  * @since 2.0
@@ -37,6 +38,7 @@ public interface AttributeAccessor {
 	 * <p>In general, users should take care to prevent overlaps with other
 	 * metadata attributes by using fully-qualified names, perhaps using
 	 * class or package names as prefix.
+	 * 给指定的属性名设置值
 	 * @param name the unique attribute key
 	 * @param value the attribute value to be attached
 	 */
@@ -45,6 +47,7 @@ public interface AttributeAccessor {
 	/**
 	 * Get the value of the attribute identified by {@code name}.
 	 * <p>Return {@code null} if the attribute doesn't exist.
+	 * 根据指定的属性名获取值
 	 * @param name the unique attribute key
 	 * @return the current value of the attribute, if any
 	 */
@@ -86,6 +89,7 @@ public interface AttributeAccessor {
 	/**
 	 * Remove the attribute identified by {@code name} and return its value.
 	 * <p>Return {@code null} if no attribute under {@code name} is found.
+	 * 移除指定名字的属性的值
 	 * @param name the unique attribute key
 	 * @return the last value of the attribute, if any
 	 */
@@ -95,12 +99,14 @@ public interface AttributeAccessor {
 	/**
 	 * Return {@code true} if the attribute identified by {@code name} exists.
 	 * <p>Otherwise return {@code false}.
+	 * 查询指的属性是否存在
 	 * @param name the unique attribute key
 	 */
 	boolean hasAttribute(String name);
 
 	/**
 	 * Return the names of all attributes.
+	 * 获取所有属性名字
 	 */
 	String[] attributeNames();
 

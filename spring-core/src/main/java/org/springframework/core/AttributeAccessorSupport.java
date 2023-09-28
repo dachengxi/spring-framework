@@ -31,6 +31,7 @@ import org.springframework.util.StringUtils;
  *
  * <p>{@link Serializable} if subclasses and all attribute values are {@link Serializable}.
  *
+ * 属性访问器抽象实现
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @author Sam Brannen

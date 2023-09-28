@@ -47,6 +47,7 @@ import org.springframework.util.StringUtils;
  * {@link org.springframework.beans.factory.config.AutowireCapableBeanFactory}
  * interface.
  *
+ * Bean定义抽象实现
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -62,7 +63,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	/**
 	 * Constant for the default scope name: {@code ""}, equivalent to singleton
 	 * status unless overridden from a parent bean definition (if applicable).
-	 * 默认scope名字为空
+	 * 默认作用域名字为空
 	 */
 	public static final String SCOPE_DEFAULT = "";
 
@@ -157,7 +158,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	private volatile Object beanClass;
 
 	/**
-	 * scope属性，默认scope为空
+	 * 作用域属性，默认作用域为空
 	 */
 	@Nullable
 	private String scope = SCOPE_DEFAULT;
@@ -697,16 +698,20 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #AUTOWIRE_BY_TYPE
 	 */
 	public int getResolvedAutowireMode() {
+		// 自动检测自动装配模式
 		if (this.autowireMode == AUTOWIRE_AUTODETECT) {
 			// Work out whether to apply setter autowiring or constructor autowiring.
 			// If it has a no-arg constructor it's deemed to be setter autowiring,
 			// otherwise we'll try constructor autowiring.
 			Constructor<?>[] constructors = getBeanClass().getConstructors();
 			for (Constructor<?> constructor : constructors) {
+				// 有无参构造方法
 				if (constructor.getParameterCount() == 0) {
+					// 根据类型自动装配
 					return AUTOWIRE_BY_TYPE;
 				}
 			}
+			// 根据构造方法自动装配
 			return AUTOWIRE_CONSTRUCTOR;
 		}
 		else {

@@ -24,12 +24,16 @@ import org.springframework.lang.Nullable;
  * holding attributes as {@link BeanMetadataAttribute} objects in order
  * to keep track of the definition source.
  *
+ * Bean元数据和属性访问器
  * @author Juergen Hoeller
  * @since 2.5
  */
 @SuppressWarnings("serial")
 public class BeanMetadataAttributeAccessor extends AttributeAccessorSupport implements BeanMetadataElement {
 
+	/**
+	 * 元数据来源
+	 */
 	@Nullable
 	private Object source;
 
