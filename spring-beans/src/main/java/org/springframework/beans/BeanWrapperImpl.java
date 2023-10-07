@@ -47,6 +47,8 @@ import org.springframework.util.ReflectionUtils;
  * other framework packages. For standard application access purposes, use the
  * {@link PropertyAccessorFactory#forBeanPropertyAccess} factory method instead.
  *
+ * Bean实例包装器的实现
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Rob Harrop

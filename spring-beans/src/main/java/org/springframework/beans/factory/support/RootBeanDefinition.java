@@ -675,6 +675,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 
 	@Override
 	public RootBeanDefinition cloneBeanDefinition() {
+		// 克隆一个新的RootBeanDefinition
 		return new RootBeanDefinition(this);
 	}
 

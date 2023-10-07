@@ -313,15 +313,18 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 		}
 
 		// Quick check on the concurrent map first, with minimal locking.
+		// 解析候选的可以用来进行实例化Bean的构造方法
+		// 先从缓存中获取
 		Constructor<?>[] candidateConstructors = this.candidateConstructorsCache.get(beanClass);
 		if (candidateConstructors == null) {
 			// Fully synchronized resolution now...
 			synchronized (this.candidateConstructorsCache) {
 				candidateConstructors = this.candidateConstructorsCache.get(beanClass);
 				if (candidateConstructors == null) {
+					// 原始的构造方法
 					Constructor<?>[] rawCandidates;
 					try {
-						// 通过反射获取构造方法
+						// 通过反射获取所有的构造方法
 						rawCandidates = beanClass.getDeclaredConstructors();
 					}
 					catch (Throwable ex) {
@@ -336,7 +339,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 					Constructor<?> defaultConstructor = null;
 					Constructor<?> primaryConstructor = BeanUtils.findPrimaryConstructor(beanClass);
 					int nonSyntheticConstructors = 0;
-					// 遍历候选的构造方法
+					// 遍历原始的构造方法
 					for (Constructor<?> candidate : rawCandidates) {
 						if (!candidate.isSynthetic()) {
 							nonSyntheticConstructors++;
@@ -344,7 +347,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 						else if (primaryConstructor != null) {
 							continue;
 						}
-						// 查找是否被@Autowired、@Value 和 @Inject三个注解进行修饰
+						// 查找构造方法是否被@Autowired、@Value 和 @Inject三个注解进行修饰
 						MergedAnnotation<?> ann = findAutowiredAnnotation(candidate);
 						if (ann == null) {
 							// 如果没有找到对应注解，则需要看是否是Cglib代理类，如果是代理类则需要获取原始类，然后再看是否有被注解修饰

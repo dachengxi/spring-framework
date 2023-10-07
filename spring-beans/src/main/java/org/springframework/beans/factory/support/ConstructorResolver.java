@@ -70,6 +70,8 @@ import org.springframework.util.StringUtils;
  *
  * <p>Performs constructor resolution through argument matching.
  *
+ * 构造方法解析器
+ *
  * @author Juergen Hoeller
  * @author Rob Harrop
  * @author Mark Fisher
@@ -127,11 +129,14 @@ class ConstructorResolver {
 	public BeanWrapper autowireConstructor(String beanName, RootBeanDefinition mbd,
 			@Nullable Constructor<?>[] chosenCtors, @Nullable Object[] explicitArgs) {
 
+		// 创建一个Bean包装器实现
 		BeanWrapperImpl bw = new BeanWrapperImpl();
+		// 初始化Bean实例包装器，这里会给Bean实例包装器设置如下：设置类型转换服务、注册自定义的属性编辑器
 		this.beanFactory.initBeanWrapper(bw);
 
 		// 候选的构造方法
 		Constructor<?> constructorToUse = null;
+		// 要用到的参数持有器
 		ArgumentsHolder argsHolderToUse = null;
 		// 构造方法最后确定使用的参数
 		Object[] argsToUse = null;
@@ -357,6 +362,7 @@ class ConstructorResolver {
 						this.beanFactory.getAccessControlContext());
 			}
 			else {
+				// 实例化，使用反射或者cglib进行实例化
 				return strategy.instantiate(mbd, beanName, this.beanFactory, constructorToUse, argsToUse);
 			}
 		}
@@ -443,7 +449,9 @@ class ConstructorResolver {
 	public BeanWrapper instantiateUsingFactoryMethod(
 			String beanName, RootBeanDefinition mbd, @Nullable Object[] explicitArgs) {
 
+		// 创建一个Bean包装器实现
 		BeanWrapperImpl bw = new BeanWrapperImpl();
+		// 初始化Bean实例包装器，这里会给Bean实例包装器设置如下：设置类型转换服务、注册自定义的属性编辑器
 		this.beanFactory.initBeanWrapper(bw);
 
 		Object factoryBean;
@@ -865,31 +873,41 @@ class ConstructorResolver {
 
 	/**
 	 * Resolve the prepared arguments stored in the given bean definition.
+	 * 解析在Bean定义中已经提前设置好的参数
 	 */
 	private Object[] resolvePreparedArguments(String beanName, RootBeanDefinition mbd, BeanWrapper bw,
 			Executable executable, Object[] argsToResolve) {
 
+		// 自定义的类型转换器
 		TypeConverter customConverter = this.beanFactory.getCustomTypeConverter();
+		// 没有设置自定义类型转换器，就使用Bean包装器作为类型转换器，Bean包装器本身也是一个类型转换器
 		TypeConverter converter = (customConverter != null ? customConverter : bw);
+		// 创建一个Bean定义值解析器
 		BeanDefinitionValueResolver valueResolver =
 				new BeanDefinitionValueResolver(this.beanFactory, beanName, mbd, converter);
+		// 参数类型数组
 		Class<?>[] paramTypes = executable.getParameterTypes();
 
 		Object[] resolvedArgs = new Object[argsToResolve.length];
+		// 遍历要解析的参数
 		for (int argIndex = 0; argIndex < argsToResolve.length; argIndex++) {
+			// 要解析的原始的参数值
 			Object argValue = argsToResolve[argIndex];
 			MethodParameter methodParam = MethodParameter.forExecutable(executable, argIndex);
 			if (argValue == autowiredArgumentMarker) {
+				// 解析自动注入参数
 				argValue = resolveAutowiredArgument(methodParam, beanName, null, converter, true);
 			}
 			else if (argValue instanceof BeanMetadataElement) {
 				argValue = valueResolver.resolveValueIfNecessary("constructor argument", argValue);
 			}
+			//
 			else if (argValue instanceof String) {
 				argValue = this.beanFactory.evaluateBeanDefinitionString((String) argValue, mbd);
 			}
 			Class<?> paramType = paramTypes[argIndex];
 			try {
+				// 参数类型转换
 				resolvedArgs[argIndex] = converter.convertIfNecessary(argValue, paramType, methodParam);
 			}
 			catch (TypeMismatchException ex) {
@@ -924,6 +942,7 @@ class ConstructorResolver {
 	protected Object resolveAutowiredArgument(MethodParameter param, String beanName,
 			@Nullable Set<String> autowiredBeanNames, TypeConverter typeConverter, boolean fallback) {
 
+		// 参数类型
 		Class<?> paramType = param.getParameterType();
 		if (InjectionPoint.class.isAssignableFrom(paramType)) {
 			InjectionPoint injectionPoint = currentInjectionPoint.get();
@@ -933,6 +952,7 @@ class ConstructorResolver {
 			return injectionPoint;
 		}
 		try {
+			// 解析参数
 			return this.beanFactory.resolveDependency(
 					new DependencyDescriptor(param, true), beanName, autowiredBeanNames, typeConverter);
 		}

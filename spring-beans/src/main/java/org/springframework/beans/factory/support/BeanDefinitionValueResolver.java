@@ -54,18 +54,32 @@ import org.springframework.util.StringUtils;
  * {@link org.springframework.beans.factory.config.BeanDefinition} object.
  * Used by {@link AbstractAutowireCapableBeanFactory}.
  *
+ * Bean定义值解析器
+ *
  * @author Juergen Hoeller
  * @since 1.2
  * @see AbstractAutowireCapableBeanFactory
  */
 class BeanDefinitionValueResolver {
 
+	/**
+	 * 容器
+	 */
 	private final AbstractAutowireCapableBeanFactory beanFactory;
 
+	/**
+	 * Bean名字
+	 */
 	private final String beanName;
 
+	/**
+	 * Bean定义
+	 */
 	private final BeanDefinition beanDefinition;
 
+	/**
+	 * 类型转换器
+	 */
 	private final TypeConverter typeConverter;
 
 

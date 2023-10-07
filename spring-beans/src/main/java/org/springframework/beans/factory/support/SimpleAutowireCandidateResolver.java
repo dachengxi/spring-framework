@@ -24,6 +24,8 @@ import org.springframework.lang.Nullable;
  * {@link AutowireCandidateResolver} implementation to use when no annotation
  * support is available. This implementation checks the bean definition only.
  *
+ * 自动输入候选解析器实现
+ *
  * @author Mark Fisher
  * @author Juergen Hoeller
  * @since 2.5

@@ -118,7 +118,9 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 	 * @param object the object wrapped by this accessor
 	 */
 	protected AbstractNestablePropertyAccessor(Object object) {
+		// 激活默认属性编辑器
 		registerDefaultEditors();
+		// 设置包装的实例
 		setWrappedInstance(object);
 	}
 
@@ -196,6 +198,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 		this.nestedPath = (nestedPath != null ? nestedPath : "");
 		this.rootObject = (!this.nestedPath.isEmpty() ? rootObject : this.wrappedObject);
 		this.nestedPropertyAccessors = null;
+		// 创建类型转换器代理
 		this.typeConverterDelegate = new TypeConverterDelegate(this, this.wrappedObject);
 	}
 

@@ -125,10 +125,12 @@ class TypeConverterDelegate {
 		// No custom editor but custom ConversionService specified?
 		// 从属性编辑器中心获取转换服务
 		ConversionService conversionService = this.propertyEditorRegistry.getConversionService();
+		// 属性编辑器为空，转换服务不为空，使用转换服务进行转换
 		if (editor == null && conversionService != null && newValue != null && typeDescriptor != null) {
 			TypeDescriptor sourceTypeDesc = TypeDescriptor.forObject(newValue);
 			if (conversionService.canConvert(sourceTypeDesc, typeDescriptor)) {
 				try {
+					// 使用转换服务进行转换
 					return (T) conversionService.convert(newValue, sourceTypeDesc, typeDescriptor);
 				}
 				catch (ConversionFailedException ex) {
@@ -153,8 +155,10 @@ class TypeConverterDelegate {
 				}
 			}
 			if (editor == null) {
+				// 使用默认的属性编辑器
 				editor = findDefaultEditor(requiredType);
 			}
+			// 类型转换
 			convertedValue = doConvertValue(oldValue, convertedValue, requiredType, editor);
 		}
 
