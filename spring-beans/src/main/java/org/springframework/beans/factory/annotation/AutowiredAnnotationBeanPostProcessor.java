@@ -255,7 +255,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
-		// 筛选出需要注入的属性类型，并加入到缓存中
+		// 筛选出被@Autowire、@Value、@Inject注解的字段或方法，包装成InjectionMetadata，并加入到缓存中
 		InjectionMetadata metadata = findAutowiringMetadata(beanName, beanType, null);
 		metadata.checkConfigMembers(beanDefinition);
 	}
@@ -457,7 +457,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 	}
 
 	/**
-	 * 完成对@Autowired、@Inject、@Value注解的解析并注入的功能
+	 * 完成对@Autowired、@Inject、@Value注解的解析并注入的功能，已经废弃，使用postProcessProperties来处理
 	 *
 	 * @param pvs the property values that the factory is about to apply (never {@code null})
 	 * @param pds the relevant property descriptors for the target bean (with ignored
@@ -501,6 +501,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 		// Fall back to class name as cache key, for backwards compatibility with custom callers.
 		String cacheKey = (StringUtils.hasLength(beanName) ? beanName : clazz.getName());
 		// Quick check on the concurrent map first, with minimal locking.
+		// 先从缓存中查找
 		InjectionMetadata metadata = this.injectionMetadataCache.get(cacheKey);
 		if (InjectionMetadata.needsRefresh(metadata, clazz)) {
 			synchronized (this.injectionMetadataCache) {
@@ -511,6 +512,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 					}
 					// 创建自动注入的元数据信息
 					metadata = buildAutowiringMetadata(clazz);
+					// 放到缓存中
 					this.injectionMetadataCache.put(cacheKey, metadata);
 				}
 			}
@@ -519,14 +521,17 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 	}
 
 	private InjectionMetadata buildAutowiringMetadata(Class<?> clazz) {
-		// 是否被@Autowired、@Value、@Inject进行注解
+		// 是否被@Autowired、@Value、@Inject进行注解，如果没有被注解，返回一个空注入元数据对象
 		if (!AnnotationUtils.isCandidateClass(clazz, this.autowiredAnnotationTypes)) {
 			return InjectionMetadata.EMPTY;
 		}
 
+		// 保存被注入的元素
 		List<InjectionMetadata.InjectedElement> elements = new ArrayList<>();
+		// 目标类
 		Class<?> targetClass = clazz;
 
+		// 会从当前类开始解析，然后解析父类，一直到Object类
 		do {
 			final List<InjectionMetadata.InjectedElement> currElements = new ArrayList<>();
 
@@ -584,7 +589,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 		}
 		while (targetClass != null && targetClass != Object.class);
 
-		// 将类中所有的需要自动注入的属性和方法包转成InjectionMetadata对象返回
+		// 将类中所有的需要自动注入的属性和方法包装成InjectionMetadata对象返回
 		return InjectionMetadata.forElements(elements, clazz);
 	}
 
@@ -680,9 +685,13 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 
 	/**
 	 * Class representing injection information about an annotated field.
+	 * 自动注入字段元素
 	 */
 	private class AutowiredFieldElement extends InjectionMetadata.InjectedElement {
 
+		/**
+		 * 是否是必须的
+		 */
 		private final boolean required;
 
 		private volatile boolean cached;
@@ -765,9 +774,13 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 
 	/**
 	 * Class representing injection information about an annotated method.
+	 * 自动注入方法元素
 	 */
 	private class AutowiredMethodElement extends InjectionMetadata.InjectedElement {
 
+		/**
+		 * 是否是必须的
+		 */
 		private final boolean required;
 
 		private volatile boolean cached;

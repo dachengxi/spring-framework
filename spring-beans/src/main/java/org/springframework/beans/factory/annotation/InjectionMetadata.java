@@ -40,6 +40,8 @@ import org.springframework.util.ReflectionUtils;
  * {@link org.springframework.context.annotation.CommonAnnotationBeanPostProcessor} and
  * {@link org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor}.
  *
+ * 注入元数据
+ *
  * @author Juergen Hoeller
  * @since 2.5
  */
@@ -66,8 +68,14 @@ public class InjectionMetadata {
 	};
 
 
+	/**
+	 * 目标类
+	 */
 	private final Class<?> targetClass;
 
+	/**
+	 * 被注入的元素，包括字段和方法
+	 */
 	private final Collection<InjectedElement> injectedElements;
 
 	@Nullable
@@ -165,13 +173,23 @@ public class InjectionMetadata {
 
 	/**
 	 * A single injected element.
+	 * 被注入的元素信息
 	 */
 	public abstract static class InjectedElement {
 
+		/**
+		 * 表示一个字段或者方法
+		 */
 		protected final Member member;
 
+		/**
+		 * 是否是字段
+		 */
 		protected final boolean isField;
 
+		/**
+		 * 属性描述符
+		 */
 		@Nullable
 		protected final PropertyDescriptor pd;
 

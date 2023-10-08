@@ -433,14 +433,17 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 		}
 
+		// 将得到的Bean实例转换为需要的类型
 		return adaptBeanInstance(name, beanInstance, requiredType);
 	}
 
 	@SuppressWarnings("unchecked")
 	<T> T adaptBeanInstance(String name, Object bean, @Nullable Class<?> requiredType) {
 		// Check if required type matches the type of the actual bean instance.
+		// 得到的Bean实例和需要的类型不一致
 		if (requiredType != null && !requiredType.isInstance(bean)) {
 			try {
+				// 转换
 				Object convertedBean = getTypeConverter().convertIfNecessary(bean, requiredType);
 				if (convertedBean == null) {
 					throw new BeanNotOfRequiredTypeException(name, requiredType, bean.getClass());
@@ -1938,14 +1941,17 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			Object beanInstance, String name, String beanName, @Nullable RootBeanDefinition mbd) {
 
 		// Don't let calling code try to dereference the factory if the bean isn't a factory.
+		// 以&开头的Bean
 		if (BeanFactoryUtils.isFactoryDereference(name)) {
 			if (beanInstance instanceof NullBean) {
 				return beanInstance;
 			}
+			// 如果一个Bean以&开头，但又不是一个FactroyBean，则抛异常
 			if (!(beanInstance instanceof FactoryBean)) {
 				throw new BeanIsNotAFactoryException(beanName, beanInstance.getClass());
 			}
 			if (mbd != null) {
+				// 设置是一个FactoryBean
 				mbd.isFactoryBean = true;
 			}
 			return beanInstance;
@@ -1954,15 +1960,19 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		// Now we have the bean instance, which may be a normal bean or a FactoryBean.
 		// If it's a FactoryBean, we use it to create a bean instance, unless the
 		// caller actually wants a reference to the factory.
+		// 非FactoryBean，直接返回
 		if (!(beanInstance instanceof FactoryBean)) {
 			return beanInstance;
 		}
 
+		// 往下都是FactoryBean
 		Object object = null;
 		if (mbd != null) {
+			// 设置是一个FactoryBean
 			mbd.isFactoryBean = true;
 		}
 		else {
+			// 从缓存中加载Bean
 			object = getCachedObjectForFactoryBean(beanName);
 		}
 		if (object == null) {
