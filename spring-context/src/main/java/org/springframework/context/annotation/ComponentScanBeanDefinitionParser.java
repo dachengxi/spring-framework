@@ -80,26 +80,43 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 	@Override
 	@Nullable
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
+		// 指定的base-package
 		String basePackage = element.getAttribute(BASE_PACKAGE_ATTRIBUTE);
+		// 解析base-package中的占位符
 		basePackage = parserContext.getReaderContext().getEnvironment().resolvePlaceholders(basePackage);
+		// base-package可以指定多个
 		String[] basePackages = StringUtils.tokenizeToStringArray(basePackage,
 				ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
 
 		// Actually scan for bean definitions and register them.
+		// 配置ClassPathBeanDefinitionScanner，创建一个ClassPathBeanDefinitionScanner对象并进行配置
 		ClassPathBeanDefinitionScanner scanner = configureScanner(parserContext, element);
+		// 开始扫描使用注解配置的Bean
 		Set<BeanDefinitionHolder> beanDefinitions = scanner.doScan(basePackages);
+		// 注册组件，同时也会注册ConfigurationClassPostProcessor、AutowiredAnnotationBeanPostProcessor、
+		// CommonAnnotationBeanPostProcessor、PersistenceAnnotationBeanPostProcessor、EventListenerMethodProcessor、DefaultEventListenerFactory等几个处理器到容器中，
+		// 也就是有了<context:annotation-config/>的功能
 		registerComponents(parserContext.getReaderContext(), beanDefinitions, element);
 
 		return null;
 	}
 
+	/**
+	 * 创建并配置ClassPathBeanDefinitionScanner
+	 * @param parserContext
+	 * @param element
+	 * @return
+	 */
 	protected ClassPathBeanDefinitionScanner configureScanner(ParserContext parserContext, Element element) {
+		// 使用默认的过滤器，默认为true
 		boolean useDefaultFilters = true;
+		// 如果配置使用默认的过滤器的属性，则使用配置的
 		if (element.hasAttribute(USE_DEFAULT_FILTERS_ATTRIBUTE)) {
 			useDefaultFilters = Boolean.parseBoolean(element.getAttribute(USE_DEFAULT_FILTERS_ATTRIBUTE));
 		}
 
 		// Delegate bean definition registration to scanner class.
+		// 创建一个ClassPathBeanDefinitionScanner对象，用来在classpath中扫描Bean定义
 		ClassPathBeanDefinitionScanner scanner = createScanner(parserContext.getReaderContext(), useDefaultFilters);
 		scanner.setBeanDefinitionDefaults(parserContext.getDelegate().getBeanDefinitionDefaults());
 		scanner.setAutowireCandidatePatterns(parserContext.getDelegate().getAutowireCandidatePatterns());
@@ -109,6 +126,7 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 		}
 
 		try {
+			// 解析Bean名字生成器
 			parseBeanNameGenerator(element, scanner);
 		}
 		catch (Exception ex) {
@@ -116,12 +134,14 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 		}
 
 		try {
+			// 解析作用域
 			parseScope(element, scanner);
 		}
 		catch (Exception ex) {
 			parserContext.getReaderContext().error(ex.getMessage(), parserContext.extractSource(element), ex.getCause());
 		}
 
+		// 解析类型过滤器
 		parseTypeFilters(element, scanner, parserContext);
 
 		return scanner;

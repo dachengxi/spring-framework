@@ -65,6 +65,7 @@ public abstract class AopNamespaceUtils {
 	public static void registerAspectJAutoProxyCreatorIfNecessary(
 			ParserContext parserContext, Element sourceElement) {
 
+		// 注册自动代理创建器，类型是AspectJAwareAdvisorAutoProxyCreator，是一个SmartInstantiationAwareBeanPostProcessor、InstantiationAwareBeanPostProcessor、BeanPostProcessor
 		BeanDefinition beanDefinition = AopConfigUtils.registerAspectJAutoProxyCreatorIfNecessary(
 				parserContext.getRegistry(), parserContext.extractSource(sourceElement));
 		useClassProxyingIfNecessary(parserContext.getRegistry(), sourceElement);

@@ -52,6 +52,7 @@ import org.springframework.util.xml.DomUtils;
 /**
  * {@link BeanDefinitionParser} for the {@code <aop:config>} tag.
  *
+ * <aop:config/>标签解析器
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @author Adrian Colyer
@@ -99,21 +100,26 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 	@Override
 	@Nullable
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
+		// 创建一个CompositeComponentDefinition对象，保存组件定义
 		CompositeComponentDefinition compositeDef =
 				new CompositeComponentDefinition(element.getTagName(), parserContext.extractSource(element));
 		parserContext.pushContainingComponent(compositeDef);
 
+		// 配置AOP自动代理创建器，类型是AspectJAwareAdvisorAutoProxyCreator，是一个SmartInstantiationAwareBeanPostProcessor、InstantiationAwareBeanPostProcessor、BeanPostProcessor
 		configureAutoProxyCreator(parserContext, element);
 
 		List<Element> childElts = DomUtils.getChildElements(element);
 		for (Element elt: childElts) {
 			String localName = parserContext.getDelegate().getLocalName(elt);
+			// 解析pointcut元素
 			if (POINTCUT.equals(localName)) {
 				parsePointcut(elt, parserContext);
 			}
+			// 解析advisor元素
 			else if (ADVISOR.equals(localName)) {
 				parseAdvisor(elt, parserContext);
 			}
+			// 解析aspect元素
 			else if (ASPECT.equals(localName)) {
 				parseAspect(elt, parserContext);
 			}
@@ -127,9 +133,11 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 	 * Configures the auto proxy creator needed to support the {@link BeanDefinition BeanDefinitions}
 	 * created by the '{@code <aop:config/>}' tag. Will force class proxying if the
 	 * '{@code proxy-target-class}' attribute is set to '{@code true}'.
+	 * 配置自动代理创建器
 	 * @see AopNamespaceUtils
 	 */
 	private void configureAutoProxyCreator(ParserContext parserContext, Element element) {
+		// 注册自动代理创建器，类型是AspectJAwareAdvisorAutoProxyCreator，是一个SmartInstantiationAwareBeanPostProcessor、InstantiationAwareBeanPostProcessor、BeanPostProcessor
 		AopNamespaceUtils.registerAspectJAutoProxyCreatorIfNecessary(parserContext, element);
 	}
 
@@ -139,12 +147,14 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 	 * with the supplied {@link BeanDefinitionRegistry}.
 	 */
 	private void parseAdvisor(Element advisorElement, ParserContext parserContext) {
+		// 创建一个DefaultBeanFactoryPointcutAdvisor类型的Bean定义
 		AbstractBeanDefinition advisorDef = createAdvisorBeanDefinition(advisorElement, parserContext);
 		String id = advisorElement.getAttribute(ID);
 
 		try {
 			this.parseState.push(new AdvisorEntry(id));
 			String advisorBeanName = id;
+			// Bean定义注册到容器中
 			if (StringUtils.hasText(advisorBeanName)) {
 				parserContext.getRegistry().registerBeanDefinition(advisorBeanName, advisorDef);
 			}
@@ -152,6 +162,7 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 				advisorBeanName = parserContext.getReaderContext().registerWithGeneratedName(advisorDef);
 			}
 
+			// 解析pointcut属性
 			Object pointcut = parsePointcutProperty(advisorElement, parserContext);
 			if (pointcut instanceof BeanDefinition) {
 				advisorDef.getPropertyValues().add(POINTCUT, pointcut);
@@ -174,6 +185,7 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 	 * parse any associated '{@code pointcut}' or '{@code pointcut-ref}' attributes.
 	 */
 	private AbstractBeanDefinition createAdvisorBeanDefinition(Element advisorElement, ParserContext parserContext) {
+		// 创建一个DefaultBeanFactoryPointcutAdvisor类型的Bean定义实例
 		RootBeanDefinition advisorDefinition = new RootBeanDefinition(DefaultBeanFactoryPointcutAdvisor.class);
 		advisorDefinition.setSource(parserContext.extractSource(advisorElement));
 
@@ -441,18 +453,22 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 
 		try {
 			this.parseState.push(new PointcutEntry(id));
+			// 创建一个AspectJExpressionPointcut类型的Bean定义对象
 			pointcutDefinition = createPointcutDefinition(expression);
 			pointcutDefinition.setSource(parserContext.extractSource(pointcutElement));
 
 			String pointcutBeanName = id;
 			if (StringUtils.hasText(pointcutBeanName)) {
+				// 注册Bean定义到容器中
 				parserContext.getRegistry().registerBeanDefinition(pointcutBeanName, pointcutDefinition);
 			}
 			else {
+				// 注册Bean定义到容器中
 				pointcutBeanName = parserContext.getReaderContext().registerWithGeneratedName(pointcutDefinition);
 			}
 
 			parserContext.registerComponent(
+					// pointcut类型的组件定义
 					new PointcutComponentDefinition(pointcutBeanName, pointcutDefinition, expression));
 		}
 		finally {
@@ -505,7 +521,9 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 	 * the supplied pointcut expression.
 	 */
 	protected AbstractBeanDefinition createPointcutDefinition(String expression) {
+		// 创建一个AspectJExpressionPointcut类型的Bean定义实例
 		RootBeanDefinition beanDefinition = new RootBeanDefinition(AspectJExpressionPointcut.class);
+		// 作用域是原型
 		beanDefinition.setScope(BeanDefinition.SCOPE_PROTOTYPE);
 		beanDefinition.setSynthetic(true);
 		beanDefinition.getPropertyValues().add(EXPRESSION, expression);

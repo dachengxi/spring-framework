@@ -27,17 +27,28 @@ import org.springframework.util.Assert;
  * {@link ComponentDefinition} instances, aggregating them into a named group
  * of components.
  *
+ * 持有一个或者多个ComponentDefinition实例
+ *
  * @author Juergen Hoeller
  * @since 2.0.1
  * @see #getNestedComponents()
  */
 public class CompositeComponentDefinition extends AbstractComponentDefinition {
 
+	/**
+	 * 名字
+	 */
 	private final String name;
 
+	/**
+	 * 来源
+	 */
 	@Nullable
 	private final Object source;
 
+	/**
+	 * 多个ComponentDefinition
+	 */
 	private final List<ComponentDefinition> nestedComponents = new ArrayList<>();
 
 

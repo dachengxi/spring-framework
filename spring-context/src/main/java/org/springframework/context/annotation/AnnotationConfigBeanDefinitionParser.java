@@ -45,10 +45,13 @@ public class AnnotationConfigBeanDefinitionParser implements BeanDefinitionParse
 		Object source = parserContext.extractSource(element);
 
 		// Obtain bean definitions for all relevant BeanPostProcessors.
+		// 注册注解配置处理器，注册ConfigurationClassPostProcessor、AutowiredAnnotationBeanPostProcessor、
+		// CommonAnnotationBeanPostProcessor、PersistenceAnnotationBeanPostProcessor、EventListenerMethodProcessor、DefaultEventListenerFactory等几个处理器到容器中
 		Set<BeanDefinitionHolder> processorDefinitions =
 				AnnotationConfigUtils.registerAnnotationConfigProcessors(parserContext.getRegistry(), source);
 
 		// Register component for the surrounding <context:annotation-config> element.
+		// 创建一个CompositeComponentDefinition对象，用来保存xml的配置信息
 		CompositeComponentDefinition compDefinition = new CompositeComponentDefinition(element.getTagName(), source);
 		parserContext.pushContainingComponent(compDefinition);
 

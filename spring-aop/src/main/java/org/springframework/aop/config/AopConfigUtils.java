@@ -85,6 +85,7 @@ public abstract class AopConfigUtils {
 	public static BeanDefinition registerAspectJAutoProxyCreatorIfNecessary(
 			BeanDefinitionRegistry registry, @Nullable Object source) {
 
+		// 注册自动代理创建器，类型是AspectJAwareAdvisorAutoProxyCreator，是一个SmartInstantiationAwareBeanPostProcessor、InstantiationAwareBeanPostProcessor、BeanPostProcessor
 		return registerOrEscalateApcAsRequired(AspectJAwareAdvisorAutoProxyCreator.class, registry, source);
 	}
 
@@ -132,10 +133,14 @@ public abstract class AopConfigUtils {
 			return null;
 		}
 
+		// 创建一个AspectJAwareAdvisorAutoProxyCreator类型的Bean定义对象
 		RootBeanDefinition beanDefinition = new RootBeanDefinition(cls);
 		beanDefinition.setSource(source);
+		// 优先级设置为最高
 		beanDefinition.getPropertyValues().add("order", Ordered.HIGHEST_PRECEDENCE);
+		// 角色是框架内部使用
 		beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+		// 注册到容器中
 		registry.registerBeanDefinition(AUTO_PROXY_CREATOR_BEAN_NAME, beanDefinition);
 		return beanDefinition;
 	}

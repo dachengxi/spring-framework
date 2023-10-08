@@ -66,6 +66,7 @@ import org.springframework.beans.factory.config.BeanReference;
  * classified with this role are completely unimportant to the end user and are required only for
  * internal implementation reasons.
  *
+ * 表示在同一个配置上下文中，所有BeanDefinition和BeanReference的逻辑视图
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @since 2.0
@@ -80,6 +81,7 @@ public interface ComponentDefinition extends BeanMetadataElement {
 	 * Get the user-visible name of this {@code ComponentDefinition}.
 	 * <p>This should link back directly to the corresponding configuration data
 	 * for this component in a given context.
+	 * 组件定义名字
 	 */
 	String getName();
 
@@ -87,6 +89,7 @@ public interface ComponentDefinition extends BeanMetadataElement {
 	 * Return a friendly description of the described component.
 	 * <p>Implementations are encouraged to return the same value from
 	 * {@code toString()}.
+	 * 描述
 	 */
 	String getDescription();
 
@@ -97,6 +100,7 @@ public interface ComponentDefinition extends BeanMetadataElement {
 	 * other {@link BeanDefinition BeanDefinitions} via {@link BeanReference references},
 	 * however these are <strong>not</strong> included as they may be not available immediately.
 	 * Important {@link BeanReference BeanReferences} are available from {@link #getBeanReferences()}.
+	 * 当前组件定义中保存的所有的BeanDefinition
 	 * @return the array of BeanDefinitions, or an empty array if none
 	 */
 	BeanDefinition[] getBeanDefinitions();
@@ -106,6 +110,7 @@ public interface ComponentDefinition extends BeanMetadataElement {
 	 * inner beans within this component.
 	 * <p>Other inner beans may exist within the associated {@link BeanDefinition BeanDefinitions},
 	 * however these are not considered to be needed for validation or for user visualization.
+	 * 当前组件定义中保存的所有内部的BeanDefinition
 	 * @return the array of BeanDefinitions, or an empty array if none
 	 */
 	BeanDefinition[] getInnerBeanDefinitions();
@@ -116,6 +121,7 @@ public interface ComponentDefinition extends BeanMetadataElement {
 	 * <p>Other {@link BeanReference BeanReferences} may exist within the associated
 	 * {@link BeanDefinition BeanDefinitions}, however these are not considered
 	 * to be needed for validation or for user visualization.
+	 * 当前组件定义中保存的所有的BeanReference
 	 * @return the array of BeanReferences, or an empty array if none
 	 */
 	BeanReference[] getBeanReferences();

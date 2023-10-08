@@ -36,6 +36,8 @@ import org.springframework.util.ClassUtils;
  * Similarly, the search for annotations on interfaces may optionally be enabled.
  * Consult the various constructors in this class for details.
  *
+ * 注解类型过滤器
+ *
  * @author Mark Fisher
  * @author Ramnivas Laddad
  * @author Juergen Hoeller
@@ -44,6 +46,9 @@ import org.springframework.util.ClassUtils;
  */
 public class AnnotationTypeFilter extends AbstractTypeHierarchyTraversingFilter {
 
+	/**
+	 * 注解类型
+	 */
 	private final Class<? extends Annotation> annotationType;
 
 	private final boolean considerMetaAnnotations;
@@ -97,6 +102,7 @@ public class AnnotationTypeFilter extends AbstractTypeHierarchyTraversingFilter 
 	@Override
 	protected boolean matchSelf(MetadataReader metadataReader) {
 		AnnotationMetadata metadata = metadataReader.getAnnotationMetadata();
+		// 有指定的注解
 		return metadata.hasAnnotation(this.annotationType.getName()) ||
 				(this.considerMetaAnnotations && metadata.hasMetaAnnotation(this.annotationType.getName()));
 	}

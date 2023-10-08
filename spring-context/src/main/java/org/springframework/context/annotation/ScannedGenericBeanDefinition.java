@@ -37,6 +37,7 @@ import org.springframework.util.Assert;
  * but distinguishes by type beans that have been <em>scanned</em> vs those that have
  * been otherwise registered or detected by other means.
  *
+ * GenericBeanDefinition的扩展，支持注解的BeanDefinition
  * @author Juergen Hoeller
  * @author Chris Beams
  * @since 2.5
@@ -48,6 +49,9 @@ import org.springframework.util.Assert;
 @SuppressWarnings("serial")
 public class ScannedGenericBeanDefinition extends GenericBeanDefinition implements AnnotatedBeanDefinition {
 
+	/**
+	 * 直接元数据
+	 */
 	private final AnnotationMetadata metadata;
 
 

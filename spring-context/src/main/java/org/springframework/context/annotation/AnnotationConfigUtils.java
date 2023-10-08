@@ -161,26 +161,33 @@ public abstract class AnnotationConfigUtils {
 		Set<BeanDefinitionHolder> beanDefs = new LinkedHashSet<>(8);
 
 		if (!registry.containsBeanDefinition(CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME)) {
+			// 创建一个ConfigurationClassPostProcessor的Bean定义
 			RootBeanDefinition def = new RootBeanDefinition(ConfigurationClassPostProcessor.class);
 			def.setSource(source);
+			// 注册ConfigurationClassPostProcessor的Bean定义到容器中
 			beanDefs.add(registerPostProcessor(registry, def, CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
 		if (!registry.containsBeanDefinition(AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME)) {
+			// 创建一个AutowiredAnnotationBeanPostProcessor的Bean定义
 			RootBeanDefinition def = new RootBeanDefinition(AutowiredAnnotationBeanPostProcessor.class);
 			def.setSource(source);
+			// 注册AutowiredAnnotationBeanPostProcessor的Bean定义到容器中
 			beanDefs.add(registerPostProcessor(registry, def, AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
 		// Check for JSR-250 support, and if present add the CommonAnnotationBeanPostProcessor.
 		if (jsr250Present && !registry.containsBeanDefinition(COMMON_ANNOTATION_PROCESSOR_BEAN_NAME)) {
+			// 创建一个CommonAnnotationBeanPostProcessor的Bean定义
 			RootBeanDefinition def = new RootBeanDefinition(CommonAnnotationBeanPostProcessor.class);
 			def.setSource(source);
+			// 注册CommonAnnotationBeanPostProcessor的Bean定义到容器中
 			beanDefs.add(registerPostProcessor(registry, def, COMMON_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
 		// Check for JPA support, and if present add the PersistenceAnnotationBeanPostProcessor.
 		if (jpaPresent && !registry.containsBeanDefinition(PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME)) {
+			// 创建一个PersistenceAnnotationBeanPostProcessor的Bean定义
 			RootBeanDefinition def = new RootBeanDefinition();
 			try {
 				def.setBeanClass(ClassUtils.forName(PERSISTENCE_ANNOTATION_PROCESSOR_CLASS_NAME,
@@ -191,12 +198,15 @@ public abstract class AnnotationConfigUtils {
 						"Cannot load optional framework class: " + PERSISTENCE_ANNOTATION_PROCESSOR_CLASS_NAME, ex);
 			}
 			def.setSource(source);
+			// 注册PersistenceAnnotationBeanPostProcessor的Bean定义到容器中
 			beanDefs.add(registerPostProcessor(registry, def, PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
 		if (!registry.containsBeanDefinition(EVENT_LISTENER_PROCESSOR_BEAN_NAME)) {
+			// 创建一个EventListenerMethodProcessor的Bean定义
 			RootBeanDefinition def = new RootBeanDefinition(EventListenerMethodProcessor.class);
 			def.setSource(source);
+			// 注册EventListenerMethodProcessor的Bean定义到容器中
 			beanDefs.add(registerPostProcessor(registry, def, EVENT_LISTENER_PROCESSOR_BEAN_NAME));
 		}
 
@@ -212,8 +222,11 @@ public abstract class AnnotationConfigUtils {
 	private static BeanDefinitionHolder registerPostProcessor(
 			BeanDefinitionRegistry registry, RootBeanDefinition definition, String beanName) {
 
+		// 角色是框架内部使用
 		definition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+		// 注册到容器中
 		registry.registerBeanDefinition(beanName, definition);
+		// 创建一个Bean定义持有器
 		return new BeanDefinitionHolder(definition, beanName);
 	}
 

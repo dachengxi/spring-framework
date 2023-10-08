@@ -26,6 +26,7 @@ import org.springframework.beans.factory.config.BeanReference;
  * implementation strategy. Also provides default implementations of {@link #getInnerBeanDefinitions}
  * and {@link #getBeanReferences} that return an empty array.
  *
+ * ComponentDefinition的抽象实现
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @since 2.0

@@ -24,6 +24,7 @@ import org.springframework.context.annotation.ComponentScanBeanDefinitionParser;
  * {@link org.springframework.beans.factory.xml.NamespaceHandler}
  * for the '{@code context}' namespace.
  *
+ * context命名空间的处理器
  * @author Mark Fisher
  * @author Juergen Hoeller
  * @since 2.5
@@ -32,13 +33,25 @@ public class ContextNamespaceHandler extends NamespaceHandlerSupport {
 
 	@Override
 	public void init() {
+		// 注册Bean定义解析器：<context:property-placeholder>标签对应的解析器，用来处理properties配置文件
 		registerBeanDefinitionParser("property-placeholder", new PropertyPlaceholderBeanDefinitionParser());
+		// 注册Bean定义解析器：<context:property-override>标签对应的解析器，允许使用properties文件的形式对Bean的属性进行替换
 		registerBeanDefinitionParser("property-override", new PropertyOverrideBeanDefinitionParser());
+		// 注册Bean定义解析器：<context:annotation-config>标签对应的解析器，注册ConfigurationClassPostProcessor、AutowiredAnnotationBeanPostProcessor、
+		// CommonAnnotationBeanPostProcessor、PersistenceAnnotationBeanPostProcessor、EventListenerMethodProcessor、DefaultEventListenerFactory等几个处理器到容器中
 		registerBeanDefinitionParser("annotation-config", new AnnotationConfigBeanDefinitionParser());
+		// 注册Bean定义解析器：<context:component-scan>标签对应的解析器，主要扫描@Component注解的Bean，其他的@Repository、@Service、@Controller
+		// 等注解也是@Component类型的注解，也会被扫描到，然后将扫描到的Bean定义注册到容器中。同时也会注册ConfigurationClassPostProcessor、AutowiredAnnotationBeanPostProcessor、
+		// CommonAnnotationBeanPostProcessor、PersistenceAnnotationBeanPostProcessor、EventListenerMethodProcessor、DefaultEventListenerFactory等几个处理器到容器中，
+		// 有了<context-annotation-config/>的功能
 		registerBeanDefinitionParser("component-scan", new ComponentScanBeanDefinitionParser());
+		// 注册Bean定义解析器：<context:load-time-weaver>标签对应的解析器
 		registerBeanDefinitionParser("load-time-weaver", new LoadTimeWeaverBeanDefinitionParser());
+		// 注册Bean定义解析器：<context:spring-configured>标签对应的解析器
 		registerBeanDefinitionParser("spring-configured", new SpringConfiguredBeanDefinitionParser());
+		// 注册Bean定义解析器：<context:mbean-export>标签对应的解析器
 		registerBeanDefinitionParser("mbean-export", new MBeanExportBeanDefinitionParser());
+		// 注册Bean定义解析器：<context:mbean-server>标签对应的解析器
 		registerBeanDefinitionParser("mbean-server", new MBeanServerBeanDefinitionParser());
 	}
 

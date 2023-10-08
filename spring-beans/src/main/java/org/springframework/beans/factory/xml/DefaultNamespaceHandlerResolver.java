@@ -115,11 +115,14 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 	@Override
 	@Nullable
 	public NamespaceHandler resolve(String namespaceUri) {
+		// 获取所有的NamespaceHandler映射关系
 		Map<String, Object> handlerMappings = getHandlerMappings();
+		// 获取namespace uri对应的NamespaceHandler
 		Object handlerOrClassName = handlerMappings.get(namespaceUri);
 		if (handlerOrClassName == null) {
 			return null;
 		}
+		// 已经实例化过了，直接返回
 		else if (handlerOrClassName instanceof NamespaceHandler) {
 			return (NamespaceHandler) handlerOrClassName;
 		}
@@ -131,8 +134,11 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 					throw new FatalBeanException("Class [" + className + "] for namespace [" + namespaceUri +
 							"] does not implement the [" + NamespaceHandler.class.getName() + "] interface");
 				}
+				// 实例化NamespaceHandler实例
 				NamespaceHandler namespaceHandler = (NamespaceHandler) BeanUtils.instantiateClass(handlerClass);
+				// 调用NamespaceHandler的初始化方法，不同的NamespaceHandler中都会注册对应的不同标签的解析器
 				namespaceHandler.init();
+				// 将实例化后的实例放到缓存中
 				handlerMappings.put(namespaceUri, namespaceHandler);
 				return namespaceHandler;
 			}
@@ -160,6 +166,7 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 						logger.trace("Loading NamespaceHandler mappings from [" + this.handlerMappingsLocation + "]");
 					}
 					try {
+						// 从META-INF/spring.handlers文件中获取NamespaceHandler
 						Properties mappings =
 								PropertiesLoaderUtils.loadAllProperties(this.handlerMappingsLocation, this.classLoader);
 						if (logger.isTraceEnabled()) {

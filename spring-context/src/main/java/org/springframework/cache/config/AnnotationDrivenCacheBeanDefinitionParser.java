@@ -49,6 +49,8 @@ import org.springframework.util.StringUtils;
  * with {@code CacheResult}, {@code CachePut}, {@code CacheRemove} or
  * {@code CacheRemoveAll} are also registered.
  *
+ * <cache:annotation-driven/>标签对应的解析器
+ *
  * @author Costin Leau
  * @author Stephane Nicoll
  * @since 3.1
