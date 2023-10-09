@@ -56,6 +56,7 @@ public abstract class AopNamespaceUtils {
 	public static void registerAutoProxyCreatorIfNecessary(
 			ParserContext parserContext, Element sourceElement) {
 
+		// 注册自动代理创建器，是InfrastructureAdvisorAutoProxyCreator类型，是一个SmartInstantiationAwareBeanPostProcessor、InstantiationAwareBeanPostProcessor、BeanPostProcessor
 		BeanDefinition beanDefinition = AopConfigUtils.registerAutoProxyCreatorIfNecessary(
 				parserContext.getRegistry(), parserContext.extractSource(sourceElement));
 		useClassProxyingIfNecessary(parserContext.getRegistry(), sourceElement);
@@ -75,6 +76,8 @@ public abstract class AopNamespaceUtils {
 	public static void registerAspectJAnnotationAutoProxyCreatorIfNecessary(
 			ParserContext parserContext, Element sourceElement) {
 
+		// 注册一个注解自动代理创建器，类型是AnnotationAwareAspectJAutoProxyCreator，是AspectJAwareAdvisorAutoProxyCreator的子类，
+		// 是一个SmartInstantiationAwareBeanPostProcessor、InstantiationAwareBeanPostProcessor、BeanPostProcessor
 		BeanDefinition beanDefinition = AopConfigUtils.registerAspectJAnnotationAutoProxyCreatorIfNecessary(
 				parserContext.getRegistry(), parserContext.extractSource(sourceElement));
 		useClassProxyingIfNecessary(parserContext.getRegistry(), sourceElement);

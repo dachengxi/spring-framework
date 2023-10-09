@@ -89,11 +89,15 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 	public BeanDefinition parse(Element element, ParserContext context) {
 		Object source = context.extractSource(element);
 
+		// 注册UrlProvider、ResourceUrlProviderExposingInterceptor、MappedInterceptor
 		registerUrlProvider(context, source);
 
+		// 注册AntPathMatcher
 		RuntimeBeanReference pathMatcherRef = MvcNamespaceUtils.registerPathMatcher(null, context, source);
+		// 注册UrlPathHelper
 		RuntimeBeanReference pathHelperRef = MvcNamespaceUtils.registerUrlPathHelper(null, context, source);
 
+		// 注册ResourceHttpRequestHandler
 		String resourceHandlerName = registerResourceHandler(context, element, pathHelperRef, source);
 		if (resourceHandlerName == null) {
 			return null;
@@ -107,6 +111,7 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 		}
 		urlMap.put(resourceRequestPath, resourceHandlerName);
 
+		// 注册SimpleUrlHandlerMapping
 		RootBeanDefinition handlerMappingDef = new RootBeanDefinition(SimpleUrlHandlerMapping.class);
 		handlerMappingDef.setSource(source);
 		handlerMappingDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -127,6 +132,8 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 
 		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not "turned off"
 		// Register HttpRequestHandlerAdapter
+		// 注册默认的组件：BeanNameUrlHandlerMapping、HttpRequestHandlerAdapter、SimpleControllerHandlerAdapter、HandlerMappingIntrospector、
+		// AcceptHeaderLocaleResolver、FixedThemeResolver、DefaultRequestToViewNameTranslator、SessionFlashMapManager
 		MvcNamespaceUtils.registerDefaultComponents(context, source);
 
 		return null;
@@ -134,16 +141,19 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 
 	private void registerUrlProvider(ParserContext context, @Nullable Object source) {
 		if (!context.getRegistry().containsBeanDefinition(RESOURCE_URL_PROVIDER)) {
+			// 注册ResourceUrlProvider
 			RootBeanDefinition urlProvider = new RootBeanDefinition(ResourceUrlProvider.class);
 			urlProvider.setSource(source);
 			urlProvider.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 			context.getRegistry().registerBeanDefinition(RESOURCE_URL_PROVIDER, urlProvider);
 			context.registerComponent(new BeanComponentDefinition(urlProvider, RESOURCE_URL_PROVIDER));
 
+			// 注册ResourceUrlProviderExposingInterceptor
 			RootBeanDefinition interceptor = new RootBeanDefinition(ResourceUrlProviderExposingInterceptor.class);
 			interceptor.setSource(source);
 			interceptor.getConstructorArgumentValues().addIndexedArgumentValue(0, urlProvider);
 
+			// 注册MappedInterceptor
 			RootBeanDefinition mappedInterceptor = new RootBeanDefinition(MappedInterceptor.class);
 			mappedInterceptor.setSource(source);
 			mappedInterceptor.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -164,6 +174,7 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 			return null;
 		}
 
+		// 注册ResourceHttpRequestHandler
 		RootBeanDefinition resourceHandlerDef = new RootBeanDefinition(ResourceHttpRequestHandler.class);
 		resourceHandlerDef.setSource(source);
 		resourceHandlerDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);

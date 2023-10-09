@@ -62,8 +62,11 @@ public class AopNamespaceHandler extends NamespaceHandlerSupport {
 	@Override
 	public void init() {
 		// In 2.0 XSD as well as in 2.5+ XSDs
-		// 注册<aop:config/>标签对应的解析器，解析aop相关的配置为BeanDefinition
+		// 注册<aop:config/>标签对应的解析器，解析aop相关的配置为BeanDefinition，也会注册自动代理创建器，类型是AspectJAwareAdvisorAutoProxyCreator
 		registerBeanDefinitionParser("config", new ConfigBeanDefinitionParser());
+		// 注册<aop:aspectj-autoproxy/>标签对应的解析器，注册一个注解自动代理创建器，类型是AnnotationAwareAspectJAutoProxyCreator，是AspectJAwareAdvisorAutoProxyCreator的子类，
+		// 是一个SmartInstantiationAwareBeanPostProcessor、InstantiationAwareBeanPostProcessor、BeanPostProcessor，
+		// 用来解析使用注解的aop相关的Bean定义
 		registerBeanDefinitionParser("aspectj-autoproxy", new AspectJAutoProxyBeanDefinitionParser());
 		registerBeanDefinitionDecorator("scoped-proxy", new ScopedProxyBeanDefinitionDecorator());
 

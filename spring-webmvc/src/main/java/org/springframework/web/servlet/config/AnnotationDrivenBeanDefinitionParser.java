@@ -199,8 +199,10 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		CompositeComponentDefinition compDefinition = new CompositeComponentDefinition(element.getTagName(), source);
 		context.pushContainingComponent(compDefinition);
 
+		// ContentNegotiationManagerFactoryBean
 		RuntimeBeanReference contentNegotiationManager = getContentNegotiationManager(element, source, context);
 
+		// RequestMappingHandlerMapping
 		RootBeanDefinition handlerMappingDef = new RootBeanDefinition(RequestMappingHandlerMapping.class);
 		handlerMappingDef.setSource(source);
 		handlerMappingDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -212,17 +214,21 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 			handlerMappingDef.getPropertyValues().add("removeSemicolonContent", !enableMatrixVariables);
 		}
 
+		// 配置UrlPathHelper和AntPathMatcher
 		configurePathMatchingProperties(handlerMappingDef, element, context);
 		readerContext.getRegistry().registerBeanDefinition(HANDLER_MAPPING_BEAN_NAME, handlerMappingDef);
 
+		// 注册cors配置
 		RuntimeBeanReference corsRef = MvcNamespaceUtils.registerCorsConfigurations(null, context, source);
 		handlerMappingDef.getPropertyValues().add("corsConfigurations", corsRef);
 
 		// 注册类型转换服务的BeanDefinition，在afterPropertiesSet的时候会注册默认的转换器和格式化器到该转换服务中
 		RuntimeBeanReference conversionService = getConversionService(element, source, context);
+		// 注册OptionalValidatorFactoryBean
 		RuntimeBeanReference validator = getValidator(element, source, context);
 		RuntimeBeanReference messageCodesResolver = getMessageCodesResolver(element);
 
+		// ConfigurableWebBindingInitializer
 		RootBeanDefinition bindingDef = new RootBeanDefinition(ConfigurableWebBindingInitializer.class);
 		bindingDef.setSource(source);
 		bindingDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -230,21 +236,28 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		bindingDef.getPropertyValues().add("validator", validator);
 		bindingDef.getPropertyValues().add("messageCodesResolver", messageCodesResolver);
 
+		// 注册MessageConverter消息转换器
 		ManagedList<?> messageConverters = getMessageConverters(element, source, context);
+		// 参数解析器
 		ManagedList<?> argumentResolvers = getArgumentResolvers(element, context);
+		// 返回值处理器
 		ManagedList<?> returnValueHandlers = getReturnValueHandlers(element, context);
 		String asyncTimeout = getAsyncTimeout(element);
+		// 支持异步的task-executor
 		RuntimeBeanReference asyncExecutor = getAsyncExecutor(element);
 		ManagedList<?> callableInterceptors = getInterceptors(element, source, context, "callable-interceptors");
 		ManagedList<?> deferredResultInterceptors = getInterceptors(element, source, context, "deferred-result-interceptors");
 
+		// RequestMappingHandlerAdapter
 		RootBeanDefinition handlerAdapterDef = new RootBeanDefinition(RequestMappingHandlerAdapter.class);
 		handlerAdapterDef.setSource(source);
 		handlerAdapterDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		handlerAdapterDef.getPropertyValues().add("contentNegotiationManager", contentNegotiationManager);
 		handlerAdapterDef.getPropertyValues().add("webBindingInitializer", bindingDef);
 		handlerAdapterDef.getPropertyValues().add("messageConverters", messageConverters);
+		// JsonViewRequestBodyAdvice
 		addRequestBodyAdvice(handlerAdapterDef);
+		// JsonViewResponseBodyAdvice
 		addResponseBodyAdvice(handlerAdapterDef);
 
 		if (element.hasAttribute("ignore-default-model-on-redirect")) {
@@ -268,6 +281,7 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		handlerAdapterDef.getPropertyValues().add("deferredResultInterceptors", deferredResultInterceptors);
 		readerContext.getRegistry().registerBeanDefinition(HANDLER_ADAPTER_BEAN_NAME, handlerAdapterDef);
 
+		// CompositeUriComponentsContributorFactoryBean
 		RootBeanDefinition uriContributorDef =
 				new RootBeanDefinition(CompositeUriComponentsContributorFactoryBean.class);
 		uriContributorDef.setSource(source);
@@ -287,6 +301,7 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		mappedInterceptorDef.getConstructorArgumentValues().addIndexedArgumentValue(1, csInterceptorDef);
 		String mappedInterceptorName = readerContext.registerWithGeneratedName(mappedInterceptorDef);
 
+		// ExceptionHandlerExceptionResolver异常处理
 		RootBeanDefinition methodExceptionResolver = new RootBeanDefinition(ExceptionHandlerExceptionResolver.class);
 		methodExceptionResolver.setSource(source);
 		methodExceptionResolver.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -302,12 +317,14 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		}
 		String methodExResolverName = readerContext.registerWithGeneratedName(methodExceptionResolver);
 
+		// ResponseStatusExceptionResolver
 		RootBeanDefinition statusExceptionResolver = new RootBeanDefinition(ResponseStatusExceptionResolver.class);
 		statusExceptionResolver.setSource(source);
 		statusExceptionResolver.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		statusExceptionResolver.getPropertyValues().add("order", 1);
 		String statusExResolverName = readerContext.registerWithGeneratedName(statusExceptionResolver);
 
+		// DefaultHandlerExceptionResolver
 		RootBeanDefinition defaultExceptionResolver = new RootBeanDefinition(DefaultHandlerExceptionResolver.class);
 		defaultExceptionResolver.setSource(source);
 		defaultExceptionResolver.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -323,6 +340,8 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		context.registerComponent(new BeanComponentDefinition(defaultExceptionResolver, defaultExResolverName));
 
 		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not "turned off"
+		// 注册默认的组件：BeanNameUrlHandlerMapping、HttpRequestHandlerAdapter、SimpleControllerHandlerAdapter、HandlerMappingIntrospector、
+		// AcceptHeaderLocaleResolver、FixedThemeResolver、DefaultRequestToViewNameTranslator、SessionFlashMapManager
 		MvcNamespaceUtils.registerDefaultComponents(context, source);
 
 		context.popAndRegisterContainingComponent();
@@ -435,6 +454,7 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 			if (pathMatchingElement.hasAttribute("path-helper")) {
 				pathHelperRef = new RuntimeBeanReference(pathMatchingElement.getAttribute("path-helper"));
 			}
+			// 注册UrlPathHelper
 			pathHelperRef = MvcNamespaceUtils.registerUrlPathHelper(pathHelperRef, context, source);
 			handlerMappingDef.getPropertyValues().add("urlPathHelper", pathHelperRef);
 
@@ -442,6 +462,7 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 			if (pathMatchingElement.hasAttribute("path-matcher")) {
 				pathMatcherRef = new RuntimeBeanReference(pathMatchingElement.getAttribute("path-matcher"));
 			}
+			// 注册AntPathMatcher
 			pathMatcherRef = MvcNamespaceUtils.registerPathMatcher(pathMatcherRef, context, source);
 			handlerMappingDef.getPropertyValues().add("pathMatcher", pathMatcherRef);
 		}
@@ -563,46 +584,64 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 
 		if (convertersElement == null || Boolean.parseBoolean(convertersElement.getAttribute("register-defaults"))) {
 			messageConverters.setSource(source);
+
+			// ByteArrayHttpMessageConverter
 			messageConverters.add(createConverterDefinition(ByteArrayHttpMessageConverter.class, source));
 
+
+			// StringHttpMessageConverter
 			RootBeanDefinition stringConverterDef = createConverterDefinition(StringHttpMessageConverter.class, source);
 			stringConverterDef.getPropertyValues().add("writeAcceptCharset", false);
 			messageConverters.add(stringConverterDef);
 
+
+			// ResourceHttpMessageConverter
 			messageConverters.add(createConverterDefinition(ResourceHttpMessageConverter.class, source));
+			// ResourceRegionHttpMessageConverter
 			messageConverters.add(createConverterDefinition(ResourceRegionHttpMessageConverter.class, source));
+			// SourceHttpMessageConverter
 			messageConverters.add(createConverterDefinition(SourceHttpMessageConverter.class, source));
+			// AllEncompassingFormHttpMessageConverter
 			messageConverters.add(createConverterDefinition(AllEncompassingFormHttpMessageConverter.class, source));
 
 			if (romePresent) {
+				// AtomFeedHttpMessageConverter
 				messageConverters.add(createConverterDefinition(AtomFeedHttpMessageConverter.class, source));
+				// RssChannelHttpMessageConverter
 				messageConverters.add(createConverterDefinition(RssChannelHttpMessageConverter.class, source));
 			}
 
 			if (jackson2XmlPresent) {
+				// MappingJackson2XmlHttpMessageConverter
 				Class<?> type = MappingJackson2XmlHttpMessageConverter.class;
 				RootBeanDefinition jacksonConverterDef = createConverterDefinition(type, source);
+				// Jackson2ObjectMapperFactoryBean
 				GenericBeanDefinition jacksonFactoryDef = createObjectMapperFactoryDefinition(source);
 				jacksonFactoryDef.getPropertyValues().add("createXmlMapper", true);
 				jacksonConverterDef.getConstructorArgumentValues().addIndexedArgumentValue(0, jacksonFactoryDef);
 				messageConverters.add(jacksonConverterDef);
 			}
 			else if (jaxb2Present) {
+				// Jaxb2RootElementHttpMessageConverter
 				messageConverters.add(createConverterDefinition(Jaxb2RootElementHttpMessageConverter.class, source));
 			}
 
 			if (jackson2Present) {
+				// MappingJackson2HttpMessageConverter
 				Class<?> type = MappingJackson2HttpMessageConverter.class;
 				RootBeanDefinition jacksonConverterDef = createConverterDefinition(type, source);
+				// Jackson2ObjectMapperFactoryBean
 				GenericBeanDefinition jacksonFactoryDef = createObjectMapperFactoryDefinition(source);
 				jacksonConverterDef.getConstructorArgumentValues().addIndexedArgumentValue(0, jacksonFactoryDef);
 				messageConverters.add(jacksonConverterDef);
 			}
 			else if (gsonPresent) {
+				// GsonHttpMessageConverter
 				messageConverters.add(createConverterDefinition(GsonHttpMessageConverter.class, source));
 			}
 
 			if (jackson2SmilePresent) {
+				// MappingJackson2SmileHttpMessageConverter
 				Class<?> type = MappingJackson2SmileHttpMessageConverter.class;
 				RootBeanDefinition jacksonConverterDef = createConverterDefinition(type, source);
 				GenericBeanDefinition jacksonFactoryDef = createObjectMapperFactoryDefinition(source);
@@ -611,6 +650,7 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 				messageConverters.add(jacksonConverterDef);
 			}
 			if (jackson2CborPresent) {
+				// MappingJackson2CborHttpMessageConverter
 				Class<?> type = MappingJackson2CborHttpMessageConverter.class;
 				RootBeanDefinition jacksonConverterDef = createConverterDefinition(type, source);
 				GenericBeanDefinition jacksonFactoryDef = createObjectMapperFactoryDefinition(source);

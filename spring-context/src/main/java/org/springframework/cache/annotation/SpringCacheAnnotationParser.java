@@ -38,6 +38,7 @@ import org.springframework.util.StringUtils;
  * Strategy implementation for parsing Spring's {@link Caching}, {@link Cacheable},
  * {@link CacheEvict}, and {@link CachePut} annotations.
  *
+ * 缓存注解解析器，解析缓存相关的注解
  * @author Costin Leau
  * @author Juergen Hoeller
  * @author Chris Beams

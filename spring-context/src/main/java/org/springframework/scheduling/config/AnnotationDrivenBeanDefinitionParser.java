@@ -61,15 +61,18 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 		String mode = element.getAttribute("mode");
 		if ("aspectj".equals(mode)) {
 			// mode="aspectj"
+			// aspectj模式
 			registerAsyncExecutionAspect(element, parserContext);
 		}
 		else {
 			// mode="proxy"
+			// jdk代理模式
 			if (registry.containsBeanDefinition(TaskManagementConfigUtils.ASYNC_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 				parserContext.getReaderContext().error(
 						"Only one AsyncAnnotationBeanPostProcessor may exist within the context.", source);
 			}
 			else {
+				// 注册一个AsyncAnnotationBeanPostProcessor到容器中
 				BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(
 						"org.springframework.scheduling.annotation.AsyncAnnotationBeanPostProcessor");
 				builder.getRawBeanDefinition().setSource(source);
@@ -93,6 +96,7 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 					"Only one ScheduledAnnotationBeanPostProcessor may exist within the context.", source);
 		}
 		else {
+			// 注册一个ScheduledAnnotationBeanPostProcessor到容器中
 			BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(
 					"org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor");
 			builder.getRawBeanDefinition().setSource(source);
@@ -121,6 +125,7 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 			if (StringUtils.hasText(exceptionHandler)) {
 				builder.addPropertyReference("exceptionHandler", exceptionHandler);
 			}
+			// 注册AnnotationAsyncExecutionAspect到容器中
 			parserContext.registerBeanComponent(new BeanComponentDefinition(builder.getBeanDefinition(),
 					TaskManagementConfigUtils.ASYNC_EXECUTION_ASPECT_BEAN_NAME));
 		}

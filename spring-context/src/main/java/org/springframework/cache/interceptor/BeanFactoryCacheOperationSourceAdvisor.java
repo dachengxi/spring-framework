@@ -31,6 +31,9 @@ import org.springframework.lang.Nullable;
 @SuppressWarnings("serial")
 public class BeanFactoryCacheOperationSourceAdvisor extends AbstractBeanFactoryPointcutAdvisor {
 
+	/**
+	 * 缓存操作来源，如果是注解的是AnnotationCacheOperationSource
+	 */
 	@Nullable
 	private CacheOperationSource cacheOperationSource;
 

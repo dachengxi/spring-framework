@@ -74,11 +74,13 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 		List<Element> cacheDefs = DomUtils.getChildElementsByTagName(element, DEFS_ELEMENT);
 		if (!cacheDefs.isEmpty()) {
 			// Using attributes source.
+			// 使用xml文件中配置的缓存操作来源
 			List<RootBeanDefinition> attributeSourceDefinitions = parseDefinitionsSources(cacheDefs, parserContext);
 			builder.addPropertyValue("cacheOperationSources", attributeSourceDefinitions);
 		}
 		else {
 			// Assume annotations source.
+			// xml中没有配置缓存操作来源，则使用基于注解的缓存操作来源AnnotationCacheOperationSource
 			builder.addPropertyValue("cacheOperationSources",
 					new RootBeanDefinition("org.springframework.cache.annotation.AnnotationCacheOperationSource"));
 		}
@@ -102,6 +104,7 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 		ManagedMap<TypedStringValue, Collection<CacheOperation>> cacheOpMap = new ManagedMap<>();
 		cacheOpMap.setSource(parserContext.extractSource(definition));
 
+		// cacheable元素
 		List<Element> cacheableCacheMethods = DomUtils.getChildElementsByTagName(definition, CACHEABLE_ELEMENT);
 
 		for (Element opElement : cacheableCacheMethods) {
@@ -117,6 +120,7 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 			col.add(builder.build());
 		}
 
+		// cache-evict元素
 		List<Element> evictCacheMethods = DomUtils.getChildElementsByTagName(definition, CACHE_EVICT_ELEMENT);
 
 		for (Element opElement : evictCacheMethods) {
@@ -140,6 +144,7 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 			col.add(builder.build());
 		}
 
+		// cache-put元素
 		List<Element> putCacheMethods = DomUtils.getChildElementsByTagName(definition, CACHE_PUT_ELEMENT);
 
 		for (Element opElement : putCacheMethods) {
@@ -154,6 +159,7 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 			col.add(builder.build());
 		}
 
+		// 创建一个Bean定义实例，类型是NameMatchCacheOperationSource
 		RootBeanDefinition attributeSourceDefinition = new RootBeanDefinition(NameMatchCacheOperationSource.class);
 		attributeSourceDefinition.setSource(parserContext.extractSource(definition));
 		attributeSourceDefinition.getPropertyValues().add("nameMap", cacheOpMap);

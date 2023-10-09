@@ -86,10 +86,14 @@ class AnnotationDrivenCacheBeanDefinitionParser implements BeanDefinitionParser 
 		String mode = element.getAttribute("mode");
 		if ("aspectj".equals(mode)) {
 			// mode="aspectj"
+			// 基于aspectj的aop模式，类型是AnnotationCacheAspect
 			registerCacheAspect(element, parserContext);
 		}
 		else {
 			// mode="proxy"
+			// 基于jdk动态代理的aop模式，注册自动代理创建器，是InfrastructureAdvisorAutoProxyCreator类型，是一个SmartInstantiationAwareBeanPostProcessor、InstantiationAwareBeanPostProcessor、BeanPostProcessor
+			// 同时也注册一个缓存的CacheOperationSource，是AnnotationCacheOperationSource，
+			// 注册一个CacheInterceptor，注册一个BeanFactoryCacheOperationSourceAdvisor
 			registerCacheAdvisor(element, parserContext);
 		}
 
@@ -104,7 +108,10 @@ class AnnotationDrivenCacheBeanDefinitionParser implements BeanDefinitionParser 
 	}
 
 	private void registerCacheAdvisor(Element element, ParserContext parserContext) {
+		// 注册自动代理创建器，是InfrastructureAdvisorAutoProxyCreator类型，是一个SmartInstantiationAwareBeanPostProcessor、InstantiationAwareBeanPostProcessor、BeanPostProcessor
 		AopNamespaceUtils.registerAutoProxyCreatorIfNecessary(parserContext, element);
+		// 注册一个CacheOperationSource，是AnnotationCacheOperationSource，
+		// 注册一个CacheInterceptor，注册一个BeanFactoryCacheOperationSourceAdvisor
 		SpringCachingConfigurer.registerCacheAdvisor(element, parserContext);
 		if (jsr107Present && jcacheImplPresent) {
 			JCacheCachingConfigurer.registerCacheAdvisor(element, parserContext);
@@ -146,12 +153,16 @@ class AnnotationDrivenCacheBeanDefinitionParser implements BeanDefinitionParser 
 				Object eleSource = parserContext.extractSource(element);
 
 				// Create the CacheOperationSource definition.
+				// 创建一个Bean定义实例，是AnnotationCacheOperationSource类型
 				RootBeanDefinition sourceDef = new RootBeanDefinition("org.springframework.cache.annotation.AnnotationCacheOperationSource");
 				sourceDef.setSource(eleSource);
+				// 角色是内部使用
 				sourceDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+				// 注册到容器中
 				String sourceName = parserContext.getReaderContext().registerWithGeneratedName(sourceDef);
 
 				// Create the CacheInterceptor definition.
+				// 创建一个Bean定义实例，是CacheInterceptor
 				RootBeanDefinition interceptorDef = new RootBeanDefinition(CacheInterceptor.class);
 				interceptorDef.setSource(eleSource);
 				interceptorDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -159,9 +170,11 @@ class AnnotationDrivenCacheBeanDefinitionParser implements BeanDefinitionParser 
 				parseErrorHandler(element, interceptorDef);
 				CacheNamespaceHandler.parseKeyGenerator(element, interceptorDef);
 				interceptorDef.getPropertyValues().add("cacheOperationSources", new RuntimeBeanReference(sourceName));
+				// 注册到容器中
 				String interceptorName = parserContext.getReaderContext().registerWithGeneratedName(interceptorDef);
 
 				// Create the CacheAdvisor definition.
+				// 创建一个Bean定义实例，是BeanFactoryCacheOperationSourceAdvisor类型
 				RootBeanDefinition advisorDef = new RootBeanDefinition(BeanFactoryCacheOperationSourceAdvisor.class);
 				advisorDef.setSource(eleSource);
 				advisorDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -170,6 +183,7 @@ class AnnotationDrivenCacheBeanDefinitionParser implements BeanDefinitionParser 
 				if (element.hasAttribute("order")) {
 					advisorDef.getPropertyValues().add("order", element.getAttribute("order"));
 				}
+				// 注册到容器中
 				parserContext.getRegistry().registerBeanDefinition(CacheManagementConfigUtils.CACHE_ADVISOR_BEAN_NAME, advisorDef);
 
 				CompositeComponentDefinition compositeDef = new CompositeComponentDefinition(element.getTagName(), eleSource);
@@ -191,11 +205,14 @@ class AnnotationDrivenCacheBeanDefinitionParser implements BeanDefinitionParser 
 		 */
 		private static void registerCacheAspect(Element element, ParserContext parserContext) {
 			if (!parserContext.getRegistry().containsBeanDefinition(CacheManagementConfigUtils.CACHE_ASPECT_BEAN_NAME)) {
+				// 创建一个Bean定义实例
 				RootBeanDefinition def = new RootBeanDefinition();
+				// 类型是AnnotationCacheAspect
 				def.setBeanClassName(CACHE_ASPECT_CLASS_NAME);
 				def.setFactoryMethodName("aspectOf");
 				parseCacheResolution(element, def, false);
 				CacheNamespaceHandler.parseKeyGenerator(element, def);
+				// 注册Bean定义到容器中，注册Bean组件定义
 				parserContext.registerBeanComponent(new BeanComponentDefinition(def, CacheManagementConfigUtils.CACHE_ASPECT_BEAN_NAME));
 			}
 		}

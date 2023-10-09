@@ -50,6 +50,7 @@ class DefaultServletHandlerBeanDefinitionParser implements BeanDefinitionParser 
 		Object source = parserContext.extractSource(element);
 
 		String defaultServletName = element.getAttribute("default-servlet-name");
+		// 注册DefaultServletHttpRequestHandler，用来处理所有http请求，包括静态资源，会将静态资源转发给web服务器默认的Servlet处理，非静态资源由DispatcherServlet处理
 		RootBeanDefinition defaultServletHandlerDef = new RootBeanDefinition(DefaultServletHttpRequestHandler.class);
 		defaultServletHandlerDef.setSource(source);
 		defaultServletHandlerDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -63,6 +64,7 @@ class DefaultServletHandlerBeanDefinitionParser implements BeanDefinitionParser 
 		Map<String, String> urlMap = new ManagedMap<>();
 		urlMap.put("/**", defaultServletHandlerName);
 
+		// 注册SimpleUrlHandlerMapping，用来处理URL到Bean的映射
 		RootBeanDefinition handlerMappingDef = new RootBeanDefinition(SimpleUrlHandlerMapping.class);
 		handlerMappingDef.setSource(source);
 		handlerMappingDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -73,6 +75,8 @@ class DefaultServletHandlerBeanDefinitionParser implements BeanDefinitionParser 
 		parserContext.registerComponent(new BeanComponentDefinition(handlerMappingDef, handlerMappingBeanName));
 
 		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not "turned off"
+		// 注册默认的组件：BeanNameUrlHandlerMapping、HttpRequestHandlerAdapter、SimpleControllerHandlerAdapter、HandlerMappingIntrospector、
+		// AcceptHeaderLocaleResolver、FixedThemeResolver、DefaultRequestToViewNameTranslator、SessionFlashMapManager
 		MvcNamespaceUtils.registerDefaultComponents(parserContext, source);
 
 		return null;

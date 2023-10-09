@@ -39,6 +39,7 @@ import org.springframework.util.Assert;
  * infrastructure. This class may also serve as base class for a custom
  * {@code CacheOperationSource}.
  *
+ * 基于注解的缓存操作来源，用来处理缓存相关的注解
  * @author Costin Leau
  * @author Juergen Hoeller
  * @author Stephane Nicoll
@@ -69,6 +70,7 @@ public class AnnotationCacheOperationSource extends AbstractFallbackCacheOperati
 	 */
 	public AnnotationCacheOperationSource(boolean publicMethodsOnly) {
 		this.publicMethodsOnly = publicMethodsOnly;
+		// 创建一个缓存注解解析器
 		this.annotationParsers = Collections.singleton(new SpringCacheAnnotationParser());
 	}
 

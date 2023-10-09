@@ -28,9 +28,13 @@ public class TaskNamespaceHandler extends NamespaceHandlerSupport {
 
 	@Override
 	public void init() {
+		// 注册<task:annotation-driven/>标签解析器
 		this.registerBeanDefinitionParser("annotation-driven", new AnnotationDrivenBeanDefinitionParser());
+		// 注册<task:executor/>标签解析器
 		this.registerBeanDefinitionParser("executor", new ExecutorBeanDefinitionParser());
+		// 注册<task:scheduled-tasks/>标签解析器
 		this.registerBeanDefinitionParser("scheduled-tasks", new ScheduledTasksBeanDefinitionParser());
+		// 注册<task:scheduler/>标签解析器
 		this.registerBeanDefinitionParser("scheduler", new SchedulerBeanDefinitionParser());
 	}
 

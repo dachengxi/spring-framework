@@ -71,13 +71,21 @@ public abstract class MvcNamespaceUtils {
 
 
 	public static void registerDefaultComponents(ParserContext context, @Nullable Object source) {
+		// 注册BeanNameUrlHandlerMapping
 		registerBeanNameUrlHandlerMapping(context, source);
+		// 注册HttpRequestHandlerAdapter
 		registerHttpRequestHandlerAdapter(context, source);
+		// 注册SimpleControllerHandlerAdapter
 		registerSimpleControllerHandlerAdapter(context, source);
+		// 注册HandlerMappingIntrospector
 		registerHandlerMappingIntrospector(context, source);
+		// 注册AcceptHeaderLocaleResolver
 		registerLocaleResolver(context, source);
+		// 注册FixedThemeResolver
 		registerThemeResolver(context, source);
+		// 注册DefaultRequestToViewNameTranslator
 		registerViewNameTranslator(context, source);
+		// 注册SessionFlashMapManager
 		registerFlashMapManager(context, source);
 	}
 
@@ -97,6 +105,7 @@ public abstract class MvcNamespaceUtils {
 		}
 		else if (!context.getRegistry().isAlias(URL_PATH_HELPER_BEAN_NAME) &&
 				!context.getRegistry().containsBeanDefinition(URL_PATH_HELPER_BEAN_NAME)) {
+			// 注册UrlPathHelper
 			RootBeanDefinition urlPathHelperDef = new RootBeanDefinition(UrlPathHelper.class);
 			urlPathHelperDef.setSource(source);
 			urlPathHelperDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -122,6 +131,7 @@ public abstract class MvcNamespaceUtils {
 		}
 		else if (!context.getRegistry().isAlias(PATH_MATCHER_BEAN_NAME) &&
 				!context.getRegistry().containsBeanDefinition(PATH_MATCHER_BEAN_NAME)) {
+			// 注册AntPathMatcher
 			RootBeanDefinition pathMatcherDef = new RootBeanDefinition(AntPathMatcher.class);
 			pathMatcherDef.setSource(source);
 			pathMatcherDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
