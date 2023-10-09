@@ -39,6 +39,8 @@ import org.springframework.util.ClassUtils;
  * <p>Includes a set of {@link Bean} methods, including all such methods
  * defined in the ancestry of the class, in a 'flattened-out' manner.
  *
+ * 代表一个使用@Configuration注解的配置类
+ *
  * @author Chris Beams
  * @author Juergen Hoeller
  * @author Phillip Webb
@@ -48,20 +50,38 @@ import org.springframework.util.ClassUtils;
  */
 final class ConfigurationClass {
 
+	/**
+	 * 注解元数据
+	 */
 	private final AnnotationMetadata metadata;
 
+	/**
+	 * 资源
+	 */
 	private final Resource resource;
 
+	/**
+	 * Bean名字
+	 */
 	@Nullable
 	private String beanName;
 
 	private final Set<ConfigurationClass> importedBy = new LinkedHashSet<>(1);
 
+	/**
+	 * 保存@Bean注解的方法
+	 */
 	private final Set<BeanMethod> beanMethods = new LinkedHashSet<>();
 
+	/**
+	 * 使用注解@ImportResource导入的资源
+	 */
 	private final Map<String, Class<? extends BeanDefinitionReader>> importedResources =
 			new LinkedHashMap<>();
 
+	/**
+	 * Import注解使用ImportBeanDefinitionRegistrar接口时导入的数据
+	 */
 	private final Map<ImportBeanDefinitionRegistrar, AnnotationMetadata> importBeanDefinitionRegistrars =
 			new LinkedHashMap<>();
 
