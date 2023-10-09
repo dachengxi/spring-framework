@@ -40,7 +40,7 @@ public class ContextNamespaceHandler extends NamespaceHandlerSupport {
 		// 注册Bean定义解析器：<context:annotation-config>标签对应的解析器，注册ConfigurationClassPostProcessor、AutowiredAnnotationBeanPostProcessor、
 		// CommonAnnotationBeanPostProcessor、PersistenceAnnotationBeanPostProcessor、EventListenerMethodProcessor、DefaultEventListenerFactory等几个处理器到容器中
 		registerBeanDefinitionParser("annotation-config", new AnnotationConfigBeanDefinitionParser());
-		// 注册Bean定义解析器：<context:component-scan>标签对应的解析器，主要扫描@Component注解的Bean，其他的@Repository、@Service、@Controller
+		// 注册Bean定义解析器：<context:component-scan>标签对应的解析器，主要扫描@Component注解的Bean，其他的@Repository、@Service、@Controller、@Configuration
 		// 等注解也是@Component类型的注解，也会被扫描到，然后将扫描到的Bean定义注册到容器中。同时也会注册ConfigurationClassPostProcessor、AutowiredAnnotationBeanPostProcessor、
 		// CommonAnnotationBeanPostProcessor、PersistenceAnnotationBeanPostProcessor、EventListenerMethodProcessor、DefaultEventListenerFactory等几个处理器到容器中，
 		// 有了<context-annotation-config/>的功能

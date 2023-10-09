@@ -122,11 +122,15 @@ abstract class ConfigurationClassUtils {
 			}
 		}
 
+		// 获取@Configuration注解的属性
 		Map<String, Object> config = metadata.getAnnotationAttributes(Configuration.class.getName());
+		// 如果有@Configuration注解，并且proxyBeanMethods设置为true，则设置Bean定义的属性是full模式，@Configuration的proxyBeanMethods属性默认是true
 		if (config != null && !Boolean.FALSE.equals(config.get("proxyBeanMethods"))) {
+			// 设置ConfigurationClassPostProcessor.configurationClass=full属性到Bean定义中
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_FULL);
 		}
 		else if (config != null || isConfigurationCandidate(metadata)) {
+			// 设置ConfigurationClassPostProcessor.configurationClass=lite属性到Bean定义中
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_LITE);
 		}
 		else {
@@ -134,6 +138,7 @@ abstract class ConfigurationClassUtils {
 		}
 
 		// It's a full or lite configuration candidate... Let's determine the order value, if any.
+		// 有Order注解的，将Order注解的值设置到Bean定义中
 		Integer order = getOrder(metadata);
 		if (order != null) {
 			beanDef.setAttribute(ORDER_ATTRIBUTE, order);
@@ -151,11 +156,13 @@ abstract class ConfigurationClassUtils {
 	 */
 	public static boolean isConfigurationCandidate(AnnotationMetadata metadata) {
 		// Do not consider an interface or an annotation...
+		// 接口
 		if (metadata.isInterface()) {
 			return false;
 		}
 
 		// Any of the typical annotations found?
+		// 被@Component、@ComponentScan、@Import、@ImportResource注解的都是候选的配置类
 		for (String indicator : candidateIndicators) {
 			if (metadata.isAnnotated(indicator)) {
 				return true;
@@ -163,6 +170,7 @@ abstract class ConfigurationClassUtils {
 		}
 
 		// Finally, let's look for @Bean methods...
+		// 如果没有上面的几个直接标注，但是有@Bean注解的方法，也是候选的配置类
 		return hasBeanMethods(metadata);
 	}
 
