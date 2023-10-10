@@ -660,6 +660,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 
 	@Override
 	public String resolveRequiredPlaceholders(String text) throws IllegalArgumentException {
+		// 解析占位符
 		return this.propertyResolver.resolveRequiredPlaceholders(text);
 	}
 

@@ -26,6 +26,7 @@ import org.springframework.util.StringUtils;
 /**
  * Parser for the {@code <context:property-placeholder/>} element.
  *
+ * 解析<context:property-placeholder/>元素
  * @author Juergen Hoeller
  * @author Dave Syer
  * @author Chris Beams
@@ -57,23 +58,29 @@ class PropertyPlaceholderBeanDefinitionParser extends AbstractPropertyLoadingBea
 
 	@Override
 	protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
+		// 调用父类的公共方法解析公共的一些属性
 		super.doParse(element, parserContext, builder);
 
+		// ignore-unresolvable属性，是否忽略解析不到的属性，如果配置了不忽略，找不到的时候会抛异常
 		builder.addPropertyValue("ignoreUnresolvablePlaceholders",
 				Boolean.valueOf(element.getAttribute("ignore-unresolvable")));
 
+		// system-properties-mode属性，系统属性模式：ENVIRONMENT（默认）、OVERRIDE、NEVER
 		String systemPropertiesModeName = element.getAttribute(SYSTEM_PROPERTIES_MODE_ATTRIBUTE);
 		if (StringUtils.hasLength(systemPropertiesModeName) &&
 				!systemPropertiesModeName.equals(SYSTEM_PROPERTIES_MODE_DEFAULT)) {
 			builder.addPropertyValue("systemPropertiesModeName", "SYSTEM_PROPERTIES_MODE_" + systemPropertiesModeName);
 		}
 
+		// value-separator属性，占位符的值分隔符，默认是:，比如：${app.name:test-app}
 		if (element.hasAttribute("value-separator")) {
 			builder.addPropertyValue("valueSeparator", element.getAttribute("value-separator"));
 		}
+		// trim-values属性，默认为false，如果为true表示解析占位符的时候会使用trim操作去除两端的空格
 		if (element.hasAttribute("trim-values")) {
 			builder.addPropertyValue("trimValues", element.getAttribute("trim-values"));
 		}
+		// null-value属性，定义一个null值判断，符合这个值的表示应该返回null
 		if (element.hasAttribute("null-value")) {
 			builder.addPropertyValue("nullValue", element.getAttribute("null-value"));
 		}

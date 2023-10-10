@@ -66,16 +66,21 @@ public class PropertyOverrideConfigurer extends PropertyResourceConfigurer {
 
 	/**
 	 * The default bean name separator.
+	 * 默认Bean名字分割符
 	 */
 	public static final String DEFAULT_BEAN_NAME_SEPARATOR = ".";
 
 
 	private String beanNameSeparator = DEFAULT_BEAN_NAME_SEPARATOR;
 
+	/**
+	 * 是否忽略无效的key
+	 */
 	private boolean ignoreInvalidKeys = false;
 
 	/**
 	 * Contains names of beans that have overrides.
+	 * 保存了被覆盖过的Bean的名字
 	 */
 	private final Set<String> beanNames = Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 
@@ -106,6 +111,7 @@ public class PropertyOverrideConfigurer extends PropertyResourceConfigurer {
 		for (Enumeration<?> names = props.propertyNames(); names.hasMoreElements();) {
 			String key = (String) names.nextElement();
 			try {
+				// 处理覆盖的属性
 				processKey(beanFactory, key, props.getProperty(key));
 			}
 			catch (BeansException ex) {
@@ -131,9 +137,12 @@ public class PropertyOverrideConfigurer extends PropertyResourceConfigurer {
 			throw new BeanInitializationException("Invalid key '" + key +
 					"': expected 'beanName" + this.beanNameSeparator + "property'");
 		}
+		// 分隔符前面是Bean名字
 		String beanName = key.substring(0, separatorIndex);
+		// 分隔符后面是属性名字
 		String beanProperty = key.substring(separatorIndex + 1);
 		this.beanNames.add(beanName);
+		// 覆盖属性
 		applyPropertyValue(factory, beanName, beanProperty, value);
 		if (logger.isDebugEnabled()) {
 			logger.debug("Property '" + key + "' set to value [" + value + "]");
@@ -154,6 +163,7 @@ public class PropertyOverrideConfigurer extends PropertyResourceConfigurer {
 		}
 		PropertyValue pv = new PropertyValue(property, value);
 		pv.setOptional(this.ignoreInvalidKeys);
+		// 覆盖属性
 		bdToUse.getPropertyValues().addPropertyValue(pv);
 	}
 

@@ -36,6 +36,7 @@ import org.springframework.lang.Nullable;
  * methods for registering a {@link BeanDefinitionParser} or {@link BeanDefinitionDecorator}
  * to handle a specific element.
  *
+ * namespace处理器的模板实现
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @since 2.0
@@ -47,12 +48,14 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 	/**
 	 * Stores the {@link BeanDefinitionParser} implementations keyed by the
 	 * local name of the {@link Element Elements} they handle.
+	 * 缓存init方法中注册的Bean定义解析器
 	 */
 	private final Map<String, BeanDefinitionParser> parsers = new HashMap<>();
 
 	/**
 	 * Stores the {@link BeanDefinitionDecorator} implementations keyed by the
 	 * local name of the {@link Element Elements} they handle.
+	 * 缓存Bean定义装饰器
 	 */
 	private final Map<String, BeanDefinitionDecorator> decorators = new HashMap<>();
 
@@ -70,7 +73,9 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 	@Override
 	@Nullable
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
+		// 查找元素对应的Bean定义解析器
 		BeanDefinitionParser parser = findParserForElement(element, parserContext);
+		// 使用不同的解析器进行解析xml元素
 		return (parser != null ? parser.parse(element, parserContext) : null);
 	}
 
@@ -81,6 +86,7 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 	@Nullable
 	private BeanDefinitionParser findParserForElement(Element element, ParserContext parserContext) {
 		String localName = parserContext.getDelegate().getLocalName(element);
+		// 从缓存中查找Bean定义解析器，这些解析器是在init的时候注册进来的
 		BeanDefinitionParser parser = this.parsers.get(localName);
 		if (parser == null) {
 			parserContext.getReaderContext().fatal(
@@ -92,13 +98,16 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 	/**
 	 * Decorates the supplied {@link Node} by delegating to the {@link BeanDefinitionDecorator} that
 	 * is registered to handle that {@link Node}.
+	 * 使用装饰器装饰Bean定义
 	 */
 	@Override
 	@Nullable
 	public BeanDefinitionHolder decorate(
 			Node node, BeanDefinitionHolder definition, ParserContext parserContext) {
 
+		// 查找装饰器
 		BeanDefinitionDecorator decorator = findDecoratorForNode(node, parserContext);
+		// 进行装饰
 		return (decorator != null ? decorator.decorate(node, definition, parserContext) : null);
 	}
 

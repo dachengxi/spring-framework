@@ -43,16 +43,31 @@ public abstract class PropertiesLoaderSupport {
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
 
+	/**
+	 * 本地属性
+	 */
 	@Nullable
 	protected Properties[] localProperties;
 
+	/**
+	 * 是否覆盖本地属性
+	 */
 	protected boolean localOverride = false;
 
+	/**
+	 * 配置文件的位置
+	 */
 	@Nullable
 	private Resource[] locations;
 
+	/**
+	 * 配置文件找不到是否需要忽略
+	 */
 	private boolean ignoreResourceNotFound = false;
 
+	/**
+	 * 文件编码
+	 */
 	@Nullable
 	private String fileEncoding;
 
@@ -146,11 +161,14 @@ public abstract class PropertiesLoaderSupport {
 	protected Properties mergeProperties() throws IOException {
 		Properties result = new Properties();
 
+		// 如果使用本地覆盖，则先从location处加载属性配置，然后再用本地覆盖
 		if (this.localOverride) {
 			// Load properties from file upfront, to let local properties override.
+			// 先加载local的属性文件
 			loadProperties(result);
 		}
 
+		// 如果不使用本地覆盖，则先加载local属性，再从location处加载属性
 		if (this.localProperties != null) {
 			for (Properties localProp : this.localProperties) {
 				CollectionUtils.mergePropertiesIntoMap(localProp, result);
@@ -173,6 +191,7 @@ public abstract class PropertiesLoaderSupport {
 	 */
 	protected void loadProperties(Properties props) throws IOException {
 		if (this.locations != null) {
+			// 从指定的属性文件位置加载属性文件
 			for (Resource location : this.locations) {
 				if (logger.isTraceEnabled()) {
 					logger.trace("Loading properties file from " + location);

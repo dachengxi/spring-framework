@@ -52,6 +52,9 @@ import org.springframework.util.ObjectUtils;
 public abstract class PropertyResourceConfigurer extends PropertiesLoaderSupport
 		implements BeanFactoryPostProcessor, PriorityOrdered {
 
+	/**
+	 * 顺序
+	 */
 	private int order = Ordered.LOWEST_PRECEDENCE;  // default: same as non-Ordered
 
 
@@ -77,12 +80,15 @@ public abstract class PropertyResourceConfigurer extends PropertiesLoaderSupport
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		try {
+			// 加载属性文件
 			Properties mergedProps = mergeProperties();
 
 			// Convert the merged properties, if necessary.
+			// 如果有需要可以转换属性
 			convertProperties(mergedProps);
 
 			// Let the subclass process the properties.
+			// 处理属性，由子类实现
 			processProperties(beanFactory, mergedProps);
 		}
 		catch (IOException ex) {

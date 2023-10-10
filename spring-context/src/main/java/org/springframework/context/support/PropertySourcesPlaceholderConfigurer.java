@@ -57,6 +57,7 @@ import org.springframework.util.StringValueResolver;
  * <p>See {@link org.springframework.core.env.ConfigurableEnvironment} and related javadocs
  * for details on manipulating environment property sources.
  *
+ * 用来处理${...}占位符
  * @author Chris Beams
  * @author Juergen Hoeller
  * @author Sam Brannen
@@ -80,6 +81,9 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 	public static final String ENVIRONMENT_PROPERTIES_PROPERTY_SOURCE_NAME = "environmentProperties";
 
 
+	/**
+	 * 属性来源
+	 */
 	@Nullable
 	private MutablePropertySources propertySources;
 
@@ -156,6 +160,7 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 				);
 			}
 			try {
+				// 加载配置文件并合并
 				PropertySource<?> localPropertySource =
 						new PropertiesPropertySource(LOCAL_PROPERTIES_PROPERTY_SOURCE_NAME, mergeProperties());
 				if (this.localOverride) {
@@ -170,6 +175,7 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 			}
 		}
 
+		// 处理解析到的属性
 		processProperties(beanFactory, new PropertySourcesPropertyResolver(this.propertySources));
 		this.appliedPropertySources = this.propertySources;
 	}
@@ -181,20 +187,26 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 	protected void processProperties(ConfigurableListableBeanFactory beanFactoryToProcess,
 			final ConfigurablePropertyResolver propertyResolver) throws BeansException {
 
+		// 前缀
 		propertyResolver.setPlaceholderPrefix(this.placeholderPrefix);
+		// 后缀
 		propertyResolver.setPlaceholderSuffix(this.placeholderSuffix);
+		//默认值分隔符
 		propertyResolver.setValueSeparator(this.valueSeparator);
 
 		StringValueResolver valueResolver = strVal -> {
+			// 解析占位符
 			String resolved = (this.ignoreUnresolvablePlaceholders ?
 					propertyResolver.resolvePlaceholders(strVal) :
 					propertyResolver.resolveRequiredPlaceholders(strVal));
+			// 如果需要则去除两端的空格
 			if (this.trimValues) {
 				resolved = resolved.trim();
 			}
 			return (resolved.equals(this.nullValue) ? null : resolved);
 		};
 
+		// 解析属性
 		doProcessProperties(beanFactoryToProcess, valueResolver);
 	}
 

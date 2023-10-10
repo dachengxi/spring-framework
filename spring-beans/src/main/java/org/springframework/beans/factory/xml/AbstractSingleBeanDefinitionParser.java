@@ -37,6 +37,7 @@ import org.springframework.lang.Nullable;
  * Your job simply is to {@link #doParse parse} the custom XML {@link Element}
  * into a single {@code BeanDefinition}.
  *
+ * 单个的Bean定义解析器
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @author Rick Evans
@@ -60,11 +61,13 @@ public abstract class AbstractSingleBeanDefinitionParser extends AbstractBeanDef
 	 */
 	@Override
 	protected final AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {
+		// 创建一个GenericBeanDefinition实例
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition();
 		String parentName = getParentName(element);
 		if (parentName != null) {
 			builder.getRawBeanDefinition().setParentName(parentName);
 		}
+		// Bean的类对象
 		Class<?> beanClass = getBeanClass(element);
 		if (beanClass != null) {
 			builder.getRawBeanDefinition().setBeanClass(beanClass);
@@ -85,6 +88,7 @@ public abstract class AbstractSingleBeanDefinitionParser extends AbstractBeanDef
 			// Default-lazy-init applies to custom bean definitions as well.
 			builder.setLazyInit(true);
 		}
+		// 解析Bean定义，模板方法，留给子类实现
 		doParse(element, parserContext, builder);
 		return builder.getBeanDefinition();
 	}

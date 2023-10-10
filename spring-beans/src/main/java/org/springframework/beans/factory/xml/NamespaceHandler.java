@@ -40,6 +40,7 @@ import org.springframework.lang.Nullable;
  * not implement this interface directly, but rather make use of the provided
  * {@link NamespaceHandlerSupport} class.
  *
+ * namespace处理器
  * @author Rob Harrop
  * @author Erik Wiersma
  * @since 2.0
@@ -52,6 +53,8 @@ public interface NamespaceHandler {
 	 * Invoked by the {@link DefaultBeanDefinitionDocumentReader} after
 	 * construction but before any custom elements are parsed.
 	 * @see NamespaceHandlerSupport#registerBeanDefinitionParser(String, BeanDefinitionParser)
+	 *
+	 * 初始化处理器
 	 */
 	void init();
 
@@ -65,6 +68,7 @@ public interface NamespaceHandler {
 	 * inside (for example) a {@code <property>} tag.
 	 * <p>Implementations may return {@code null} if they will
 	 * <strong>not</strong> be used in a nested scenario.
+	 * 解析元素
 	 * @param element the element that is to be parsed into one or more {@code BeanDefinitions}
 	 * @param parserContext the object encapsulating the current state of the parsing process
 	 * @return the primary {@code BeanDefinition} (can be {@code null} as explained above)
@@ -83,6 +87,7 @@ public interface NamespaceHandler {
 	 * {@link org.springframework.beans.factory.BeanFactory}.
 	 * <p>The supplied {@link ParserContext} can be used to register any
 	 * additional beans needed to support the main definition.
+	 * 解析节点并装饰Bean定义，返回装饰后的Bean定义
 	 * @param source the source element or attribute that is to be parsed
 	 * @param definition the current bean definition
 	 * @param parserContext the object encapsulating the current state of the parsing process

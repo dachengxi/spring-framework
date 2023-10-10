@@ -25,6 +25,7 @@ import org.springframework.beans.factory.xml.ParserContext;
 /**
  * Parser for the &lt;context:property-override/&gt; element.
  *
+ * 解析<context:property-override/>元素
  * @author Juergen Hoeller
  * @author Dave Syer
  * @since 2.5.2
@@ -38,8 +39,10 @@ class PropertyOverrideBeanDefinitionParser extends AbstractPropertyLoadingBeanDe
 
 	@Override
 	protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
+		// // 调用父类的公共方法解析公共的一些属性
 		super.doParse(element, parserContext, builder);
 
+		// ignore-unresolvable属性，是否忽略为解析到的属性
 		builder.addPropertyValue("ignoreInvalidKeys",
 				Boolean.valueOf(element.getAttribute("ignore-unresolvable")));
 

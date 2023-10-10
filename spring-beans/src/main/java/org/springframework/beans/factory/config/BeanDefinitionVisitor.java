@@ -37,6 +37,7 @@ import org.springframework.util.StringValueResolver;
  * <p>Used by {@link PlaceholderConfigurerSupport} to parse all String values
  * contained in a BeanDefinition, resolving any placeholders found.
  *
+ * Bean定义访问器
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @since 1.2

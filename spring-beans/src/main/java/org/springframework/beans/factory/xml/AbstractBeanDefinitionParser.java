@@ -42,6 +42,7 @@ import org.springframework.util.StringUtils;
  * {@link AbstractSingleBeanDefinitionParser} and
  * {@link AbstractSimpleBeanDefinitionParser}.
  *
+ * Bean定义解析器模板实现
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @author Rick Evans
@@ -50,19 +51,27 @@ import org.springframework.util.StringUtils;
  */
 public abstract class AbstractBeanDefinitionParser implements BeanDefinitionParser {
 
-	/** Constant for the "id" attribute. */
+	/**
+	 * Constant for the "id" attribute.
+	 * id属性
+	 */
 	public static final String ID_ATTRIBUTE = "id";
 
-	/** Constant for the "name" attribute. */
+	/**
+	 * Constant for the "name" attribute.
+	 * name属性
+	 */
 	public static final String NAME_ATTRIBUTE = "name";
 
 
 	@Override
 	@Nullable
 	public final BeanDefinition parse(Element element, ParserContext parserContext) {
+		// 解析Bean定义，模板方法，留给子类实现
 		AbstractBeanDefinition definition = parseInternal(element, parserContext);
 		if (definition != null && !parserContext.isNested()) {
 			try {
+				// id属性
 				String id = resolveId(element, definition, parserContext);
 				if (!StringUtils.hasText(id)) {
 					parserContext.getReaderContext().error(
@@ -71,12 +80,16 @@ public abstract class AbstractBeanDefinitionParser implements BeanDefinitionPars
 				}
 				String[] aliases = null;
 				if (shouldParseNameAsAliases()) {
+					// name属性
 					String name = element.getAttribute(NAME_ATTRIBUTE);
 					if (StringUtils.hasLength(name)) {
+						// 别名
 						aliases = StringUtils.trimArrayElements(StringUtils.commaDelimitedListToStringArray(name));
 					}
 				}
+				// 使用解析到的Bean定义创建一个Bean定义持有器
 				BeanDefinitionHolder holder = new BeanDefinitionHolder(definition, id, aliases);
+				// 将Bean定义注册到容器中
 				registerBeanDefinition(holder, parserContext.getRegistry());
 				if (shouldFireEvents()) {
 					BeanComponentDefinition componentDefinition = new BeanComponentDefinition(holder);
@@ -113,6 +126,7 @@ public abstract class AbstractBeanDefinitionParser implements BeanDefinitionPars
 			return parserContext.getReaderContext().generateBeanName(definition);
 		}
 		else {
+			// xml中配置的id属性
 			String id = element.getAttribute(ID_ATTRIBUTE);
 			if (!StringUtils.hasText(id) && shouldGenerateIdAsFallback()) {
 				id = parserContext.getReaderContext().generateBeanName(definition);

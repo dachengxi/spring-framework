@@ -82,6 +82,7 @@ import org.springframework.util.StringValueResolver;
  *   &lt;property name="url" value="jdbc:${dbname:defaultdb}" /&gt;
  * </pre>
  *
+ * 解析占位符的抽象实现
  * @author Chris Beams
  * @author Juergen Hoeller
  * @since 3.1
@@ -91,13 +92,22 @@ import org.springframework.util.StringValueResolver;
 public abstract class PlaceholderConfigurerSupport extends PropertyResourceConfigurer
 		implements BeanNameAware, BeanFactoryAware {
 
-	/** Default placeholder prefix: {@value}. */
+	/**
+	 * Default placeholder prefix: {@value}.
+	 * 默认占位符前缀
+	 */
 	public static final String DEFAULT_PLACEHOLDER_PREFIX = "${";
 
-	/** Default placeholder suffix: {@value}. */
+	/**
+	 * Default placeholder suffix: {@value}.
+	 * 默认占位符后缀
+	 */
 	public static final String DEFAULT_PLACEHOLDER_SUFFIX = "}";
 
-	/** Default value separator: {@value}. */
+	/**
+	 * Default value separator: {@value}.
+	 * 默认值的分隔符
+	 */
 	public static final String DEFAULT_VALUE_SEPARATOR = ":";
 
 
@@ -111,16 +121,31 @@ public abstract class PlaceholderConfigurerSupport extends PropertyResourceConfi
 	@Nullable
 	protected String valueSeparator = DEFAULT_VALUE_SEPARATOR;
 
+	/**
+	 * 是否对值的两端去除空格
+	 */
 	protected boolean trimValues = false;
 
+	/**
+	 * 表示是一个null值的值
+	 */
 	@Nullable
 	protected String nullValue;
 
+	/**
+	 * 是否忽略不能解析的占位符
+	 */
 	protected boolean ignoreUnresolvablePlaceholders = false;
 
+	/**
+	 * Bean名字
+	 */
 	@Nullable
 	private String beanName;
 
+	/**
+	 * Bean容器
+	 */
 	@Nullable
 	private BeanFactory beanFactory;
 
@@ -212,9 +237,15 @@ public abstract class PlaceholderConfigurerSupport extends PropertyResourceConfi
 	}
 
 
+	/**
+	 * 处理属性
+	 * @param beanFactoryToProcess
+	 * @param valueResolver
+	 */
 	protected void doProcessProperties(ConfigurableListableBeanFactory beanFactoryToProcess,
 			StringValueResolver valueResolver) {
 
+		// Bean定义访问器
 		BeanDefinitionVisitor visitor = new BeanDefinitionVisitor(valueResolver);
 
 		String[] beanNames = beanFactoryToProcess.getBeanDefinitionNames();
@@ -224,6 +255,7 @@ public abstract class PlaceholderConfigurerSupport extends PropertyResourceConfi
 			if (!(curName.equals(this.beanName) && beanFactoryToProcess.equals(this.beanFactory))) {
 				BeanDefinition bd = beanFactoryToProcess.getBeanDefinition(curName);
 				try {
+					// 访问Bean定义中的属性，挨个处理占位符
 					visitor.visitBeanDefinition(bd);
 				}
 				catch (Exception ex) {
