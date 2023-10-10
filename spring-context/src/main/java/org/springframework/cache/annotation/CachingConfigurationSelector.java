@@ -32,6 +32,8 @@ import org.springframework.util.StringUtils;
  *
  * <p>Detects the presence of JSR-107 and enables JCache support accordingly.
  *
+ * 导入缓存相关的配置
+ *
  * @author Chris Beams
  * @author Stephane Nicoll
  * @since 3.1
@@ -70,8 +72,10 @@ public class CachingConfigurationSelector extends AdviceModeImportSelector<Enabl
 	public String[] selectImports(AdviceMode adviceMode) {
 		switch (adviceMode) {
 			case PROXY:
+				// proxy模式，会注册：InfrastructureAdvisorAutoProxyCreator、AnnotationCacheOperationSource、CacheInterceptor、BeanFactoryCacheOperationSourceAdvisor
 				return getProxyImports();
 			case ASPECTJ:
+				// aspectj模式，会将AspectJCachingConfiguration配置类导入，该配置类会注册一个AnnotationCacheAspect到容器中
 				return getAspectJImports();
 			default:
 				return null;
@@ -84,7 +88,9 @@ public class CachingConfigurationSelector extends AdviceModeImportSelector<Enabl
 	 */
 	private String[] getProxyImports() {
 		List<String> result = new ArrayList<>(3);
+		// AutoProxyRegistrar会注册InfrastructureAdvisorAutoProxyCreator
 		result.add(AutoProxyRegistrar.class.getName());
+		// ProxyCachingConfiguration会注册AnnotationCacheOperationSource、CacheInterceptor、BeanFactoryCacheOperationSourceAdvisor
 		result.add(ProxyCachingConfiguration.class.getName());
 		if (jsr107Present && jcacheImplPresent) {
 			result.add(PROXY_JCACHE_CONFIGURATION_CLASS);
@@ -98,6 +104,7 @@ public class CachingConfigurationSelector extends AdviceModeImportSelector<Enabl
 	 */
 	private String[] getAspectJImports() {
 		List<String> result = new ArrayList<>(2);
+		// CacheAspectConfiguration会注册AnnotationCacheAspect
 		result.add(CACHE_ASPECT_CONFIGURATION_CLASS_NAME);
 		if (jsr107Present && jcacheImplPresent) {
 			result.add(JCACHE_ASPECT_CONFIGURATION_CLASS_NAME);

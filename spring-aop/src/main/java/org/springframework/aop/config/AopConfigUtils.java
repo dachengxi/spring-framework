@@ -66,6 +66,7 @@ public abstract class AopConfigUtils {
 
 	@Nullable
 	public static BeanDefinition registerAutoProxyCreatorIfNecessary(BeanDefinitionRegistry registry) {
+		// 注册自动代理创建器，是InfrastructureAdvisorAutoProxyCreator类型，是一个SmartInstantiationAwareBeanPostProcessor、InstantiationAwareBeanPostProcessor、BeanPostProcessor
 		return registerAutoProxyCreatorIfNecessary(registry, null);
 	}
 
