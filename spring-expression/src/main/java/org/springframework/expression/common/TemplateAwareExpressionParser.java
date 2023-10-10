@@ -45,10 +45,12 @@ public abstract class TemplateAwareExpressionParser implements ExpressionParser 
 
 	@Override
 	public Expression parseExpression(String expressionString, @Nullable ParserContext context) throws ParseException {
+		// 使用模板
 		if (context != null && context.isTemplate()) {
 			return parseTemplate(expressionString, context);
 		}
 		else {
+			// 不使用模板，解析表达式
 			return doParseExpression(expressionString, context);
 		}
 	}
@@ -88,7 +90,9 @@ public abstract class TemplateAwareExpressionParser implements ExpressionParser 
 	 */
 	private Expression[] parseExpressions(String expressionString, ParserContext context) throws ParseException {
 		List<Expression> expressions = new ArrayList<>();
+		// 表达式前缀
 		String prefix = context.getExpressionPrefix();
+		// 表达式后缀
 		String suffix = context.getExpressionSuffix();
 		int startIdx = 0;
 

@@ -138,7 +138,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 */
 	private boolean cacheBeanMetadata = true;
 
-	/** Resolution strategy for expressions in bean definition values. */
+	/**
+	 * Resolution strategy for expressions in bean definition values.
+	 * Bean表达式解析器
+	 */
 	@Nullable
 	private BeanExpressionResolver beanExpressionResolver;
 

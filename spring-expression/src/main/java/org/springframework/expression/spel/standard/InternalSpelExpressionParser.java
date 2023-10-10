@@ -99,12 +99,21 @@ class InternalSpelExpressionParser extends TemplateAwareExpressionParser {
 	private String expressionString = "";
 
 	// The token stream constructed from that expression string
+	/**
+	 * 分词流
+	 */
 	private List<Token> tokenStream = Collections.emptyList();
 
 	// length of a populated token stream
+	/**
+	 * 分词流长度
+	 */
 	private int tokenStreamLength;
 
 	// Current location in the token stream when processing tokens
+	/**
+	 * 当前处理分词流的位置
+	 */
 	private int tokenStreamPointer;
 
 
@@ -122,9 +131,13 @@ class InternalSpelExpressionParser extends TemplateAwareExpressionParser {
 			throws ParseException {
 
 		try {
+			// 表达式字符串
 			this.expressionString = expressionString;
+			// 表达式分词器
 			Tokenizer tokenizer = new Tokenizer(expressionString);
+			// 分词梳理，得到分词流
 			this.tokenStream = tokenizer.process();
+			// 分词流长度
 			this.tokenStreamLength = this.tokenStream.size();
 			this.tokenStreamPointer = 0;
 			this.constructedNodes.clear();

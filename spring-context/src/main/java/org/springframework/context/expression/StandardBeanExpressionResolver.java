@@ -46,6 +46,7 @@ import org.springframework.util.StringUtils;
  * predefined variables with their common bean name, including standard context
  * beans such as "environment", "systemProperties" and "systemEnvironment".
  *
+ * 标准Bean表达式解析器实现
  * @author Juergen Hoeller
  * @since 3.0
  * @see BeanExpressionContext#getBeanFactory()
@@ -55,10 +56,16 @@ import org.springframework.util.StringUtils;
  */
 public class StandardBeanExpressionResolver implements BeanExpressionResolver {
 
-	/** Default expression prefix: "#{". */
+	/**
+	 * Default expression prefix: "#{".
+	 * 默认表达式前缀
+	 */
 	public static final String DEFAULT_EXPRESSION_PREFIX = "#{";
 
-	/** Default expression suffix: "}". */
+	/**
+	 * Default expression suffix: "}".
+	 * 默认表达式后缀
+	 */
 	public static final String DEFAULT_EXPRESSION_SUFFIX = "}";
 
 
@@ -66,8 +73,14 @@ public class StandardBeanExpressionResolver implements BeanExpressionResolver {
 
 	private String expressionSuffix = DEFAULT_EXPRESSION_SUFFIX;
 
+	/**
+	 * 表达式解析器
+	 */
 	private ExpressionParser expressionParser;
 
+	/**
+	 * 缓存的表达式
+	 */
 	private final Map<String, Expression> expressionCache = new ConcurrentHashMap<>(256);
 
 	private final Map<BeanExpressionContext, StandardEvaluationContext> evaluationCache = new ConcurrentHashMap<>(8);
@@ -143,9 +156,12 @@ public class StandardBeanExpressionResolver implements BeanExpressionResolver {
 			return value;
 		}
 		try {
+			// 从缓存中获取表达式
 			Expression expr = this.expressionCache.get(value);
 			if (expr == null) {
+				// 使用spel表达式解析器解析表达式
 				expr = this.expressionParser.parseExpression(value, this.beanExpressionParserContext);
+				// 将表达式放到缓存中
 				this.expressionCache.put(value, expr);
 			}
 			StandardEvaluationContext sec = this.evaluationCache.get(beanExpressionContext);

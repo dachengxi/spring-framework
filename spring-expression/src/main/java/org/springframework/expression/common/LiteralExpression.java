@@ -29,13 +29,17 @@ import org.springframework.lang.Nullable;
  * expression which is made up of pieces - some being real expressions to be handled by
  * an EL implementation like SpEL, and some being just textual elements.
  *
+ * 表示一个字面量表达式，只是记录原始字符串
  * @author Andy Clement
  * @author Juergen Hoeller
  * @since 3.0
  */
 public class LiteralExpression implements Expression {
 
-	/** Fixed literal value of this expression. */
+	/**
+	 *  Fixed literal value of this expression.
+	 * 表达式的字面量的值
+	 */
 	private final String literalValue;
 
 

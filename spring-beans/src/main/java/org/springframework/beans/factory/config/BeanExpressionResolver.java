@@ -28,6 +28,7 @@ import org.springframework.lang.Nullable;
  * {@link org.springframework.context.ApplicationContext} implementations
  * will provide expression support out of the box.
  *
+ * Bean表达式解析器接口
  * @author Juergen Hoeller
  * @since 3.0
  */
@@ -36,6 +37,7 @@ public interface BeanExpressionResolver {
 	/**
 	 * Evaluate the given value as an expression, if applicable;
 	 * return the value as-is otherwise.
+	 * 对给定的表达式进行估值
 	 * @param value the value to evaluate as an expression
 	 * @param beanExpressionContext the bean expression context to use when
 	 * evaluating the expression

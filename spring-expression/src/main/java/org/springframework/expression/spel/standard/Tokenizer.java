@@ -26,7 +26,7 @@ import org.springframework.expression.spel.SpelParseException;
 
 /**
  * Lex some input data into a stream of tokens that can then be parsed.
- *
+ * 分词器
  * @author Andy Clement
  * @author Juergen Hoeller
  * @author Phillip Webb
@@ -65,21 +65,40 @@ class Tokenizer {
 	}
 
 
+	/**
+	 * 表达式字符串
+	 */
 	private String expressionString;
 
+	/**
+	 * 表达式对应的字符数组
+	 */
 	private char[] charsToProcess;
 
+	/**
+	 * 当前分词位置
+	 */
 	private int pos;
 
+	/**
+	 * 表达式字符串最大长度
+	 */
 	private int max;
 
+	/**
+	 * 分词
+	 */
 	private List<Token> tokens = new ArrayList<>();
 
 
 	public Tokenizer(String inputData) {
+		// 表达式字符串
 		this.expressionString = inputData;
+		// 表达式对应的字符数组
 		this.charsToProcess = (inputData + "\0").toCharArray();
+		// 表达式字符串最大长度
 		this.max = this.charsToProcess.length;
+		// 初始化当前分词位置
 		this.pos = 0;
 	}
 
@@ -87,6 +106,7 @@ class Tokenizer {
 	public List<Token> process() {
 		while (this.pos < this.max) {
 			char ch = this.charsToProcess[this.pos];
+			// 是字母
 			if (isAlphabetic(ch)) {
 				lexIdentifier();
 			}
