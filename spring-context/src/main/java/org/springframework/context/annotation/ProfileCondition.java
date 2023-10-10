@@ -24,6 +24,8 @@ import org.springframework.util.MultiValueMap;
  * {@link Condition} that matches based on the value of a {@link Profile @Profile}
  * annotation.
  *
+ * 对@Profile注解进行判断的条件
+ *
  * @author Chris Beams
  * @author Phillip Webb
  * @author Juergen Hoeller
@@ -33,9 +35,11 @@ class ProfileCondition implements Condition {
 
 	@Override
 	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+		// 获取@Profile注解的元数据
 		MultiValueMap<String, Object> attrs = metadata.getAllAnnotationAttributes(Profile.class.getName());
 		if (attrs != null) {
 			for (Object value : attrs.get("value")) {
+				// 看@Profile配置的值是不是和当前激活的profile一致
 				if (context.getEnvironment().acceptsProfiles(Profiles.of((String[]) value))) {
 					return true;
 				}

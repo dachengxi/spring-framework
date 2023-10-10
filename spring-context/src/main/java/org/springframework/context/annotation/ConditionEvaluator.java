@@ -73,11 +73,12 @@ class ConditionEvaluator {
 
 	/**
 	 * Determine if an item should be skipped based on {@code @Conditional} annotations.
-	 * @param metadata the meta data
+	 * @param metadata the meta data 被注解的类的元数据
 	 * @param phase the phase of the call
 	 * @return if the item should be skipped
 	 */
 	public boolean shouldSkip(@Nullable AnnotatedTypeMetadata metadata, @Nullable ConfigurationPhase phase) {
+		// 如果没有@Conditional注解，直接返回false
 		if (metadata == null || !metadata.isAnnotated(Conditional.class.getName())) {
 			return false;
 		}
@@ -90,7 +91,9 @@ class ConditionEvaluator {
 			return shouldSkip(metadata, ConfigurationPhase.REGISTER_BEAN);
 		}
 
+		// 存放@Conditional注解中配置的Condition实现类
 		List<Condition> conditions = new ArrayList<>();
+		// 获取@Conditional注解中配置的Condition实现类
 		for (String[] conditionClasses : getConditionClasses(metadata)) {
 			for (String conditionClass : conditionClasses) {
 				Condition condition = getCondition(conditionClass, this.context.getClassLoader());
@@ -98,6 +101,7 @@ class ConditionEvaluator {
 			}
 		}
 
+		// 对Condition实现类进行排序
 		AnnotationAwareOrderComparator.sort(conditions);
 
 		for (Condition condition : conditions) {
@@ -105,6 +109,7 @@ class ConditionEvaluator {
 			if (condition instanceof ConfigurationCondition) {
 				requiredPhase = ((ConfigurationCondition) condition).getConfigurationPhase();
 			}
+			// 如果有一个Condition不满足，就返回true
 			if ((requiredPhase == null || requiredPhase == phase) && !condition.matches(this.context, metadata)) {
 				return true;
 			}
