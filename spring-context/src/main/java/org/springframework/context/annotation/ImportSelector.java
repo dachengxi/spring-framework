@@ -50,6 +50,7 @@ import org.springframework.lang.Nullable;
  * selection of imports until all {@code @Configuration} classes have been processed
  * (see {@link DeferredImportSelector} for details).
  *
+ * 导入选择器，用来导入配置
  * @author Chris Beams
  * @author Juergen Hoeller
  * @since 3.1

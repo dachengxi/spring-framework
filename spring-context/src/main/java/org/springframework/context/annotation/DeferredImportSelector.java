@@ -31,6 +31,7 @@ import org.springframework.lang.Nullable;
  * <p>Implementations may also provide an {@link #getImportGroup() import group} which
  * can provide additional sorting and filtering logic across different selectors.
  *
+ * 延迟的导入选择器，会在所有的@Configuration配置类中的Bean处理完之后再执行延迟的导入选择器
  * @author Phillip Webb
  * @author Stephane Nicoll
  * @since 4.0

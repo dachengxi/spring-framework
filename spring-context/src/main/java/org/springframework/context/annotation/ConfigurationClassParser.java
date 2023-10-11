@@ -198,6 +198,7 @@ class ConfigurationClassParser {
 			}
 		}
 
+		// 处理完了所有@Configuration配置类的之后，继续处理DeferredImportSelector
 		this.deferredImportSelectorHandler.process();
 	}
 
@@ -610,6 +611,7 @@ class ConfigurationClassParser {
 						if (selectorFilter != null) {
 							exclusionFilter = exclusionFilter.or(selectorFilter);
 						}
+						// 如果是AutoConfigurationImportSelector，需要使用DeferredImportSelectorHandler来处理
 						if (selector instanceof DeferredImportSelector) {
 							this.deferredImportSelectorHandler.handle(configClass, (DeferredImportSelector) selector);
 						}
@@ -800,6 +802,7 @@ class ConfigurationClassParser {
 		 * @param importSelector the selector to handle
 		 */
 		public void handle(ConfigurationClass configClass, DeferredImportSelector importSelector) {
+			// 创建一个持有器
 			DeferredImportSelectorHolder holder = new DeferredImportSelectorHolder(configClass, importSelector);
 			if (this.deferredImportSelectors == null) {
 				DeferredImportSelectorGroupingHandler handler = new DeferredImportSelectorGroupingHandler();
@@ -807,11 +810,13 @@ class ConfigurationClassParser {
 				handler.processGroupImports();
 			}
 			else {
+				// 保存到列表中
 				this.deferredImportSelectors.add(holder);
 			}
 		}
 
 		public void process() {
+			// 获取前面缓存起来的DeferredImportSelector
 			List<DeferredImportSelectorHolder> deferredImports = this.deferredImportSelectors;
 			this.deferredImportSelectors = null;
 			try {
@@ -848,9 +853,11 @@ class ConfigurationClassParser {
 		public void processGroupImports() {
 			for (DeferredImportSelectorGrouping grouping : this.groupings.values()) {
 				Predicate<String> exclusionFilter = grouping.getCandidateFilter();
+				// getImports()中会先执行process方法，再执行selectImports方法，得到要导入的配置类
 				grouping.getImports().forEach(entry -> {
 					ConfigurationClass configurationClass = this.configurationClasses.get(entry.getMetadata());
 					try {
+						// 进行导入
 						processImports(configurationClass, asSourceClass(configurationClass, exclusionFilter),
 								Collections.singleton(asSourceClass(entry.getImportClassName(), exclusionFilter)),
 								exclusionFilter, false);
