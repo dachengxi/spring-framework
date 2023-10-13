@@ -281,6 +281,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 	 */
 	public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
 		List<BeanDefinitionHolder> configCandidates = new ArrayList<>();
+		// 开始解析配置类时，容器中的Bean定义名字集合
 		String[] candidateNames = registry.getBeanDefinitionNames();
 
 		// 遍历所有的Bean
@@ -300,6 +301,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		}
 
 		// Return immediately if no @Configuration classes were found
+		// 如果是SpringBoot，在启动后解析配置类开始时configCandidates只有main方法所在的类
 		if (configCandidates.isEmpty()) {
 			return;
 		}
@@ -358,26 +360,36 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 			}
 			// 将上面解析到的配置类的数据解析成Bean定义并注册到容器中
 			this.reader.loadBeanDefinitions(configClasses);
+			// 解析成Bean定义之后，添加到已解析的集合中
 			alreadyParsed.addAll(configClasses);
 			processConfig.tag("classCount", () -> String.valueOf(configClasses.size())).end();
 
+			// 解析完后，将候选配置类清空
 			candidates.clear();
+			// 容器中Bean定义总数比上一次（或刚开始）的时候要多，说明上面解析之后有新的Bean定义注册到了容器中
 			if (registry.getBeanDefinitionCount() > candidateNames.length) {
+				// 新的Bean定义集合
 				String[] newCandidateNames = registry.getBeanDefinitionNames();
+				// 上一次的Bean定义集合
 				Set<String> oldCandidateNames = new HashSet<>(Arrays.asList(candidateNames));
 				Set<String> alreadyParsedClasses = new HashSet<>();
 				for (ConfigurationClass configurationClass : alreadyParsed) {
 					alreadyParsedClasses.add(configurationClass.getMetadata().getClassName());
 				}
+				// 遍历新的Bean定义集合
 				for (String candidateName : newCandidateNames) {
+					// 不在上一次Bean定义集合中
 					if (!oldCandidateNames.contains(candidateName)) {
 						BeanDefinition bd = registry.getBeanDefinition(candidateName);
+						// 是配置类并且没有被解析过
 						if (ConfigurationClassUtils.checkConfigurationClassCandidate(bd, this.metadataReaderFactory) &&
 								!alreadyParsedClasses.contains(bd.getBeanClassName())) {
+							// 加入候选集合中准备再次进行解析
 							candidates.add(new BeanDefinitionHolder(bd, candidateName));
 						}
 					}
 				}
+				// 新的Bean定义集合
 				candidateNames = newCandidateNames;
 			}
 		}
