@@ -27,6 +27,7 @@ import org.springframework.util.Assert;
  *
  * <p>Will simply accept any items into the cache not actually storing them.
  *
+ * 无操作的缓存，用来禁用缓存
  * @author Costin Leau
  * @author Stephane Nicoll
  * @since 4.3.4

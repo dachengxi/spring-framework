@@ -30,11 +30,15 @@ import org.springframework.cache.Cache;
  * to initialize its internal state once the
  * {@linkplain #setCaches(Collection) caches have been provided}.
  *
+ * 简单缓存管理器
  * @author Costin Leau
  * @since 3.1
  */
 public class SimpleCacheManager extends AbstractCacheManager {
 
+	/**
+	 * 存储所有缓存
+	 */
 	private Collection<? extends Cache> caches = Collections.emptySet();
 
 

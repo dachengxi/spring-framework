@@ -25,6 +25,7 @@ import org.springframework.cache.Cache;
  *
  * <p>Implementations must be thread-safe.
  *
+ * 缓存解析器
  * @author Stephane Nicoll
  * @since 4.1
  */
@@ -33,6 +34,7 @@ public interface CacheResolver {
 
 	/**
 	 * Return the cache(s) to use for the specified invocation.
+	 * 返回指定的调用对应的缓存
 	 * @param context the context of the particular invocation
 	 * @return the cache(s) to use (never {@code null})
 	 * @throws IllegalStateException if cache resolution failed

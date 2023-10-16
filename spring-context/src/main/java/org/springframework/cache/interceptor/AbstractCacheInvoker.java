@@ -70,6 +70,7 @@ public abstract class AbstractCacheInvoker {
 	@Nullable
 	protected Cache.ValueWrapper doGet(Cache cache, Object key) {
 		try {
+			// 使用具体的缓存实现根据key获取缓存并包装成ValueWrapper
 			return cache.get(key);
 		}
 		catch (RuntimeException ex) {

@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Role;
  * {@code @Configuration} class that registers the Spring infrastructure beans necessary
  * to enable proxy-based annotation-driven cache management.
  *
+ * proxy模式下的缓存配置类
  * @author Chris Beams
  * @author Juergen Hoeller
  * @since 3.1
@@ -39,6 +40,12 @@ import org.springframework.context.annotation.Role;
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class ProxyCachingConfiguration extends AbstractCachingConfiguration {
 
+	/**
+	 * 注解BeanFactoryCacheOperationSourceAdvisor的Bean到容器中
+	 * @param cacheOperationSource
+	 * @param cacheInterceptor
+	 * @return
+	 */
 	@Bean(name = CacheManagementConfigUtils.CACHE_ADVISOR_BEAN_NAME)
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 	public BeanFactoryCacheOperationSourceAdvisor cacheAdvisor(
@@ -53,12 +60,21 @@ public class ProxyCachingConfiguration extends AbstractCachingConfiguration {
 		return advisor;
 	}
 
+	/**
+	 * 注册AnnotationCacheOperationSource的Bean到容器中
+	 * @return
+	 */
 	@Bean
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 	public CacheOperationSource cacheOperationSource() {
 		return new AnnotationCacheOperationSource();
 	}
 
+	/**
+	 * 注册CacheInterceptor的Bean到容器中
+	 * @param cacheOperationSource
+	 * @return
+	 */
 	@Bean
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 	public CacheInterceptor cacheInterceptor(CacheOperationSource cacheOperationSource) {

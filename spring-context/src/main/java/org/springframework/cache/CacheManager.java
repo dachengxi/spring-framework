@@ -25,6 +25,9 @@ import org.springframework.lang.Nullable;
  *
  * <p>Allows for retrieving named {@link Cache} regions.
  *
+ *
+ * 缓存管理器接口
+ *
  * @author Costin Leau
  * @author Sam Brannen
  * @since 3.1
@@ -35,6 +38,7 @@ public interface CacheManager {
 	 * Get the cache associated with the given name.
 	 * <p>Note that the cache may be lazily created at runtime if the
 	 * native provider supports it.
+	 * 通过名字获取缓存
 	 * @param name the cache identifier (must not be {@code null})
 	 * @return the associated cache, or {@code null} if such a cache
 	 * does not exist or could be not created
@@ -44,6 +48,7 @@ public interface CacheManager {
 
 	/**
 	 * Get a collection of the cache names known by this manager.
+	 * 获取当前换缓存管理器管理的所有的缓存名字
 	 * @return the names of all caches known by the cache manager
 	 */
 	Collection<String> getCacheNames();

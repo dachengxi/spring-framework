@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
 /**
  * Base class for cache operations.
  *
+ * 缓存操作
  * @author Costin Leau
  * @author Stephane Nicoll
  * @author Marcin Kamionowski
@@ -33,18 +34,39 @@ import org.springframework.util.Assert;
  */
 public abstract class CacheOperation implements BasicOperation {
 
+	/**
+	 * 缓存操作的名字
+	 */
 	private final String name;
 
+	/**
+	 * 和缓存操作关联的缓存名字
+	 */
 	private final Set<String> cacheNames;
 
+	/**
+	 * 缓存操作的key
+	 */
 	private final String key;
 
+	/**
+	 * 缓存操作的key生成器
+	 */
 	private final String keyGenerator;
 
+	/**
+	 * 缓存操作对应的缓存管理器
+	 */
 	private final String cacheManager;
 
+	/**
+	 * 缓存解析器
+	 */
 	private final String cacheResolver;
 
+	/**
+	 * spel表达式条件
+	 */
 	private final String condition;
 
 	private final String toString;
@@ -129,6 +151,8 @@ public abstract class CacheOperation implements BasicOperation {
 
 	/**
 	 * Base class for builders that can be used to create a {@link CacheOperation}.
+	 *
+	 * 创建缓存操作的构建器
 	 * @since 4.3
 	 */
 	public abstract static class Builder {

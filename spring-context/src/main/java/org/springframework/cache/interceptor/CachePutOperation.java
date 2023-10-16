@@ -21,6 +21,7 @@ import org.springframework.lang.Nullable;
 /**
  * Class describing a cache 'put' operation.
  *
+ * put操作
  * @author Costin Leau
  * @author Phillip Webb
  * @author Marcin Kamionowski
@@ -28,6 +29,9 @@ import org.springframework.lang.Nullable;
  */
 public class CachePutOperation extends CacheOperation {
 
+	/**
+	 * 除非条件
+	 */
 	@Nullable
 	private final String unless;
 
@@ -50,6 +54,7 @@ public class CachePutOperation extends CacheOperation {
 
 	/**
 	 * A builder that can be used to create a {@link CachePutOperation}.
+	 * Put操作的构建器
 	 * @since 4.3
 	 */
 	public static class Builder extends CacheOperation.Builder {

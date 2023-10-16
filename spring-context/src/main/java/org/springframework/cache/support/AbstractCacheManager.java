@@ -32,6 +32,7 @@ import org.springframework.lang.Nullable;
  * Abstract base class implementing the common {@link CacheManager} methods.
  * Useful for 'static' environments where the backing caches do not change.
  *
+ * 缓存管理器的抽象实现
  * @author Costin Leau
  * @author Juergen Hoeller
  * @author Stephane Nicoll
@@ -39,8 +40,14 @@ import org.springframework.lang.Nullable;
  */
 public abstract class AbstractCacheManager implements CacheManager, InitializingBean {
 
+	/**
+	 * 保存缓存信息
+	 */
 	private final ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>(16);
 
+	/**
+	 * 所有缓存名字
+	 */
 	private volatile Set<String> cacheNames = Collections.emptySet();
 
 
@@ -48,6 +55,7 @@ public abstract class AbstractCacheManager implements CacheManager, Initializing
 
 	@Override
 	public void afterPropertiesSet() {
+		// 初始化缓存
 		initializeCaches();
 	}
 
@@ -55,10 +63,12 @@ public abstract class AbstractCacheManager implements CacheManager, Initializing
 	 * Initialize the static configuration of caches.
 	 * <p>Triggered on startup through {@link #afterPropertiesSet()};
 	 * can also be called to re-initialize at runtime.
+	 * 初始化缓存
 	 * @since 4.2.2
 	 * @see #loadCaches()
 	 */
 	public void initializeCaches() {
+		// 加载初始化的缓存
 		Collection<? extends Cache> caches = loadCaches();
 
 		synchronized (this.cacheMap) {
@@ -67,6 +77,8 @@ public abstract class AbstractCacheManager implements CacheManager, Initializing
 			Set<String> cacheNames = new LinkedHashSet<>(caches.size());
 			for (Cache cache : caches) {
 				String name = cache.getName();
+				// 如果需要感知事务，需要使用TransactionAwareCacheDecorator进行包装，如果不需要感知事务，则不需要进行包装
+				// TransactionAwareCacheDecorator会在事务提交后进行缓存的put或evict操作
 				this.cacheMap.put(name, decorateCache(cache));
 				cacheNames.add(name);
 			}
@@ -78,6 +90,7 @@ public abstract class AbstractCacheManager implements CacheManager, Initializing
 	 * Load the initial caches for this cache manager.
 	 * <p>Called by {@link #afterPropertiesSet()} on startup.
 	 * The returned collection may be empty but must not be {@code null}.
+	 * 加载初始化的缓存
 	 */
 	protected abstract Collection<? extends Cache> loadCaches();
 
@@ -100,6 +113,8 @@ public abstract class AbstractCacheManager implements CacheManager, Initializing
 			synchronized (this.cacheMap) {
 				cache = this.cacheMap.get(name);
 				if (cache == null) {
+					// 如果需要感知事务，需要使用TransactionAwareCacheDecorator进行包装，如果不需要感知事务，则不需要进行包装
+					// TransactionAwareCacheDecorator会在事务提交后进行缓存的put或evict操作
 					cache = decorateCache(missingCache);
 					this.cacheMap.put(name, cache);
 					updateCacheNames(name);
@@ -141,6 +156,8 @@ public abstract class AbstractCacheManager implements CacheManager, Initializing
 	protected final void addCache(Cache cache) {
 		String name = cache.getName();
 		synchronized (this.cacheMap) {
+			// 如果需要感知事务，需要使用TransactionAwareCacheDecorator进行包装，如果不需要感知事务，则不需要进行包装
+			// TransactionAwareCacheDecorator会在事务提交后进行缓存的put或evict操作
 			if (this.cacheMap.put(name, decorateCache(cache)) == null) {
 				updateCacheNames(name);
 			}

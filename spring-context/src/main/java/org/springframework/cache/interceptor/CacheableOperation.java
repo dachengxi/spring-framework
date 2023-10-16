@@ -21,6 +21,7 @@ import org.springframework.lang.Nullable;
 /**
  * Class describing a cache 'cacheable' operation.
  *
+ * cacheable操作
  * @author Costin Leau
  * @author Phillip Webb
  * @author Marcin Kamionowski
@@ -28,9 +29,15 @@ import org.springframework.lang.Nullable;
  */
 public class CacheableOperation extends CacheOperation {
 
+	/**
+	 * 除非条件
+	 */
 	@Nullable
 	private final String unless;
 
+	/**
+	 * 是否同步操作
+	 */
 	private final boolean sync;
 
 
@@ -57,13 +64,20 @@ public class CacheableOperation extends CacheOperation {
 
 	/**
 	 * A builder that can be used to create a {@link CacheableOperation}.
+	 * 创建Cacheable操作的构建器
 	 * @since 4.3
 	 */
 	public static class Builder extends CacheOperation.Builder {
 
+		/**
+		 * 除非条件
+		 */
 		@Nullable
 		private String unless;
 
+		/**
+		 * 是否同步操作
+		 */
 		private boolean sync;
 
 		public void setUnless(String unless) {

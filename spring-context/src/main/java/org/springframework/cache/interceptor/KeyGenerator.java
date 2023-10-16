@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
  * Cache key generator. Used for creating a key based on the given method
  * (used as context) and its parameters.
  *
+ * 缓存key生成器
  * @author Costin Leau
  * @author Chris Beams
  * @author Phillip Webb
@@ -32,6 +33,7 @@ public interface KeyGenerator {
 
 	/**
 	 * Generate a key for the given method and its parameters.
+	 * 生成key
 	 * @param target the target instance
 	 * @param method the method being called
 	 * @param params the method parameters (with any var-args expanded)

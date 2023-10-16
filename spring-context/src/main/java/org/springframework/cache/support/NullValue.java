@@ -24,6 +24,7 @@ import org.springframework.lang.Nullable;
  * Simple serializable class that serves as a {@code null} replacement
  * for cache stores which otherwise do not support {@code null} values.
  *
+ * 用来代替null的类
  * @author Juergen Hoeller
  * @since 4.2.2
  * @see AbstractValueAdaptingCache

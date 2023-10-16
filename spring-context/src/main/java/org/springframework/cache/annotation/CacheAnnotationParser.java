@@ -28,6 +28,7 @@ import org.springframework.lang.Nullable;
  * for supporting specific annotation types such as Spring's own
  * {@link Cacheable}, {@link CachePut} and{@link CacheEvict}.
  *
+ * 缓存注解解析器接口
  * @author Costin Leau
  * @author Stephane Nicoll
  * @author Juergen Hoeller

@@ -95,6 +95,7 @@ public class TransactionAwareCacheDecorator implements Cache {
 	public void put(final Object key, @Nullable final Object value) {
 		if (TransactionSynchronizationManager.isSynchronizationActive()) {
 			TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+				// 有事务的时候，在事务提交后进行put缓存操作
 				@Override
 				public void afterCommit() {
 					TransactionAwareCacheDecorator.this.targetCache.put(key, value);
@@ -115,6 +116,7 @@ public class TransactionAwareCacheDecorator implements Cache {
 	@Override
 	public void evict(final Object key) {
 		if (TransactionSynchronizationManager.isSynchronizationActive()) {
+			// 有事务的时候，会在事务提交后进行缓存evict操作
 			TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
 				@Override
 				public void afterCommit() {

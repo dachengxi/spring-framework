@@ -28,6 +28,7 @@ import java.lang.reflect.Method;
  * might not be suitable for all {@link org.springframework.cache.Cache}
  * implementations.
  *
+ * 简单key生成器
  * @author Phillip Webb
  * @author Juergen Hoeller
  * @since 4.0

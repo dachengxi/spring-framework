@@ -158,6 +158,7 @@ import org.springframework.core.Ordered;
  * compile-time weaving or load-time weaving applying the aspect to the affected classes.
  * There is no proxy involved in such a scenario; local calls will be intercepted as well.
  *
+ * 注解方式启用缓存
  * @author Chris Beams
  * @author Juergen Hoeller
  * @since 3.1
@@ -169,6 +170,7 @@ import org.springframework.core.Ordered;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+// CachingConfigurationSelector导入缓存相关的配置
 @Import(CachingConfigurationSelector.class)
 public @interface EnableCaching {
 

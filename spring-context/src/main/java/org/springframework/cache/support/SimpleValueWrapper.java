@@ -23,11 +23,15 @@ import org.springframework.lang.Nullable;
  * Straightforward implementation of {@link org.springframework.cache.Cache.ValueWrapper},
  * simply holding the value as given at construction and returning it from {@link #get()}.
  *
+ * 简单值包装器实现
  * @author Costin Leau
  * @since 3.1
  */
 public class SimpleValueWrapper implements ValueWrapper {
 
+	/**
+	 * 实际的值
+	 */
 	@Nullable
 	private final Object value;
 

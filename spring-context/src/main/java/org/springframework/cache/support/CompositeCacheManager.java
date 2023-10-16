@@ -45,6 +45,7 @@ import org.springframework.lang.Nullable;
  * of named caches once requested; check out the specific configuration details
  * for a 'static' mode with fixed cache names, if available.
  *
+ * 复合的缓存管理器，支持多个缓存管理器
  * @author Costin Leau
  * @author Juergen Hoeller
  * @since 3.1
@@ -53,6 +54,9 @@ import org.springframework.lang.Nullable;
  */
 public class CompositeCacheManager implements CacheManager, InitializingBean {
 
+	/**
+	 * 存储缓存管理器
+	 */
 	private final List<CacheManager> cacheManagers = new ArrayList<>();
 
 	private boolean fallbackToNoOpCache = false;

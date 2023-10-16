@@ -32,6 +32,7 @@ import org.springframework.lang.Nullable;
  * {@link #cacheManager()}, {@link #cacheResolver()} and {@link #keyGenerator()}
  * for detailed instructions.
  *
+ * 缓存配置器接口
  * @author Chris Beams
  * @author Stephane Nicoll
  * @since 3.1

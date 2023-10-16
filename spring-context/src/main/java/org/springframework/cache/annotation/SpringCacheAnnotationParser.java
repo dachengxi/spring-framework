@@ -81,9 +81,11 @@ public class SpringCacheAnnotationParser implements CacheAnnotationParser, Seria
 
 	@Nullable
 	private Collection<CacheOperation> parseCacheAnnotations(DefaultCacheConfig cachingConfig, AnnotatedElement ae) {
+		// 解析缓存注解
 		Collection<CacheOperation> ops = parseCacheAnnotations(cachingConfig, ae, false);
 		if (ops != null && ops.size() > 1) {
 			// More than one operation found -> local declarations override interface-declared ones...
+			// 找到多个缓存注解，实现类方法注解覆盖接口方法注解
 			Collection<CacheOperation> localOps = parseCacheAnnotations(cachingConfig, ae, true);
 			if (localOps != null) {
 				return localOps;
@@ -105,12 +107,16 @@ public class SpringCacheAnnotationParser implements CacheAnnotationParser, Seria
 
 		final Collection<CacheOperation> ops = new ArrayList<>(1);
 		anns.stream().filter(ann -> ann instanceof Cacheable).forEach(
+				// 解析@Cacheable注解
 				ann -> ops.add(parseCacheableAnnotation(ae, cachingConfig, (Cacheable) ann)));
 		anns.stream().filter(ann -> ann instanceof CacheEvict).forEach(
+				// 解析@CacheEvict注解
 				ann -> ops.add(parseEvictAnnotation(ae, cachingConfig, (CacheEvict) ann)));
 		anns.stream().filter(ann -> ann instanceof CachePut).forEach(
+				// 解析@CachePut注解
 				ann -> ops.add(parsePutAnnotation(ae, cachingConfig, (CachePut) ann)));
 		anns.stream().filter(ann -> ann instanceof Caching).forEach(
+				// 解析@Caching注解
 				ann -> parseCachingAnnotation(ae, cachingConfig, (Caching) ann, ops));
 		return ops;
 	}

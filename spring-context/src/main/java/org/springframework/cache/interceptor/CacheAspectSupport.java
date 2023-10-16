@@ -337,11 +337,15 @@ public abstract class CacheAspectSupport extends AbstractCacheInvoker
 	protected Object execute(CacheOperationInvoker invoker, Object target, Method method, Object[] args) {
 		// Check whether aspect is enabled (to cope with cases where the AJ is pulled in automatically)
 		if (this.initialized) {
+			// 目标类
 			Class<?> targetClass = getTargetClass(target);
+			// 获取缓存操作来源
 			CacheOperationSource cacheOperationSource = getCacheOperationSource();
 			if (cacheOperationSource != null) {
+				// 获取缓存操作
 				Collection<CacheOperation> operations = cacheOperationSource.getCacheOperations(method, targetClass);
 				if (!CollectionUtils.isEmpty(operations)) {
+					// 执行
 					return execute(invoker, method,
 							new CacheOperationContexts(operations, method, args, target, targetClass));
 				}
@@ -395,15 +399,19 @@ public abstract class CacheAspectSupport extends AbstractCacheInvoker
 
 
 		// Process any early evictions
+		// 处理evict操作
 		processCacheEvicts(contexts.get(CacheEvictOperation.class), true,
 				CacheOperationExpressionEvaluator.NO_RESULT);
 
 		// Check if we have a cached item matching the conditions
+		// 从缓存中获取值
 		Cache.ValueWrapper cacheHit = findCachedItem(contexts.get(CacheableOperation.class));
 
 		// Collect puts from any @Cacheable miss, if no cached item is found
 		List<CachePutRequest> cachePutRequests = new ArrayList<>();
+		// 没有命中缓存
 		if (cacheHit == null) {
+			// 收集put操作
 			collectPutRequests(contexts.get(CacheableOperation.class),
 					CacheOperationExpressionEvaluator.NO_RESULT, cachePutRequests);
 		}
@@ -413,24 +421,29 @@ public abstract class CacheAspectSupport extends AbstractCacheInvoker
 
 		if (cacheHit != null && !hasCachePut(contexts)) {
 			// If there are no put requests, just use the cache hit
+			// 没有put操作，使用缓存中获取的值
 			cacheValue = cacheHit.get();
 			returnValue = wrapCacheValue(method, cacheValue);
 		}
 		else {
 			// Invoke the method if we don't have a cache hit
+			// 缓存中没有命中，调用实际方法进行实际查询
 			returnValue = invokeOperation(invoker);
 			cacheValue = unwrapReturnValue(returnValue);
 		}
 
 		// Collect any explicit @CachePuts
+		// 收集@CachePut注解的put操作
 		collectPutRequests(contexts.get(CachePutOperation.class), cacheValue, cachePutRequests);
 
 		// Process any collected put requests, either from @CachePut or a @Cacheable miss
+		// 处理缓存put操作，可以是@CachePut注解也可以是因为@Cacheable没有命中缓存导致的put
 		for (CachePutRequest cachePutRequest : cachePutRequests) {
 			cachePutRequest.apply(cacheValue);
 		}
 
 		// Process any late evictions
+		// 处理evict操作
 		processCacheEvicts(contexts.get(CacheEvictOperation.class), false, cacheValue);
 
 		return returnValue;
@@ -532,7 +545,9 @@ public abstract class CacheAspectSupport extends AbstractCacheInvoker
 		Object result = CacheOperationExpressionEvaluator.NO_RESULT;
 		for (CacheOperationContext context : contexts) {
 			if (isConditionPassing(context, result)) {
+				// 缓存的key
 				Object key = generateKey(context, result);
+				// 从缓存中获取值
 				Cache.ValueWrapper cached = findInCaches(context, key);
 				if (cached != null) {
 					return cached;
@@ -568,6 +583,7 @@ public abstract class CacheAspectSupport extends AbstractCacheInvoker
 	@Nullable
 	private Cache.ValueWrapper findInCaches(CacheOperationContext context, Object key) {
 		for (Cache cache : context.getCaches()) {
+			// 从缓存中获取值
 			Cache.ValueWrapper wrapper = doGet(cache, key);
 			if (wrapper != null) {
 				if (logger.isTraceEnabled()) {
