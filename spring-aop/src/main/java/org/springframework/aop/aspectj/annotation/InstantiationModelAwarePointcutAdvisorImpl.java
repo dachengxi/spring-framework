@@ -111,6 +111,11 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 			this.pointcut = this.declaredPointcut;
 			this.lazy = false;
 			// 根据不同的注解的信息来实例化不同类型的Advice
+			// @Around注解，对应的是AspectJAroundAdvice
+			// @Before注解，对应的是AspectJMethodBeforeAdvice
+			// @After注解，对应的是AspectJAfterAdvice
+			// @AfterReturning注解，对应的是AspectJAfterReturningAdvice
+			// @AfterThrowing注解，对应的是AspectJAfterThrowingAdvice
 			this.instantiatedAdvice = instantiateAdvice(this.declaredPointcut);
 		}
 	}

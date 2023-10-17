@@ -47,6 +47,9 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	@Nullable
 	private volatile List<String> aspectBeanNames;
 
+	/**
+	 * Advisor缓存
+	 */
 	private final Map<String, List<Advisor>> advisorsCache = new ConcurrentHashMap<>();
 
 	private final Map<String, MetadataAwareAspectInstanceFactory> aspectFactoryCache = new ConcurrentHashMap<>();
@@ -83,6 +86,8 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	 * 获取注解方式的候选Advisors
 	 */
 	public List<Advisor> buildAspectJAdvisors() {
+		// @Aspect注解的Bean名字，刚开始创建Bean的时候是空的，会收集起来缓存到aspectBeanNames和advisorsCache中，
+		// 后续对Bean进行代理创建的时候直接使用aspectBeanNames和advisorsCache中缓存的
 		List<String> aspectNames = this.aspectBeanNames;
 
 		if (aspectNames == null) {
@@ -109,14 +114,19 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 						}
 						// 需要被@Aspect注解标注
 						if (this.advisorFactory.isAspect(beanType)) {
+							// 被@Aspect注解的Bean，加入到列表中
 							aspectNames.add(beanName);
+							// @Aspect注解的元数据
 							AspectMetadata amd = new AspectMetadata(beanType, beanName);
 							if (amd.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
+								// 创建MetadataAwareAspectInstanceFactory实例，创建实例的时候会创建一个AspectMetadata实例缓存起来，
+								// AspectMetadata中是@Aspect注解的类的元数据信息
 								MetadataAwareAspectInstanceFactory factory =
 										new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
 								// 解析Advisors
 								List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory);
 								if (this.beanFactory.isSingleton(beanName)) {
+									// 缓存Advisor
 									this.advisorsCache.put(beanName, classAdvisors);
 								}
 								else {
@@ -138,6 +148,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 							}
 						}
 					}
+					// 将@Aspect注解的Bean进行缓存
 					this.aspectBeanNames = aspectNames;
 					return advisors;
 				}

@@ -37,6 +37,7 @@ import javax.annotation.Nullable;
  * joinpoint. It is passed to the interceptors that are installed on
  * the static joinpoint.
  *
+ * 连接点接口，连接点表示程序执行过程的一个点，比如一个方法的执行或者一个异常的处理
  * @author Rod Johnson
  * @see Interceptor
  */

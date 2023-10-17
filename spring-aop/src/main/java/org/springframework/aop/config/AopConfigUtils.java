@@ -93,6 +93,8 @@ public abstract class AopConfigUtils {
 
 	@Nullable
 	public static BeanDefinition registerAspectJAnnotationAutoProxyCreatorIfNecessary(BeanDefinitionRegistry registry) {
+		// 注册一个注解自动代理创建器，类型是AnnotationAwareAspectJAutoProxyCreator，是AspectJAwareAdvisorAutoProxyCreator的子类，
+		// 是一个SmartInstantiationAwareBeanPostProcessor、InstantiationAwareBeanPostProcessor、BeanPostProcessor
 		return registerAspectJAnnotationAutoProxyCreatorIfNecessary(registry, null);
 	}
 

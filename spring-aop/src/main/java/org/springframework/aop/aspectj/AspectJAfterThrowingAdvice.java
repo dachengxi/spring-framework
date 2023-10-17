@@ -28,6 +28,7 @@ import org.springframework.lang.Nullable;
 /**
  * Spring AOP advice wrapping an AspectJ after-throwing advice method.
  *
+ * AfterThrowing类型的advice
  * @author Rod Johnson
  * @since 2.0
  */

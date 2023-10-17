@@ -25,6 +25,7 @@ import org.springframework.lang.Nullable;
 /**
  * Spring AOP advice that wraps an AspectJ before method.
  *
+ * before类型的advice
  * @author Rod Johnson
  * @author Adrian Colyer
  * @since 2.0

@@ -29,6 +29,7 @@ import org.springframework.util.TypeUtils;
 /**
  * Spring AOP advice wrapping an AspectJ after-returning advice method.
  *
+ * AfterReturning类型的advice
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Ramnivas Laddad

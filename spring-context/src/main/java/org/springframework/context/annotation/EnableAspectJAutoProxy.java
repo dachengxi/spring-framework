@@ -111,6 +111,7 @@ import java.lang.annotation.Target;
  * While that dependency is optional for {@code spring-aop} in general, it is required
  * for {@code @EnableAspectJAutoProxy} and its underlying facilities.
  *
+ * 启用aspectj自动代理
  * @author Chris Beams
  * @author Juergen Hoeller
  * @since 3.1
@@ -119,6 +120,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+// 注册aspectj自动代理
 @Import(AspectJAutoProxyRegistrar.class)
 public @interface EnableAspectJAutoProxy {
 

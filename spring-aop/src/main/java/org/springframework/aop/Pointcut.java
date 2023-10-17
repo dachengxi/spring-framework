@@ -23,6 +23,7 @@ package org.springframework.aop;
  * Both these basic terms and a Pointcut itself can be combined to build up combinations
  * (e.g. through {@link org.springframework.aop.support.ComposablePointcut}).
  *
+ * 切点
  * @author Rod Johnson
  * @see ClassFilter
  * @see MethodMatcher

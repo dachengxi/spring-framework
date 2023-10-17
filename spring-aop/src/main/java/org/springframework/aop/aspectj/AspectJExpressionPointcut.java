@@ -73,6 +73,7 @@ import org.springframework.util.StringUtils;
  * <p>Naturally, as this is to be processed by Spring AOP's proxy-based model,
  * only method execution pointcuts are supported.
  *
+ * aspectj表达式切点
  * @author Rob Harrop
  * @author Adrian Colyer
  * @author Rod Johnson
