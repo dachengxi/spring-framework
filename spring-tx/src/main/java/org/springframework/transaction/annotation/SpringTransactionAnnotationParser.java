@@ -36,6 +36,7 @@ import org.springframework.util.StringUtils;
 /**
  * Strategy implementation for parsing Spring's {@link Transactional} annotation.
  *
+ * Spring事务注解解析器
  * @author Juergen Hoeller
  * @author Mark Paluch
  * @since 2.5

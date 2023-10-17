@@ -31,6 +31,7 @@ import org.springframework.core.type.AnnotationMetadata;
  * as appropriate based on an {@code @Enable*} annotation having {@code mode} and
  * {@code proxyTargetClass} attributes set to the correct values.
  *
+ * 注册自动代理创建器
  * @author Chris Beams
  * @since 3.1
  * @see org.springframework.cache.annotation.EnableCaching

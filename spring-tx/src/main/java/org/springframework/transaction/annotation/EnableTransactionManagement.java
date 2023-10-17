@@ -148,6 +148,7 @@ import org.springframework.core.Ordered;
  * compile-time weaving or load-time weaving applying the aspect to the affected classes.
  * There is no proxy involved in such a scenario; local calls will be intercepted as well.
  *
+ * 启用注解驱动的事务管理
  * @author Chris Beams
  * @author Juergen Hoeller
  * @since 3.1
@@ -159,6 +160,7 @@ import org.springframework.core.Ordered;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+// 事务管理配置导入
 @Import(TransactionManagementConfigurationSelector.class)
 public @interface EnableTransactionManagement {
 

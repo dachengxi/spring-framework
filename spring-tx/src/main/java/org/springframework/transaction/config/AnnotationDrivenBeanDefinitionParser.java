@@ -73,6 +73,10 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		else {
 			// mode="proxy"
 			// jdk代理模式，配置自动代理创建器
+			// 注册自动代理创建器，是InfrastructureAdvisorAutoProxyCreator类型，是一个SmartInstantiationAwareBeanPostProcessor、InstantiationAwareBeanPostProcessor、BeanPostProcessor
+			// 注册AnnotationTransactionAttributeSource
+			// 注册TransactionInterceptor
+			// 注册BeanFactoryTransactionAttributeSourceAdvisor
 			AopAutoProxyConfigurer.configureAutoProxyCreator(element, parserContext);
 		}
 		return null;
